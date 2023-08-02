@@ -1,2 +1,3 @@
-test*
-static/Personal/Data/
+*.json
+*.txt
+*.pyc
