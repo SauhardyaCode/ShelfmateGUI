@@ -368,6 +368,8 @@ class Dashboard(Tk):
         avatar.image = AVATAR
         user_head = Label(frame1, text=root.user["name"], font=(
             "Verdana", 20), padx=20, bg=BGCOLOR, fg="white")
+        log_out_btn = Button(root, text="Log Out", font="helvetica 14",
+                             fg="red", cursor="hand2", padx=10, pady=5, command=root.log_out)
 
         frame2 = Frame(root, bg=BGCOLOR, pady=100)
         btn1 = Button(frame2, text="Add Resources", font=("Helvetica", 15), padx=10, pady=10,
@@ -401,23 +403,14 @@ class Dashboard(Tk):
         shelf = Label(frame3, text="Shelfmate", font=(
             "Comicsans", 15), bg=BGCOLOR, fg="#2D4356")
 
+        log_out_btn.place(x=0, y=0)
         frame1.pack()
         frame2.pack()
         frame3.pack(side=BOTTOM)
         avatar.grid(row=0, column=0)
         user_head.grid(row=0, column=1)
-        btn1.grid(row=0, column=0)
-        btn2.grid(row=0, column=1)
-        btn3.grid(row=0, column=2)
-        btn4.grid(row=0, column=3)
-        btn5.grid(row=1, column=0)
-        btn6.grid(row=1, column=1)
-        btn7.grid(row=1, column=2)
-        btn8.grid(row=1, column=3)
-        btn9.grid(row=2, column=0)
-        btn10.grid(row=2, column=1)
-        btn11.grid(row=2, column=2)
-        btn12.grid(row=2, column=3)
+        for i in range(12):
+            eval(f"btn{i+1}.grid(row=i//4, column=i%4)")
         logo.grid(row=0, column=0)
         shelf.grid(row=0, column=1)
 
@@ -428,6 +421,15 @@ class Dashboard(Tk):
 
         root.protocol("WM_DELETE_WINDOW",
                       lambda: root.common.close_window("dashboard"))
+    
+    def log_out(self):
+        if msg.askyesno("Shelfmate", "Do you really want to log out?"):
+            with open(f'{PATH}/../static/Personal/Data/logged.txt', 'w') as log:
+                log.write("")
+            with open(f'{PATH}/../static/Personal/Data/cookie.json', 'w') as cookie:
+                cookie.write("")
+            self.common.close_all_windows()
+            Opener()
 
     def setting(self, ev=0):
         self.common.close_all_windows()
