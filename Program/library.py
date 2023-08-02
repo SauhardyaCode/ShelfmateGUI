@@ -421,7 +421,7 @@ class Dashboard(Tk):
 
         root.protocol("WM_DELETE_WINDOW",
                       lambda: root.common.close_window("dashboard"))
-    
+
     def log_out(self):
         if msg.askyesno("Shelfmate", "Do you really want to log out?"):
             with open(f'{PATH}/../static/Personal/Data/logged.txt', 'w') as log:
