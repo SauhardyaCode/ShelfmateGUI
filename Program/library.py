@@ -53,8 +53,8 @@ class Common():
         self.root.iconphoto(0, self.LOGO)
         self.root.minsize(self.SCREEN[0], self.SCREEN[1])
         self.root.after(0, lambda: self.root.state("zoomed"))
-        back_btn = Button(self.root, image=self.root.common.BACK,
-                          command=self.root.common.back, cursor="hand2")
+        back_btn = Button(self.root, image=self.BACK,
+                          command=self.back, cursor="hand2")
         if back:
             back_btn.place(x=0, y=0)
 
@@ -392,8 +392,8 @@ class Dashboard(Tk):
                       pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2")
         btn6 = Button(frame2, text="Readers History", font=("Comicsans", 15), padx=10,
                       pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2")
-        btn7 = Button(frame2, text="Add Member", font=("Comicsans", 15), padx=10, pady=10,
-                      width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2")
+        btn7 = Button(frame2, text="Add Member", font=("Comicsans", 15), padx=10, pady=10, width=20,
+                      activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2", command=root.add_mem)
         btn8 = Button(frame2, text="All Members", font=("Comicsans", 15), padx=10, pady=10,
                       width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2")
         btn9 = Button(frame2, text="Requests To Borrow", font=("Comicsans", 15), padx=10,
@@ -450,6 +450,10 @@ class Dashboard(Tk):
     def all_res(self):
         self.common.close_all_windows()
         AllResources()
+
+    def add_mem(self):
+        self.common.close_all_windows()
+        AddMembers()
 
     def lib_det(self):
         self.common.close_all_windows()
@@ -1485,6 +1489,25 @@ class LibraryDetails(Tk):
             self.display_screen()
         else:
             self.common.back()
+
+
+class AddMembers(Tk):
+    def __init__(self):
+        super().__init__()
+        windows["add members"] = self
+        self.create_screen()
+        self.mainloop()
+
+    def create_screen(root):
+        root.common = Common(root)
+        root.common.set_screen()
+        root.title("Add Members")
+        root.config(bg="gainsboro")
+        with open(f'{PATH}/../static/Personal/Data/cookie.json') as cookie:
+            root.user_id = json.load(cookie)[0]['id']
+
+        root.protocol("WM_DELETE_WINDOW",
+                      lambda: root.common.close_window("add members"))
 
 
 if __name__ == "__main__":
