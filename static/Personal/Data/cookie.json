@@ -1,0 +1,23 @@
+[
+    {
+        "id": 12,
+        "name": "Sreeja Saha",
+        "email": "samaira@gmail.com",
+        "username": "snowflake_sreeja",
+        "avatar": 1,
+        "phone": ""
+    },
+    {
+        "author": "J. K. Rowling;Ben Crane;Arthur Conan Doyle;Colleen Hoover;Martin J. Sherwin;Kai Bird;Chetan Bhagat;Ben Lynn;",
+        "category": "Knowledge;Fantasy;Adventure;Comic;Thrill;Action;Thriller;Business;Magic;Love Story;Crime;",
+        "language": "Japanese;English;Bengali;Hindi;Russian;",
+        "publisher": "Bantam Books;Vintage;Atria Paperback;Harry N. Abrams;Top Shelf Productions;Bloomsbury;"
+    },
+    {
+        "library_name": "Sonai Love Garden",
+        "library_email": "sonais@gmail.com",
+        "library_phone": "9685321077",
+        "library_address": "Bashiktala Road;Satir Colony;Barobisha;West Bengal;736111;India",
+        "library_url": "https://shelfmate.onrender.com"
+    }
+]
