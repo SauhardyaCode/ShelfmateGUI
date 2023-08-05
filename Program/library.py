@@ -15,6 +15,8 @@ from datetime import datetime
 from io import BytesIO
 import threading
 import validators
+import random
+import string
 
 try:
     connection = conn.connect(
@@ -32,8 +34,9 @@ except:
 PATH = os.path.dirname(__file__)
 hasher = ph.PasswordHasher()
 windows = {}
-prompt = None
 BGCOLOR = "#7895CB"
+ENTRY = "#EEEEEE"
+LABEL = "#777777"
 
 
 class Common():
@@ -87,6 +90,49 @@ class Common():
                 [user, library, library_offline], indent=4))
         with open(f'{PATH}/../static/Personal/Data/logged.txt', 'w') as f:
             f.write(arr[5])
+
+    def address_packer(self, *consts):
+        add1_lbl, add2_lbl, ent3x, ent3y, dist_lbl, stt_lbl, pin_lbl, country_lbl = consts
+        add1_lbl.grid(row=0, column=0, sticky=W)
+        self.root.add1_ent.grid(row=1, column=0, pady=2)
+        add2_lbl.grid(row=2, column=0, sticky=W)
+        self.root.add2_ent.grid(row=3, column=0, pady=2)
+        ent3x.grid(row=4, column=0, sticky=W)
+        ent3y.grid(row=5, column=0, sticky=W)
+        dist_lbl.grid(row=0, column=0, sticky=W)
+        self.root.dist_ent.grid(row=1, column=0, pady=2)
+        Label(ent3x, width=1, bg="white").grid(row=0, column=1)
+        Label(ent3x, width=1, bg="white").grid(row=1, column=1, pady=2)
+        stt_lbl.grid(row=0, column=2, sticky=W)
+        self.root.stt_ent.grid(row=1, column=2, pady=2)
+        pin_lbl.grid(row=0, column=0, sticky=W)
+        self.root.pin_ent.grid(row=1, column=0, pady=2)
+        Label(ent3y, width=1, bg="white").grid(row=0, column=1)
+        Label(ent3y, width=1, bg="white").grid(row=1, column=1, pady=2)
+        country_lbl.grid(row=0, column=2, sticky=W)
+        self.root.country_ent.grid(row=1, column=2, pady=2)
+
+    def load_toggle(self, size=70):
+        _right = Image.open(
+            f"{PATH}/../static/Personal/Images/display/right.png")
+        _right = _right.resize((size, size))
+        _left = _right.rotate(180)
+        self.AFTER = ImageTk.PhotoImage(_right)
+        self.BEFORE = ImageTk.PhotoImage(_left)
+
+    def avatar_toggle(self, dir, task):
+        size = len(os.listdir(f"{PATH}/../static/Personal/Images/{task}s"))-1
+        self.root.pic = self.root.pic+dir
+        if self.root.pic < 0:
+            self.root.pic = size
+        elif self.root.pic > size:
+            self.root.pic = 0
+        _avatar = Image.open(
+            f"{PATH}/../static/Personal/Images/{task}s/{task}_{self.root.pic}.png")
+        _avatar = _avatar.resize((70, 70))
+        AVATAR = ImageTk.PhotoImage(_avatar)
+        self.root.avatar.config(image=AVATAR)
+        self.root.avatar.image = AVATAR
 
 
 class Opener(Tk):
@@ -475,19 +521,11 @@ class AccountSettings(Tk):
         with open(f'{PATH}/../static/Personal/Data/cookie.json') as cookie:
             cookies = json.load(cookie)
         root.user = cookies[0]
-        _right = Image.open(
-            f"{PATH}/../static/Personal/Images/display/right.png")
-        _right = _right.resize((70, 70))
-        _left = _right.rotate(180)
         root.pic = root.user['avatar']
         _avatar = Image.open(
             f"{PATH}/../static/Personal/Images/avatars/avatar_{root.pic}.png")
         _avatar = _avatar.resize((70, 70))
-        AFTER = ImageTk.PhotoImage(_right)
-        BEFORE = ImageTk.PhotoImage(_left)
         AVATAR = ImageTk.PhotoImage(_avatar)
-        ENTRY = "#EEEEEE"
-        LABEL = "#777777"
 
         title = Label(root, text="Account Settings", font=(
             "Verdana", 30, "underline"), pady=50, bg="white")
@@ -500,14 +538,15 @@ class AccountSettings(Tk):
         frame2 = Frame(frame0, pady=30, bg="white")
         frame3 = Frame(frame0, pady=30, bg="white")
 
-        left_btn = Button(frame1, image=BEFORE, bd=0, width=100,
-                          cursor="hand2", command=lambda: root.avatar_toggle(-1))
+        root.common.load_toggle()
+        left_btn = Button(frame1, image=root.common.BEFORE, bd=0, width=100,
+                          cursor="hand2", command=lambda: root.common.avatar_toggle(-1, "avatar"))
         root.avatar = Label(frame1, image=AVATAR, width=100)
-        right_btn = Button(frame1, image=AFTER, bd=0, width=100,
-                           cursor="hand2", command=lambda: root.avatar_toggle(1))
-        left_btn.image = BEFORE
+        right_btn = Button(frame1, image=root.common.AFTER, bd=0, width=100,
+                           cursor="hand2", command=lambda: root.common.avatar_toggle(1, "avatar"))
+        left_btn.image = root.common.BEFORE
         root.avatar.image = AVATAR
-        right_btn.image = AFTER
+        right_btn.image = root.common.AFTER
 
         name_label = Label(frame2, text="Your Name", font=(
             "Arial", 10), fg=LABEL, bg="white")
@@ -555,9 +594,8 @@ class AccountSettings(Tk):
         root.name_entry.grid(row=1, column=0)
         Label(frame2, width=20, bg="white").grid(row=1, column=1)
         root.username_entry.grid(row=1, column=2)
-        Label(frame2, height=1, bg="white").grid(row=2, column=0)
-        Label(frame2, height=1, bg="white").grid(row=2, column=1)
-        Label(frame2, height=1, bg="white").grid(row=2, column=2)
+        for i in range(3):
+            Label(frame2, height=1, bg="white").grid(row=2, column=i)
         email_label.grid(row=3, column=0, sticky=W)
         root.email_entry.grid(row=4, column=0)
         phone_label.grid(row=3, column=2, sticky=W)
@@ -573,19 +611,6 @@ class AccountSettings(Tk):
 
         root.protocol("WM_DELETE_WINDOW",
                       lambda: root.common.close_window("account settings"))
-
-    def avatar_toggle(self, dir):
-        self.pic = self.pic+dir
-        if self.pic < 0:
-            self.pic = 21
-        elif self.pic > 21:
-            self.pic = 0
-        _avatar = Image.open(
-            f"{PATH}/../static/Personal/Images/avatars/avatar_{self.pic}.png")
-        _avatar = _avatar.resize((70, 70))
-        AVATAR = ImageTk.PhotoImage(_avatar)
-        self.avatar.config(image=AVATAR)
-        self.avatar.image = AVATAR
 
     def save_changes(self, ev=0):
         name = self.name.get().strip()
@@ -636,7 +661,6 @@ class AddResources(Tk):
             cookies = json.load(cookie)
         root.user = cookies[0]
         root.library = cookies[1]
-        ENTRY = "#EEEEEE"
 
         FRAME = Frame(root)
         frame0 = Frame(FRAME, padx=50, pady=30,
@@ -1267,8 +1291,6 @@ class LibraryDetails(Tk):
                       lambda: root.common.close_window("library details"))
 
     def edit_screen(root, edit=False):
-        ENTRY = "#EEEEEE"
-        LABEL = "#777777"
         frame0 = Frame(root.FRAME, padx=50, pady=20,
                        highlightthickness=1, bg="white")
         frame1 = Frame(frame0, pady=20, bg="white")
@@ -1343,30 +1365,13 @@ class LibraryDetails(Tk):
         cancel_btn = Button(frame2, text="Cancel", bg="black", fg="white", activebackground="#6C757D", padx=5,
                             activeforeground="white", font=("Comicsans", 13), relief=FLAT, cursor="hand2", command=lambda: root.cancel(edit))
 
-        add1_lbl.grid(row=0, column=0, sticky=W)
-        root.add1_ent.grid(row=1, column=0, pady=2)
-        add2_lbl.grid(row=2, column=0, sticky=W)
-        root.add2_ent.grid(row=3, column=0, pady=2)
-        ent3x.grid(row=4, column=0, sticky=W)
-        ent3y.grid(row=5, column=0, sticky=W)
-        dist_lbl.grid(row=0, column=0, sticky=W)
-        root.dist_ent.grid(row=1, column=0, pady=2)
-        Label(ent3x, width=1, bg="white").grid(row=0, column=1)
-        Label(ent3x, width=1, bg="white").grid(row=1, column=1, pady=2)
-        stt_lbl.grid(row=0, column=2, sticky=W)
-        root.stt_ent.grid(row=1, column=2, pady=2)
-        pin_lbl.grid(row=0, column=0, sticky=W)
-        root.pin_ent.grid(row=1, column=0, pady=2)
-        Label(ent3y, width=1, bg="white").grid(row=0, column=1)
-        Label(ent3y, width=1, bg="white").grid(row=1, column=1, pady=2)
-        country_lbl.grid(row=0, column=2, sticky=W)
-        root.country_ent.grid(row=1, column=2, pady=2)
-
         frame0.pack()
         frame1.grid(row=0, column=0)
         frame2.grid(row=1, column=0)
         save_btn.grid(row=0, column=0, padx=10)
         cancel_btn.grid(row=0, column=1, padx=10)
+        root.common.address_packer(add1_lbl, add2_lbl, ent3x, ent3y,
+                                   dist_lbl, stt_lbl, pin_lbl, country_lbl)
         for i in range(5):
             eval(f"lbl{i}.grid(row={i}, column=0, sticky=W, pady=10)")
             eval(f"ent{i}.grid(row={i}, column=1, padx=50, pady=10)")
@@ -1441,11 +1446,11 @@ class LibraryDetails(Tk):
         name = self.name.get()
         email = self.email.get()
         phone = self.phone.get()
-        add1 = self.add1.get().strip()
-        add2 = self.add2.get().strip()
-        dist = self.dist.get().strip()
-        stt = self.stt.get().strip()
-        pin = self.pin.get().strip()
+        add1 = self.add1.get().strip().replace(';', '')
+        add2 = self.add2.get().strip().replace(';', '')
+        dist = self.dist.get().strip().replace(';', '')
+        stt = self.stt.get().strip().replace(';', '')
+        pin = self.pin.get().strip().replace(';', '')
         country = self.country.get()
         website = self.web.get()
         address = ';'.join([add1, add2, dist, stt, pin, country])
@@ -1495,6 +1500,8 @@ class AddMembers(Tk):
     def __init__(self):
         super().__init__()
         windows["add members"] = self
+        self.pic = 0
+        self.suggest_clicks = 0
         self.create_screen()
         self.mainloop()
 
@@ -1506,8 +1513,161 @@ class AddMembers(Tk):
         with open(f'{PATH}/../static/Personal/Data/cookie.json') as cookie:
             root.user_id = json.load(cookie)[0]['id']
 
+        title = Label(root, text="Add Members", font=(
+            "Verdana", 25, "underline"), pady=40, bg="gainsboro")
+        FRAME = Frame(root)
+        frame0 = Frame(FRAME, padx=50, pady=20,
+                       highlightthickness=1, bg="white")
+        frame1 = Frame(frame0, pady=20, bg="white")
+        frame2 = Frame(frame0, bg="white")
+
+        q0 = Label(frame1, text="Name *",
+                   font=("Arial", 13), bg="white", padx=50)
+        root.name = StringVar()
+        a0 = Entry(frame1, textvariable=root.name, font=(
+            "Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
+
+        q1 = Label(frame1, text="Username *",
+                   font=("Arial", 13), bg="white", padx=50)
+        root.username = StringVar()
+        a1 = Entry(frame1, textvariable=root.username, font=(
+            "Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
+        suggest = Button(frame1, text="Suggest", cursor="hand2",
+                         font=("Arial", 10), padx=10, pady=5, command=root.suggest)
+
+        q2 = Label(frame1, text="Email *",
+                   font=("Arial", 13), bg="white", padx=50)
+        root.email = StringVar()
+        a2 = Entry(frame1, textvariable=root.email, font=(
+            "Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
+
+        q3 = Label(frame1, text="Phone Number",
+                   font=("Arial", 13), bg="white", padx=50)
+        root.phone = StringVar()
+        a3 = Entry(frame1, textvariable=root.phone, font=(
+            "Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
+
+        q3 = Label(frame1, text="Phone Number",
+                   font=("Arial", 13), bg="white", padx=50)
+        root.phone = StringVar()
+        a3 = Entry(frame1, textvariable=root.phone, font=(
+            "Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
+
+        q4 = Label(frame1, text="Address",
+                   font=("Arial", 13), bg="white", padx=50)
+        root.add1 = StringVar()
+        root.add2 = StringVar()
+        root.dist = StringVar()
+        root.stt = StringVar()
+        root.pin = StringVar()
+        root.country = StringVar()
+        a4 = Frame(frame1, bg="white")
+        add1_lbl = Label(a4, text="Address Line 1", font=(
+            "Arial", 10), fg=LABEL, bg="white")
+        root.add1_ent = Entry(a4, textvariable=root.add1, font=(
+            "Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
+        add2_lbl = Label(a4, text="Address Line 2", font=(
+            "Arial", 10), fg=LABEL, bg="white")
+        root.add2_ent = Entry(a4, textvariable=root.add2, font=(
+            "Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
+        ent3x = Frame(a4, bg="white")
+        dist_lbl = Label(ent3x, text="District", font=(
+            "Arial", 10), fg=LABEL, bg="white")
+        root.dist_ent = Entry(ent3x, textvariable=root.dist, font=(
+            "Comicsans", 12), width=14, bd=5, relief=FLAT, bg=ENTRY)
+        stt_lbl = Label(ent3x, text="State", font=(
+            "Arial", 10), fg=LABEL, bg="white")
+        root.stt_ent = Entry(ent3x, textvariable=root.stt, font=(
+            "Comicsans", 12), width=14, bd=5, relief=FLAT, bg=ENTRY)
+        ent3y = Frame(a4, bg="white")
+        pin_lbl = Label(ent3y, text="Postal Code", font=(
+            "Arial", 10), fg=LABEL, bg="white")
+        root.pin_ent = Entry(ent3y, textvariable=root.pin, font=(
+            "Comicsans", 12), width=14, bd=5, relief=FLAT, bg=ENTRY)
+        country_lbl = Label(ent3y, text="Country", font=(
+            "Arial", 10), fg=LABEL, bg="white")
+        countries = ['Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Brazil', 'Brunei Darussalam', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Central African Republic', 'Chad', 'Chile', 'Colombia', 'Comoros', 'Costa Rica', 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic', "CÃ´te d'Ivoire", 'Democratic Republic of the Congo', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'East Timor', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Ethiopia', 'Federated States of Micronesia', 'Fiji', 'Finland', 'France', 'Gabon', 'Georgia', 'Germany', 'Ghana', 'Greece', 'Grenada', 'Guatemala', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Honduras', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran', 'Iraq', 'Israel', 'Italy', 'Jamaica', 'Japan', 'Jordan', 'Kazakhstan', 'Kenya', 'Kingdom of the Netherlands', 'Kiribati', 'Kuwait', 'Kyrgyzstan', 'Laos', 'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania', 'Luxembourg',
+                     'Macedonia', 'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Marshall Islands', 'Mauritania', 'Mauritius', 'Mexico', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Morocco', 'Mozambique', 'Myanmar', 'Namibia', 'Nauru', 'Nepal', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'North Korea', 'Norway', 'Oman', 'Pakistan', 'Palau', 'Panama', 'Papua New Guinea', 'Paraguay', "People's Republic of China", 'Peru', 'Philippines', 'Poland', 'Portugal', 'Qatar', 'Republic of Ireland', 'Republic of the Congo', 'Romania', 'Russia', 'Rwanda', 'Saint Kitts and Nevis', 'Saint Lucia', 'Saint Vincent and the Grenadines', 'Samoa', 'San Marino', 'Saudi Arabia', 'Senegal', 'Serbia', 'Seychelles', 'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'Solomon Islands', 'Somalia', 'South Africa', 'South Korea', 'Spain', 'Sri Lanka', 'Sudan', 'Suriname', 'Swaziland', 'Sweden', 'Switzerland', 'Syria', 'SÃ£o TomÃ© and PrÃ\xadncipe', 'Tajikistan', 'Tanzania', 'Thailand', 'The Gambia', 'Togo', 'Tonga', 'Trinidad and Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Tuvalu', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'United States', 'Uruguay', 'Uzbekistan', 'Vanuatu', 'Vatican City', 'Venezuela', 'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe']
+        root.country_ent = ttk.Combobox(ent3y, textvariable=root.country, width=20,
+                                        values=countries, state="readonly")
+        root.country.set(countries[0])
+
+        q5 = Label(frame1, text="Avatar *",
+                   font=("Arial", 13), bg="white", padx=50)
+        a5 = Frame(frame1, bg=ENTRY, pady=10, padx=20)
+        root.common.load_toggle()
+        _avatar = Image.open(
+            f"{PATH}/../static/Personal/Images/members/member_0.png")
+        _avatar = _avatar.resize((70, 70))
+        AVATAR = ImageTk.PhotoImage(_avatar)
+        left_btn = Button(a5, image=root.common.BEFORE, bd=0, width=100,
+                          cursor="hand2", command=lambda: root.common.avatar_toggle(-1, "member"))
+        root.avatar = Label(a5, image=AVATAR, width=100)
+        right_btn = Button(a5, image=root.common.AFTER, bd=0, width=100,
+                           cursor="hand2", command=lambda: root.common.avatar_toggle(1, "member"))
+        left_btn.image = root.common.BEFORE
+        root.avatar.image = AVATAR
+        right_btn.image = root.common.AFTER
+
+        submit_btn = Button(frame2, text="Submit", fg="white", bg="black", activebackground="#111111",
+                            activeforeground="white", bd=0, width=7, font="arial 12", cursor="hand2", command=root.submit_form)
+
+        title.pack()
+        FRAME.pack()
+        frame0.pack()
+        frame1.grid(row=0, column=0)
+        frame2.grid(row=1, column=0)
+        left_btn.grid(row=0, column=0)
+        root.avatar.grid(row=0, column=1)
+        right_btn.grid(row=0, column=2)
+        root.common.address_packer(add1_lbl, add2_lbl, ent3x, ent3y,
+                                   dist_lbl, stt_lbl, pin_lbl, country_lbl)
+        for i in range(6):
+            eval(f"q{i}.grid(row={i//2}, column={2*(i%2)}, sticky=W, pady=10)")
+            eval(f"a{i}.grid(row={i//2}, column={2*(i%2)+1}, padx=40, pady=10)")
+        suggest.grid(row=0, column=4, sticky=W, pady=10)
+        submit_btn.pack(pady=30)
+
         root.protocol("WM_DELETE_WINDOW",
                       lambda: root.common.close_window("add members"))
+
+    def suggest(self, fetch=True, usernames=None):
+        if fetch and not self.suggest_clicks:
+            cursor.execute(f'''select username from members_library
+                           where user_id={self.user_id}''')
+        usernames = [x[0] for x in cursor.fetchall()]
+        suggestion = ''.join(random.choices(
+            string.ascii_letters+string.digits+'_', k=10))
+        if suggestion in usernames:
+            self.suggest(False, usernames)
+        else:
+            self.username.set(suggestion)
+            self.suggest_clicks += 1
+
+    def submit_form(form):
+        name = form.name.get()
+        username = form.username.get().strip()
+        email = form.email.get()
+        phone = form.phone.get()
+        address = ';'.join([form.add1.get().strip().replace(';', ''), form.add2.get().strip().replace(';', ''),
+                            form.dist.get().strip().replace(';', ''), form.stt.get().strip().replace(';', ''),
+                            form.pin.get().strip().replace(';', ''), form.country.get()])
+        avatar = form.pic
+
+        if name and username and email:
+            if re.match(r"^[\w\.-]+@[\w\.-]+\.\w+$", email):
+                cursor.execute(f'''insert into members_library(name, username, email,
+                            phone, address, avatar, user_id, visits)
+                            values("{name}", "{username}", "{email}", "{phone}",
+                            "{address}", {avatar}, {form.user_id}, 0);''')
+                connection.commit()
+                msg.showinfo("Shelfmate", "Member added successfully!")
+                form.common.close_all_windows()
+                AddMembers()
+            else:
+                msg.showwarning("Shelfmate", "Invalid email!")
+        else:
+            msg.showwarning("Shelfmate", "Fill all the required fields!")
 
 
 if __name__ == "__main__":
