@@ -440,8 +440,8 @@ class Dashboard(Tk):
                       pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2")
         btn7 = Button(frame2, text="Add Member", font=("Comicsans", 15), padx=10, pady=10, width=20,
                       activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2", command=root.add_mem)
-        btn8 = Button(frame2, text="All Members", font=("Comicsans", 15), padx=10, pady=10,
-                      width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2")
+        btn8 = Button(frame2, text="All Members", font=("Comicsans", 15), padx=10, pady=10, width=20,
+                      activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2", command=root.all_mem)
         btn9 = Button(frame2, text="Requests To Borrow", font=("Comicsans", 15), padx=10,
                       pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2")
         btn10 = Button(frame2, text="Borrowed Requests", font=("Comicsans", 15), padx=10,
@@ -455,7 +455,7 @@ class Dashboard(Tk):
         logo = Label(frame3, image=root.common.LOGO, bg=BGCOLOR)
         logo.image = root.common.LOGO
         shelf = Label(frame3, text="Shelfmate", font=(
-            "Comicsans", 15), bg=BGCOLOR, fg="#2D4356")
+            "Comicsans", 15), bg=BGCOLOR, fg="#2D4356", cursor="hand2")
 
         log_out_btn.place(x=0, y=0)
         frame1.pack()
@@ -470,8 +470,8 @@ class Dashboard(Tk):
 
         avatar.bind("<Button-1>", root.setting)
         user_head.bind("<Button-1>", root.setting)
-        shelf.bind(
-            "<Button-1>", lambda e: web.open_new_tab("https://shelfmate.onrender.com"))
+        shelf.bind("<Button-1>",
+                   lambda e: web.open_new_tab("https://shelfmate.onrender.com"))
 
         root.protocol("WM_DELETE_WINDOW",
                       lambda: root.common.close_window("dashboard"))
@@ -504,6 +504,10 @@ class Dashboard(Tk):
     def lib_det(self):
         self.common.close_all_windows()
         LibraryDetails()
+
+    def all_mem(self):
+        self.common.close_all_windows()
+        AllMembers()
 
 
 class AccountSettings(Tk):
@@ -1068,10 +1072,7 @@ class AllResources(Tk):
             book.grid(row=0, column=0)
             btn1.grid(row=0, column=0)
             btn2.grid(row=0, column=1)
-            if i % 2:
-                frame.grid(row=i//2, column=1, padx=30, pady=20, sticky=W)
-            else:
-                frame.grid(row=i//2, column=0, padx=30, pady=20, sticky=W)
+            frame.grid(row=i//2, column=i % 2, padx=30, pady=20, sticky=W)
 
         root.show_card_set()
         title.pack()
@@ -1668,6 +1669,100 @@ class AddMembers(Tk):
                 msg.showwarning("Shelfmate", "Invalid email!")
         else:
             msg.showwarning("Shelfmate", "Fill all the required fields!")
+
+
+class AllMembers(Tk):
+    def __init__(self):
+        super().__init__()
+        windows["all members"] = self
+        self.create_screen()
+        self.mainloop()
+
+    def create_screen(root):
+        root.common = Common(root)
+        root.common.set_screen()
+        root.title("All Members")
+        root.config(bg="gainsboro")
+        with open(f'{PATH}/../static/Personal/Data/cookie.json') as cookie:
+            root.user_id = json.load(cookie)[0]['id']
+        cursor.execute(
+            f"select * from members_library where user_id={root.user_id}")
+        root.members = cursor.fetchall()
+        CARDBG = "#94ADD7"
+
+        title = Label(root, text="All Members", font=(
+            "Verdana", 25, "underline"), pady=40, bg="gainsboro")
+
+        BIG_FRAME = Frame(root)
+        root.canvas = Canvas(BIG_FRAME, bg="gainsboro")
+        root.canvas.pack(side=LEFT, fill=BOTH, expand=1)
+        root.scrollbar = Scrollbar(
+            BIG_FRAME, orient=VERTICAL, command=root.canvas.yview)
+        root.scrollbar.pack(side=RIGHT, fill=Y)
+        root.canvas.configure(yscrollcommand=root.scrollbar.set)
+        root.canvas.bind("<Configure>", lambda e: root.canvas.config(
+            scrollregion=root.canvas.bbox(ALL)))
+        FRAME = Frame(root.canvas, bg="gainsboro")
+        root.canvas.create_window((0, 0), window=FRAME, anchor="nw")
+        root.canvas.bind_all("<MouseWheel>", root._on_mousewheel)
+        root.bind("<Configure>", root._on_configure)
+
+        for i in range(len(root.members)):
+            themember = root.members[i]
+            frame = Frame(FRAME, bg=CARDBG, padx=20, pady=10)
+            frameX = Frame(frame, bg="white")
+            frame0 = Frame(frameX, bg="white", padx=10, pady=5)
+            frame1 = Frame(frameX, bg="white", padx=10, pady=5)
+            _avatar = Image.open(
+                f"{PATH}/../static/Personal/Images/members/member_{themember[6]}.png")
+            _avatar = _avatar.resize((100, 100))
+            AVATAR = ImageTk.PhotoImage(_avatar)
+            avatar = Label(frame0, image=AVATAR, bg="white")
+            avatar.image = AVATAR
+            username = Label(frame0, text=f"({themember[5]})",
+                             font="arial 12", fg="grey", bg="white")
+            address = ', '.join([x for x in themember[4].split(';') if x])
+            name = themember[1]
+            email = themember[3]
+            if len(address) > 30:
+                address = address[:29]+'...'
+            if len(name) > 30:
+                name = name[:29]+'...'
+            if len(email) > 30:
+                email = email[:29]+'...'
+            info0 = Label(frame1, text=name,
+                          font="comicsans 15 bold", bg="white")
+            info1 = Label(frame1, text=address, bg="white", fg="grey")
+            info2 = Label(frame1, text=themember[2], bg="white")
+            info3 = Label(frame1, text=email, fg="#0A6EBD",
+                          font="comicsans 10 underline", bg="white", cursor="hand2")
+            info3.bind("<Button-1>",
+                       lambda e: web.open(f"mailto:{themember[3]}"))
+
+            frame.grid(row=i//3, column=i % 3, padx=30, pady=20, sticky=W)
+            frameX.pack()
+            frame0.grid(row=0, column=0)
+            frame1.grid(row=0, column=1)
+            avatar.grid(row=0, column=0, pady=10)
+            username.grid(row=1, column=0)
+            for i in range(4):
+                if i==2 and not themember[2]:
+                    continue
+                eval(f"info{i}.grid(row={i}, column=0, sticky=E, pady=5)")
+
+        title.pack()
+        BIG_FRAME.pack(fill=BOTH, expand=1)
+
+        root.protocol("WM_DELETE_WINDOW",
+                      lambda: root.common.close_window("all members"))
+
+    def _on_mousewheel(self, event):
+        self.canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+
+    def _on_configure(self, event):
+        self.canvas.config(scrollregion=self.canvas.bbox("all"))
+        self.scrollbar.pack_forget()
+        self.scrollbar.pack(side=RIGHT, fill=Y)
 
 
 if __name__ == "__main__":
