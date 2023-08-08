@@ -1,23 +1,27 @@
+#the tkinter module as backbone and PIL for image handling
 from tkinter import *
 from tkinter import messagebox as msg, ttk
 from PIL import Image, ImageTk
-import webbrowser as web
+
+#python-sql connection maker
 import mysql.connector as conn
-import password_hasher as ph
-import re
-import os
-import json
+
+#for getting book info from ISBN
 from isbnlib import meta
 from isbnlib.registry import bibformatters
-import requests
-from urllib.request import urlopen
-from datetime import datetime
-from io import BytesIO
-import threading
-import validators
-import random
-import string
 
+#supporting modules
+import webbrowser as web #for opening external websites
+import password_hasher as ph #for hashing the login password of user
+from urllib.request import urlopen #for checking internet connection
+from datetime import datetime #for time and date related purpose
+import re, os, json #re for searches, os for folder path, json for handling .json file
+import random, string #for getting random generated strings
+from io import BytesIO #for decoding image from websites
+import threading #to load images outside the main window
+import validators, requests #validators to check URL, requests to get redirected URLs
+
+#connecting the database to python
 try:
     connection = conn.connect(
         host="sql10.freesqldatabase.com",
@@ -28,69 +32,80 @@ try:
     # using a buffered cursor, the connector fetches ALL rows and takes one from the connector
     cursor = connection.cursor(buffered=True)
 except:
+    #exiting application in case of connection issue
     print("[CONNECTION ERROR]")
     exit()
 
-PATH = os.path.dirname(__file__)
-hasher = ph.PasswordHasher()
-windows = {}
+#setting some global constants and variables
+PATH = os.path.dirname(__file__) #the path to this file
+hasher = ph.PasswordHasher() #object to let hash passwords
+windows = {} #dictionary to store the currently active tkinter windows
+#some constant colours
 BGCOLOR = "#7895CB"
 ENTRY = "#EEEEEE"
 LABEL = "#777777"
 
-
+#class with functions that are required in various windows
 class Common():
     def __init__(self, root):
-        self.root = root
+        self.root = root #to recognize the active window
         self.SCREEN = (root.winfo_screenwidth(), root.winfo_screenheight())
 
+    #sets a common screen
     def set_screen(self, wl=60, back=True):
-        _logo = Image.open(
-            f"{PATH}/../static/Personal/Images/display/logo.png")
+        #loading the Shelfmate logo
+        _logo = Image.open(f"{PATH}/../static/Personal/Images/display/logo.png")
         _logo = _logo.resize((wl, wl))
         self.LOGO = ImageTk.PhotoImage(_logo)
-        _back = Image.open(
-            f"{PATH}/../static/Personal/Images/display/back.png")
+        #loading the back button image
+        _back = Image.open(f"{PATH}/../static/Personal/Images/display/back.png")
         _back = _back.resize((50, 50))
         self.BACK = ImageTk.PhotoImage(_back)
+        #setting the screen
         self.root.iconphoto(0, self.LOGO)
         self.root.minsize(self.SCREEN[0], self.SCREEN[1])
         self.root.after(0, lambda: self.root.state("zoomed"))
-        back_btn = Button(self.root, image=self.BACK,
-                          command=self.back, cursor="hand2")
+        #places the back button on demand
+        back_btn = Button(self.root, image=self.BACK, command=self.back, cursor="hand2")
         if back:
             back_btn.place(x=0, y=0)
 
+    #closes a particular window (x) and removes it from the 'windows' dictionary
     def close_window(self, x):
         windows[x].destroy()
         del windows[x]
 
+    #closes all active windows the same way to make way for a new one
     def close_all_windows(self):
         while len(windows):
             self.close_window(list(windows.keys())[0])
 
+    #the back button takes the user to the main page
     def back(self):
         self.close_all_windows()
         Dashboard()
 
+    #updates the cookie.json and logged.txt files
     def refresh(self):
-        with open(f'{PATH}/../static/Personal/Data/cookie.json') as cookie:
-            user_id = json.load(cookie)[0]['id']
-        cursor.execute(
-            f"select * from logged_users where id={user_id}")
+        #opens the cookie file
+        cookie = open(f'{PATH}/../static/Personal/Data/cookie.json', 'r+')
+        #fetches the old data
+        user_id = json.load(cookie.read())[0]['id']
+        #gets the updated data
+        cursor.execute(f"select * from logged_users where id={user_id}")
         arr = cursor.fetchall()[0]
-        user = {'id': arr[0], 'name': arr[1], 'email': arr[2], 'username': arr[6],
-                'avatar': arr[7], 'phone': arr[8]}
-        library = {
-            'author': arr[9], 'category': arr[10], 'language': arr[11], 'publisher': arr[12]}
-        library_offline = {'library_name': arr[13], 'library_email': arr[14],
-                           'library_phone': arr[15], 'library_address': arr[16], 'library_url': arr[17]}
-        with open(f'{PATH}/../static/Personal/Data/cookie.json', 'w') as cookie:
-            cookie.write(json.dumps(
-                [user, library, library_offline], indent=4))
+        #decorates the data accordingly
+        user = {'id': arr[0], 'name': arr[1], 'email': arr[2], 'username': arr[6], 'avatar': arr[7], 'phone': arr[8]}
+        library = {'author': arr[9], 'category': arr[10], 'language': arr[11], 'publisher': arr[12]}
+        library_offline = {'library_name': arr[13], 'library_email': arr[14], 'library_phone': arr[15], 'library_address': arr[16], 'library_url': arr[17]}
+        #overwrites the updated data in both files
+        cookie.write(json.dumps([user, library, library_offline], indent=4))
         with open(f'{PATH}/../static/Personal/Data/logged.txt', 'w') as f:
             f.write(arr[5])
+        #closes the cookie file
+        cookie.close()
 
+    #packs all the address fields whenever required
     def address_packer(self, *consts):
         add1_lbl, add2_lbl, ent3x, ent3y, dist_lbl, stt_lbl, pin_lbl, country_lbl = consts
         add1_lbl.grid(row=0, column=0, sticky=W)
@@ -112,14 +127,15 @@ class Common():
         country_lbl.grid(row=0, column=2, sticky=W)
         self.root.country_ent.grid(row=1, column=2, pady=2)
 
+    #loading the 'image toggle button' images
     def load_toggle(self, size=70):
-        _right = Image.open(
-            f"{PATH}/../static/Personal/Images/display/right.png")
+        _right = Image.open(f"{PATH}/../static/Personal/Images/display/right.png")
         _right = _right.resize((size, size))
         _left = _right.rotate(180)
         self.AFTER = ImageTk.PhotoImage(_right)
         self.BEFORE = ImageTk.PhotoImage(_left)
 
+    #common function to toggle the avatars for both 'members' and 'users'
     def avatar_toggle(self, dir, task):
         size = len(os.listdir(f"{PATH}/../static/Personal/Images/{task}s"))-1
         self.root.pic = self.root.pic+dir
@@ -127,72 +143,74 @@ class Common():
             self.root.pic = size
         elif self.root.pic > size:
             self.root.pic = 0
-        _avatar = Image.open(
-            f"{PATH}/../static/Personal/Images/{task}s/{task}_{self.root.pic}.png")
+        _avatar = Image.open(f"{PATH}/../static/Personal/Images/{task}s/{task}_{self.root.pic}.png")
         _avatar = _avatar.resize((70, 70))
         AVATAR = ImageTk.PhotoImage(_avatar)
         self.root.avatar.config(image=AVATAR)
         self.root.avatar.image = AVATAR
 
-
+#the opening window (without login)
 class Opener(Tk):
     def __init__(self):
         super().__init__()
         windows["opener"] = self
         with open(f'{PATH}/../static/Personal/Data/cookie.json') as cookie:
             try:
+                #checks if data is present in cookie.json
                 cookies = json.load(cookie)
             except:
+                #if not, continues to normal screen
                 pass
             else:
-                cursor.execute(
-                    f"select user_hash from logged_users where username = '{cookies[0]['username']}'")
+                #if yes, switches to Dashboard
+                cursor.execute(f"select user_hash from logged_users where username = '{cookies[0]['username']}'")
                 user_hash = cursor.fetchone()[0]
                 with open(f'{PATH}/../static/Personal/Data/logged.txt') as log:
+                    #final authentication by matching cookie.json and logged.txt data
                     if log.read() == user_hash:
                         Common(self).close_all_windows()
                         Dashboard()
-
         self.create_screen()
         self.mainloop()
 
+    #creates the tkinter screen
     def create_screen(root):
+        #general configurations
         root.config(bg=BGCOLOR)
         root.title("Shelfmate")
         common = Common(root)
         common.set_screen(back=False)
+
+        #packing frames
         frame1 = Frame(root, bg=BGCOLOR)
         frame1.pack(ipady=100)
         frame2 = Frame(root, bg=BGCOLOR)
         frame2.pack()
 
+        #creating and placing the header
         img = Label(frame1, image=common.LOGO, bg=BGCOLOR)
         img.image = common.LOGO
-        name = Label(frame1, text="Shelfmate",
-                     font="Arial 30", bg=BGCOLOR, fg="white")
+        name = Label(frame1, text="Shelfmate", font="Arial 30", bg=BGCOLOR, fg="white")
         img.grid(row=0, column=0)
         name.grid(row=0, column=1)
-        log_btn = Button(frame2, text="Log In", font=("Arial", 15), bg="#AAC8A7",
-                         cursor="hand2", activebackground="#C3EDC0", bd=0, padx=10, pady=5, command=lambda: Login())
-        sign_btn = Button(frame2, text="Sign Up", font=("Arial", 15), bg="#AAC8A7",
-                          cursor="hand2", activebackground="#C3EDC0", bd=0, padx=10, pady=5, command=lambda: Signup())
-        gap_v = Label(frame2, height=3, bg=BGCOLOR)
-        log_btn.grid(row=1, column=0)
-        gap_h = Label(frame2, width=10, bg=BGCOLOR)
-        gap_v.grid(row=0, column=0)
-        gap_h.grid(row=1, column=1)
-        sign_btn.grid(row=1, column=2)
 
-        link = Button(root, text="Try our website for a better interface..", command=lambda: web.open_new_tab("https://shelfmate.onrender.com"),
-                      bg=BGCOLOR, bd=0, activebackground=BGCOLOR, activeforeground="red", font=("Arial", 15, "underline"), cursor="hand2")
+        #creating and placing the button frame elements
+        log_btn = Button(frame2, text="Log In", font=("Arial", 15), bg="#AAC8A7", cursor="hand2", activebackground="#C3EDC0", bd=0, padx=10, pady=5, command=lambda: Login())
+        sign_btn = Button(frame2, text="Sign Up", font=("Arial", 15), bg="#AAC8A7", cursor="hand2", activebackground="#C3EDC0", bd=0, padx=10, pady=5, command=lambda: Signup())
+        log_btn.grid(row=1, column=0, padx=50, pady=50)
+        sign_btn.grid(row=1, column=2, padx=50, pady=50)
+
+        #creating link to Shelfmate website
+        link = Button(root, text="Try our website for a better interface..", command=lambda: web.open_new_tab("https://shelfmate.onrender.com"), bg=BGCOLOR, bd=0, activebackground=BGCOLOR, activeforeground="red", font=("Arial", 15, "underline"), cursor="hand2")
         link.pack(side=BOTTOM, ipady=30)
 
-        root.protocol("WM_DELETE_WINDOW",
-                      lambda: common.close_window("opener"))
+        #terminating window calls this function
+        root.protocol("WM_DELETE_WINDOW", lambda: common.close_window("opener"))
 
-
+#the login window (floating)
 class Login(Tk):
     def __init__(self):
+        #window appears only if it is not opened
         if "login" not in windows:
             super().__init__()
             common = Common(self)
@@ -203,46 +221,42 @@ class Login(Tk):
             self.config(bg=self.BGCOLOR)
             windows["login"] = self
             self.create_screen()
-            self.protocol("WM_DELETE_WINDOW",
-                          lambda: common.close_window("login"))
+            self.protocol("WM_DELETE_WINDOW", lambda: common.close_window("login"))
             self.mainloop()
 
+    #making the screen
     def create_screen(root):
+        #creating all elements
         frame = Frame(root, bg=root.BGCOLOR)
-        login_label = Label(root, text="Login", bg=root.BGCOLOR,
-                            fg="#FF3399", font=("Arial", 30))
-        username_label = Label(
-            frame, text="Username/\nEmail", bg=root.BGCOLOR, fg="#FFFFFF", font=("Arial", 16))
+        login_label = Label(root, text="Login", bg=root.BGCOLOR, fg="#FF3399", font=("Arial", 30))
+        username_label = Label(frame, text="Username/\nEmail", bg=root.BGCOLOR, fg="#FFFFFF", font=("Arial", 16))
         root.username = Entry(frame, font=("Arial", 16))
         root.username.focus()
         root.password = Entry(frame, show="*", font=("Arial", 16))
-        password_label = Label(
-            frame, text="Password", bg=root.BGCOLOR, fg="#FFFFFF", font=("Arial", 16))
-        login_button = Button(root, text="Login", bg="#FF3399", fg="#FFFFFF", font=(
-            "Arial", 16), command=root.login)
+        password_label = Label(frame, text="Password", bg=root.BGCOLOR, fg="#FFFFFF", font=("Arial", 16))
+        login_button = Button(root, text="Login", bg="#FF3399", fg="#FFFFFF", font=("Arial", 16), command=root.login)
+
+        #placing all elements
         login_label.pack(ipady=30)
         frame.pack()
-        gap1 = Label(frame, width=5, bg=root.BGCOLOR)
-        gap2 = Label(frame, width=5, bg=root.BGCOLOR)
-        username_label.grid(row=0, column=0)
-        gap1.grid(row=0, column=1)
+        username_label.grid(row=0, column=0, padx=50)
         root.username.grid(row=0, column=2, pady=20)
-        password_label.grid(row=1, column=0)
-        gap2.grid(row=1, column=1)
+        password_label.grid(row=1, column=0, padx=50)
         root.password.grid(row=1, column=2, pady=20)
-        Label(root, pady=10, bg=root.BGCOLOR).pack()
-        login_button.pack()
+        login_button.pack(pady=30)
+
+        #binding the entries to the login button
         root.username.bind("<Return>", root.login)
         root.password.bind("<Return>", root.login)
 
+    #after pressing the login button
     def login(root, ev=0):
         username = root.username.get()
         password = root.password.get()
         if username and password:
-            cursor.execute(
-                "select username, email, pswd_hash from logged_users")
+            cursor.execute("select username, email, pswd_hash from logged_users")
             all_users = cursor.fetchall()
-
+            #checks if user gives email or username
             if "@" in username:
                 code = 1
                 typeof = "email"
@@ -254,27 +268,22 @@ class Login(Tk):
                     unq = int(re.findall('\$(\d+)\$', data[2])[0])
                     hashed = hasher.get_hash(password, unq)
                     if hashed == data[2]:
-                        cursor.execute(
-                            f"select * from logged_users where {typeof}='{username}'")
+                        #gets all data
+                        cursor.execute(f"select * from logged_users where {typeof}='{username}'")
                         arr = cursor.fetchall()[0]
-                        user = {'id': arr[0], 'name': arr[1], 'email': arr[2], 'username': arr[6],
-                                'avatar': arr[7], 'phone': arr[8]}
-                        library = {
-                            'author': arr[9], 'category': arr[10], 'language': arr[11], 'publisher': arr[12]}
-                        library_offline = {'library_name': arr[13], 'library_email': arr[14],
-                                           'library_phone': arr[15], 'library_address': arr[16], 'library_url': arr[17]}
-
+                        user = {'id': arr[0], 'name': arr[1], 'email': arr[2], 'username': arr[6], 'avatar': arr[7], 'phone': arr[8]}
+                        library = {'author': arr[9], 'category': arr[10], 'language': arr[11], 'publisher': arr[12]}
+                        library_offline = {'library_name': arr[13], 'library_email': arr[14], 'library_phone': arr[15], 'library_address': arr[16], 'library_url': arr[17]}
+                        #saves the data in file
                         Common(root).close_all_windows()
                         with open(f'{PATH}/../static/Personal/Data/cookie.json', 'w') as cookie:
-                            cookie.write(json.dumps(
-                                [user, library, library_offline], indent=4))
+                            cookie.write(json.dumps([user, library, library_offline], indent=4))
                         with open(f'{PATH}/../static/Personal/Data/logged.txt', 'w') as f:
                             f.write(arr[5])
                         Dashboard()
                     else:
                         msg.showwarning("Shelfmate", "Wrong Password!")
                     break
-
                 elif data == all_users[-1]:
                     msg.showwarning("Shelfmate", "Unregistered User!")
                     break
@@ -1498,17 +1507,19 @@ class LibraryDetails(Tk):
 
 
 class AddMembers(Tk):
-    def __init__(self):
+    def __init__(self, mode=0, member=None):
         super().__init__()
         windows["add members"] = self
         self.pic = 0
         self.suggest_clicks = 0
-        self.create_screen()
+        self.create_screen(mode)
+        if mode:
+            self.mode_work(member)
         self.mainloop()
 
-    def create_screen(root):
+    def create_screen(root, mode):
         root.common = Common(root)
-        root.common.set_screen()
+        root.common.set_screen(back=not mode)
         root.title("Add Members")
         root.config(bg="gainsboro")
         with open(f'{PATH}/../static/Personal/Data/cookie.json') as cookie:
@@ -1610,8 +1621,10 @@ class AddMembers(Tk):
         root.avatar.image = AVATAR
         right_btn.image = root.common.AFTER
 
-        submit_btn = Button(frame2, text="Submit", fg="white", bg="black", activebackground="#111111",
-                            activeforeground="white", bd=0, width=7, font="arial 12", cursor="hand2", command=root.submit_form)
+        submit_btn = Button(frame2, text="Submit", fg="white", bg="#1D5D9B", activebackground="#111111",
+                            activeforeground="white", bd=0, width=7, font="arial 12", cursor="hand2", command=lambda: root.submit_form(mode))
+        cancel_btn = Button(frame2, text="Cancel", fg="white", bg="black", activebackground="#111111",
+                            activeforeground="white", bd=0, width=7, font="arial 12", cursor="hand2", command=root.cancel_form)
 
         title.pack()
         FRAME.pack()
@@ -1627,7 +1640,11 @@ class AddMembers(Tk):
             eval(f"q{i}.grid(row={i//2}, column={2*(i%2)}, sticky=W, pady=10)")
             eval(f"a{i}.grid(row={i//2}, column={2*(i%2)+1}, padx=40, pady=10)")
         suggest.grid(row=0, column=4, sticky=W, pady=10)
-        submit_btn.pack(pady=30)
+        submit_btn.grid(row=0, column=0, pady=30, padx=10)
+        if mode:
+            cancel_btn.grid(row=0, column=1, pady=30, padx=10)
+            a1.config(state=DISABLED)
+            suggest.destroy()
 
         root.protocol("WM_DELETE_WINDOW",
                       lambda: root.common.close_window("add members"))
@@ -1645,7 +1662,7 @@ class AddMembers(Tk):
             self.username.set(suggestion)
             self.suggest_clicks += 1
 
-    def submit_form(form):
+    def submit_form(form, mode):
         name = form.name.get()
         username = form.username.get().strip()
         email = form.email.get()
@@ -1657,18 +1674,50 @@ class AddMembers(Tk):
 
         if name and username and email:
             if re.match(r"^[\w\.-]+@[\w\.-]+\.\w+$", email):
-                cursor.execute(f'''insert into members_library(name, username, email,
-                            phone, address, avatar, user_id, visits)
-                            values("{name}", "{username}", "{email}", "{phone}",
-                            "{address}", {avatar}, {form.user_id}, 0);''')
+                if mode:
+                    cursor.execute(f'''update members_library set name="{name}",
+                                   email="{email}", phone="{phone}", address="{address}",
+                                   avatar={avatar} where user_id={form.user_id} and username="{username}";''')
+                else:
+                    cursor.execute(f'''insert into members_library(name, username, email,
+                                phone, address, avatar, user_id, visits)
+                                values("{name}", "{username}", "{email}", "{phone}",
+                                "{address}", {avatar}, {form.user_id}, 0);''')
+                    msg.showinfo("Shelfmate", "Member added successfully!")
                 connection.commit()
-                msg.showinfo("Shelfmate", "Member added successfully!")
                 form.common.close_all_windows()
-                AddMembers()
+                if mode:
+                    AllMembers()
+                else:
+                    AddMembers()
             else:
                 msg.showwarning("Shelfmate", "Invalid email!")
         else:
             msg.showwarning("Shelfmate", "Fill all the required fields!")
+
+    def cancel_form(form):
+        form.common.close_all_windows()
+        AllMembers()
+
+    def mode_work(form, member):
+        form.name.set(member[1])
+        form.username.set(member[5])
+        form.email.set(member[3])
+        form.phone.set(member[2])
+        address = member[4].split(';')
+        form.add1.set(address[0])
+        form.add2.set(address[1])
+        form.dist.set(address[2])
+        form.stt.set(address[3])
+        form.pin.set(address[4])
+        form.country.set(address[5])
+        form.pic = member[6]
+        _avatar = Image.open(
+            f"{PATH}/../static/Personal/Images/members/member_{form.pic}.png")
+        _avatar = _avatar.resize((70, 70))
+        AVATAR = ImageTk.PhotoImage(_avatar)
+        form.avatar.config(image=AVATAR)
+        form.avatar.image = AVATAR
 
 
 class AllMembers(Tk):
@@ -1736,6 +1785,11 @@ class AllMembers(Tk):
             info2 = Label(frame1, text=themember[2], bg="white")
             info3 = Label(frame1, text=email, fg="#0A6EBD",
                           font="comicsans 10 underline", bg="white", cursor="hand2")
+            info4 = Frame(frame1, bg="white")
+            btn1 = Button(info4, text="Edit", font="robota 12", bg="black", fg="white", activebackground="grey",
+                          activeforeground="white", bd=0, cursor="hand2", command=lambda e=themember: root.edit_mem(e))
+            btn2 = Button(info4, text="Delete", font="robota 12", bg="#C51605", fg="white", activebackground="grey",
+                          activeforeground="white", bd=0, cursor="hand2", command=lambda e=themember: root.delete_mem(e))
             info3.bind("<Button-1>",
                        lambda e: web.open(f"mailto:{themember[3]}"))
 
@@ -1745,8 +1799,10 @@ class AllMembers(Tk):
             frame1.grid(row=0, column=1)
             avatar.grid(row=0, column=0, pady=10)
             username.grid(row=1, column=0)
-            for i in range(4):
-                if i==2 and not themember[2]:
+            btn1.grid(row=0, column=0, padx=5, pady=2)
+            btn2.grid(row=0, column=1, padx=5, pady=2)
+            for i in range(5):
+                if i == 2 and not themember[2]:
                     continue
                 eval(f"info{i}.grid(row={i}, column=0, sticky=E, pady=5)")
 
@@ -1763,6 +1819,20 @@ class AllMembers(Tk):
         self.canvas.config(scrollregion=self.canvas.bbox("all"))
         self.scrollbar.pack_forget()
         self.scrollbar.pack(side=RIGHT, fill=Y)
+
+    def edit_mem(self, member):
+        self.common.close_all_windows()
+        AddMembers(1, member)
+
+    def delete_mem(self, member):
+        if msg.askyesno("Shelfmate", "Do you really want to remove this member?"):
+            cursor.execute(f'''delete from members_library
+                           where id={member[0]};''')
+            connection.commit()
+            # for content in self.book_cards[book].winfo_children():
+            #         content.destroy()
+            #     Label(self.book_cards[book], text="(Deleted)",
+            #           font="comicsans 30", bg="#94ADD7", fg="#C51605").pack()
 
 
 if __name__ == "__main__":
