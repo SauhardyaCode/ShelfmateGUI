@@ -44,6 +44,10 @@ windows = {} #dictionary to store the currently active tkinter windows
 BGCOLOR = "#7895CB"
 ENTRY = "#EEEEEE"
 LABEL = "#777777"
+CARDBG = "#94ADD7"
+#list of all countries (for address fields)
+COUNTRIES = ['Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Brazil', 'Brunei Darussalam', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Central African Republic', 'Chad', 'Chile', 'Colombia', 'Comoros', 'Costa Rica', 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic', "CÃ´te d'Ivoire", 'Democratic Republic of the Congo', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'East Timor', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Ethiopia', 'Federated States of Micronesia', 'Fiji', 'Finland', 'France', 'Gabon', 'Georgia', 'Germany', 'Ghana', 'Greece', 'Grenada', 'Guatemala', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Honduras', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran', 'Iraq', 'Israel', 'Italy', 'Jamaica', 'Japan', 'Jordan', 'Kazakhstan', 'Kenya', 'Kingdom of the Netherlands', 'Kiribati', 'Kuwait', 'Kyrgyzstan', 'Laos', 'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania', 'Luxembourg',
+            'Macedonia', 'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Marshall Islands', 'Mauritania', 'Mauritius', 'Mexico', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Morocco', 'Mozambique', 'Myanmar', 'Namibia', 'Nauru', 'Nepal', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'North Korea', 'Norway', 'Oman', 'Pakistan', 'Palau', 'Panama', 'Papua New Guinea', 'Paraguay', "People's Republic of China", 'Peru', 'Philippines', 'Poland', 'Portugal', 'Qatar', 'Republic of Ireland', 'Republic of the Congo', 'Romania', 'Russia', 'Rwanda', 'Saint Kitts and Nevis', 'Saint Lucia', 'Saint Vincent and the Grenadines', 'Samoa', 'San Marino', 'Saudi Arabia', 'Senegal', 'Serbia', 'Seychelles', 'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'Solomon Islands', 'Somalia', 'South Africa', 'South Korea', 'Spain', 'Sri Lanka', 'Sudan', 'Suriname', 'Swaziland', 'Sweden', 'Switzerland', 'Syria', 'SÃ£o TomÃ© and PrÃ\xadncipe', 'Tajikistan', 'Tanzania', 'Thailand', 'The Gambia', 'Togo', 'Tonga', 'Trinidad and Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Tuvalu', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'United States', 'Uruguay', 'Uzbekistan', 'Vanuatu', 'Vatican City', 'Venezuela', 'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe']
 
 #class with functions that are required in various windows
 class Common():
@@ -429,17 +433,17 @@ class Dashboard(Tk):
         log_out_btn = Button(root, text="Log Out", font="Comicsans 14", fg="red", cursor="hand2", padx=10, pady=5, command=root.log_out)
         #creating the navigation buttons
         frame2 = Frame(root, bg=BGCOLOR, pady=100)
-        btn1 = Button(frame2, text="Add Resources", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2", command=root.add_res)
-        btn2 = Button(frame2, text="All Resources", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2", command=root.all_res)
+        btn1 = Button(frame2, text="Add Resources", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2", command=lambda: root.navigate(AddResources))
+        btn2 = Button(frame2, text="All Resources", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2", command=lambda: root.navigate(AllResources))
         btn3 = Button(frame2, text="Borrow Request", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2")
         btn4 = Button(frame2, text="Check-In User", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2")
         btn5 = Button(frame2, text="Checked-In Readers", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2")
         btn6 = Button(frame2, text="Readers History", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2")
-        btn7 = Button(frame2, text="Add Member", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2", command=root.add_mem)
-        btn8 = Button(frame2, text="All Members", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2", command=root.all_mem)
+        btn7 = Button(frame2, text="Add Member", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2", command=lambda: root.navigate(AddMembers))
+        btn8 = Button(frame2, text="All Members", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2", command=lambda: root.navigate(AllMembers))
         btn9 = Button(frame2, text="Requests To Borrow", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2")
         btn10 = Button(frame2, text="Borrowed Requests", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2")
-        btn11 = Button(frame2, text="Library Details", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2", command=root.lib_det)
+        btn11 = Button(frame2, text="Library Details", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2", command=lambda: root.navigate(LibraryDetails))
         btn12 = Button(frame2, text="Minor Settings", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2")
         #creating the link to Shelfmate website
         frame3 = Frame(root, bg=BGCOLOR, pady=20)
@@ -461,8 +465,8 @@ class Dashboard(Tk):
             eval(f"btn{i+1}.grid(row=i//4, column=i%4)")
 
         #binding the required labels
-        avatar.bind("<Button-1>", root.setting)
-        user_head.bind("<Button-1>", root.setting)
+        avatar.bind("<Button-1>", lambda e: root.navigate(AccountSettings))
+        user_head.bind("<Button-1>", lambda e: root.navigate(AccountSettings))
         shelf.bind("<Button-1>", lambda e: web.open_new_tab("https://shelfmate.onrender.com"))
         root.protocol("WM_DELETE_WINDOW", lambda: root.common.close_window("dashboard"))
 
@@ -477,24 +481,9 @@ class Dashboard(Tk):
             Opener()
 
     #functioning all the navigators
-    def setting(self, ev=0):
+    def navigate(self, navigator, ev=0):
         self.common.close_all_windows()
-        AccountSettings()
-    def add_res(self):
-        self.common.close_all_windows()
-        AddResources()
-    def all_res(self):
-        self.common.close_all_windows()
-        AllResources()
-    def add_mem(self):
-        self.common.close_all_windows()
-        AddMembers()
-    def lib_det(self):
-        self.common.close_all_windows()
-        LibraryDetails()
-    def all_mem(self):
-        self.common.close_all_windows()
-        AllMembers()
+        navigator()
 
 #settings window for user
 class AccountSettings(Tk):
@@ -977,7 +966,6 @@ class AllResources(Tk):
             root.user_id = json.load(cookie)[0]['id']
         cursor.execute(f"select * from resources_library where user_id={root.user_id}")
         root.books = cursor.fetchall()
-        CARDBG = "#94ADD7"
 
         #creating, packing and binding the scrollable canvas (mainly copy-pasted)
         BIG_FRAME = Frame(root)
@@ -1209,7 +1197,7 @@ class AllResources(Tk):
             thebook = cursor.fetchone()
             self.show_card_set(target, thebook)
 
-
+#library function (Library Details)
 class LibraryDetails(Tk):
     def __init__(self):
         super().__init__()
@@ -1217,56 +1205,53 @@ class LibraryDetails(Tk):
         self.create_screen()
         self.mainloop()
 
+    #makes the screen
     def create_screen(root):
+        #general configuration
         root.common = Common(root)
         root.common.set_screen()
         root.title("Library Details")
         root.config(bg="gainsboro")
+        #gets user data
         with open(f'{PATH}/../static/Personal/Data/cookie.json') as cookie:
             root.cookie = json.load(cookie)
-
-        title = Label(root, text="Library Details", font=(
-            "Verdana", 25, "underline"), pady=40, bg="gainsboro")
+        
+        #creating and packing header and main frame
+        title = Label(root, text="Library Details", font=("Verdana", 25, "underline"), pady=40, bg="gainsboro")
         root.FRAME = Frame(root)
-
         title.pack()
         root.FRAME.pack()
 
+        #if-else condition for whether to show display window or edit window
         if root.cookie[2]['library_name']:
             root.display_screen()
         else:
             root.edit_screen()
+        root.protocol("WM_DELETE_WINDOW",lambda: root.common.close_window("library details"))
 
-        root.protocol("WM_DELETE_WINDOW",
-                      lambda: root.common.close_window("library details"))
-
+    #the edit window
     def edit_screen(root, edit=False):
-        frame0 = Frame(root.FRAME, padx=50, pady=20,
-                       highlightthickness=1, bg="white")
+        #creating the frames
+        frame0 = Frame(root.FRAME, padx=50, pady=20, highlightthickness=1, bg="white")
         frame1 = Frame(frame0, pady=20, bg="white")
         frame2 = Frame(frame0, bg="white")
 
-        lbl0 = Label(frame1, text="Library Name *",
-                     font=("Arial", 13), bg="white", padx=50)
+        #creating the entries and conjugate labels
+        #library name
+        lbl0 = Label(frame1, text="Library Name *", font=("Arial", 13), bg="white", padx=50)
         root.name = StringVar()
-        ent0 = Entry(frame1, textvariable=root.name, font=(
-            "Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
+        ent0 = Entry(frame1, textvariable=root.name, font=("Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
         ent0.focus()
-
-        lbl1 = Label(frame1, text="Email *",
-                     font=("Arial", 13), bg="white", padx=50)
+        #library email
+        lbl1 = Label(frame1, text="Email *", font=("Arial", 13), bg="white", padx=50)
         root.email = StringVar()
-        ent1 = Entry(frame1, textvariable=root.email, font=(
-            "Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
-
-        lbl2 = Label(frame1, text="Phone number *",
-                     font=("Arial", 13), bg="white", padx=50)
+        ent1 = Entry(frame1, textvariable=root.email, font=( "Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
+        #library phone number
+        lbl2 = Label(frame1, text="Phone number *", font=("Arial", 13), bg="white", padx=50)
         root.phone = StringVar()
-        ent2 = Entry(frame1, textvariable=root.phone, font=(
-            "Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
-
-        lbl3 = Label(frame1, text="Address *",
-                     font=("Arial", 13), bg="white", padx=50)
+        ent2 = Entry(frame1, textvariable=root.phone, font=( "Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
+        #library address
+        lbl3 = Label(frame1, text="Address *", font=("Arial", 13), bg="white", padx=50)
         root.add1 = StringVar()
         root.add2 = StringVar()
         root.dist = StringVar()
@@ -1274,54 +1259,36 @@ class LibraryDetails(Tk):
         root.pin = StringVar()
         root.country = StringVar()
         ent3 = Frame(frame1, bg="white")
-        add1_lbl = Label(ent3, text="Address Line 1", font=(
-            "Arial", 10), fg=LABEL, bg="white")
-        root.add1_ent = Entry(ent3, textvariable=root.add1, font=(
-            "Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
-        add2_lbl = Label(ent3, text="Address Line 2", font=(
-            "Arial", 10), fg=LABEL, bg="white")
-        root.add2_ent = Entry(ent3, textvariable=root.add2, font=(
-            "Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
+        add1_lbl = Label(ent3, text="Address Line 1", font=( "Arial", 10), fg=LABEL, bg="white")
+        root.add1_ent = Entry(ent3, textvariable=root.add1, font=( "Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
+        add2_lbl = Label(ent3, text="Address Line 2", font=( "Arial", 10), fg=LABEL, bg="white")
+        root.add2_ent = Entry(ent3, textvariable=root.add2, font=( "Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
         ent3x = Frame(ent3, bg="white")
-        dist_lbl = Label(ent3x, text="District", font=(
-            "Arial", 10), fg=LABEL, bg="white")
-        root.dist_ent = Entry(ent3x, textvariable=root.dist, font=(
-            "Comicsans", 12), width=14, bd=5, relief=FLAT, bg=ENTRY)
-        stt_lbl = Label(ent3x, text="State", font=(
-            "Arial", 10), fg=LABEL, bg="white")
-        root.stt_ent = Entry(ent3x, textvariable=root.stt, font=(
-            "Comicsans", 12), width=14, bd=5, relief=FLAT, bg=ENTRY)
+        dist_lbl = Label(ent3x, text="District", font=( "Arial", 10), fg=LABEL, bg="white")
+        root.dist_ent = Entry(ent3x, textvariable=root.dist, font=( "Comicsans", 12), width=14, bd=5, relief=FLAT, bg=ENTRY)
+        stt_lbl = Label(ent3x, text="State", font=( "Arial", 10), fg=LABEL, bg="white")
+        root.stt_ent = Entry(ent3x, textvariable=root.stt, font=( "Comicsans", 12), width=14, bd=5, relief=FLAT, bg=ENTRY)
         ent3y = Frame(ent3, bg="white")
-        pin_lbl = Label(ent3y, text="Postal Code", font=(
-            "Arial", 10), fg=LABEL, bg="white")
-        root.pin_ent = Entry(ent3y, textvariable=root.pin, font=(
-            "Comicsans", 12), width=14, bd=5, relief=FLAT, bg=ENTRY)
-        country_lbl = Label(ent3y, text="Country", font=(
-            "Arial", 10), fg=LABEL, bg="white")
-        countries = ['Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Brazil', 'Brunei Darussalam', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Central African Republic', 'Chad', 'Chile', 'Colombia', 'Comoros', 'Costa Rica', 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic', "CÃ´te d'Ivoire", 'Democratic Republic of the Congo', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'East Timor', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Ethiopia', 'Federated States of Micronesia', 'Fiji', 'Finland', 'France', 'Gabon', 'Georgia', 'Germany', 'Ghana', 'Greece', 'Grenada', 'Guatemala', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Honduras', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran', 'Iraq', 'Israel', 'Italy', 'Jamaica', 'Japan', 'Jordan', 'Kazakhstan', 'Kenya', 'Kingdom of the Netherlands', 'Kiribati', 'Kuwait', 'Kyrgyzstan', 'Laos', 'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania', 'Luxembourg',
-                     'Macedonia', 'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Marshall Islands', 'Mauritania', 'Mauritius', 'Mexico', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Morocco', 'Mozambique', 'Myanmar', 'Namibia', 'Nauru', 'Nepal', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'North Korea', 'Norway', 'Oman', 'Pakistan', 'Palau', 'Panama', 'Papua New Guinea', 'Paraguay', "People's Republic of China", 'Peru', 'Philippines', 'Poland', 'Portugal', 'Qatar', 'Republic of Ireland', 'Republic of the Congo', 'Romania', 'Russia', 'Rwanda', 'Saint Kitts and Nevis', 'Saint Lucia', 'Saint Vincent and the Grenadines', 'Samoa', 'San Marino', 'Saudi Arabia', 'Senegal', 'Serbia', 'Seychelles', 'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'Solomon Islands', 'Somalia', 'South Africa', 'South Korea', 'Spain', 'Sri Lanka', 'Sudan', 'Suriname', 'Swaziland', 'Sweden', 'Switzerland', 'Syria', 'SÃ£o TomÃ© and PrÃ\xadncipe', 'Tajikistan', 'Tanzania', 'Thailand', 'The Gambia', 'Togo', 'Tonga', 'Trinidad and Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Tuvalu', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'United States', 'Uruguay', 'Uzbekistan', 'Vanuatu', 'Vatican City', 'Venezuela', 'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe']
-        root.country_ent = ttk.Combobox(ent3y, textvariable=root.country, width=20,
-                                        values=countries, state="readonly")
-        root.country.set(countries[0])
-
-        lbl4 = Label(frame1, text="Library Website",
-                     font=("Arial", 13), bg="white", padx=50)
+        pin_lbl = Label(ent3y, text="Postal Code", font=( "Arial", 10), fg=LABEL, bg="white")
+        root.pin_ent = Entry(ent3y, textvariable=root.pin, font=( "Comicsans", 12), width=14, bd=5, relief=FLAT, bg=ENTRY)
+        country_lbl = Label(ent3y, text="Country", font=( "Arial", 10), fg=LABEL, bg="white")
+        root.country_ent = ttk.Combobox(ent3y, textvariable=root.country, width=20, values=COUNTRIES, state="readonly")
+        root.country.set(COUNTRIES[0])
+        lbl4 = Label(frame1, text="Library Website", font=("Arial", 13), bg="white", padx=50)
         root.web = StringVar()
-        ent4 = Entry(frame1, textvariable=root.web, font=(
-            "Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
+        ent4 = Entry(frame1, textvariable=root.web, font=( "Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
 
-        save_btn = Button(frame2, text="Save", bg="#0D6EFD", fg="white", activebackground=BGCOLOR, padx=5,
-                          activeforeground="white", font=("Comicsans", 13), relief=FLAT, cursor="hand2", command=root.save)
-        cancel_btn = Button(frame2, text="Cancel", bg="black", fg="white", activebackground="#6C757D", padx=5,
-                            activeforeground="white", font=("Comicsans", 13), relief=FLAT, cursor="hand2", command=lambda: root.cancel(edit))
+        #creating the buttons
+        save_btn = Button(frame2, text="Save", bg="#0D6EFD", fg="white", activebackground=BGCOLOR, padx=5, activeforeground="white", font=("Comicsans", 13), relief=FLAT, cursor="hand2", command=root.save)
+        cancel_btn = Button(frame2, text="Cancel", bg="black", fg="white", activebackground="#6C757D", padx=5, activeforeground="white", font=("Comicsans", 13), relief=FLAT, cursor="hand2", command=lambda: root.cancel(edit))
 
+        #placing all elements
         frame0.pack()
         frame1.grid(row=0, column=0)
         frame2.grid(row=1, column=0)
         save_btn.grid(row=0, column=0, padx=10)
         cancel_btn.grid(row=0, column=1, padx=10)
-        root.common.address_packer(add1_lbl, add2_lbl, ent3x, ent3y,
-                                   dist_lbl, stt_lbl, pin_lbl, country_lbl)
+        root.common.address_packer(add1_lbl, add2_lbl, ent3x, ent3y, dist_lbl, stt_lbl, pin_lbl, country_lbl)
         for i in range(5):
             eval(f"lbl{i}.grid(row={i}, column=0, sticky=W, pady=10)")
             eval(f"ent{i}.grid(row={i}, column=1, padx=50, pady=10)")
@@ -1332,6 +1299,7 @@ class LibraryDetails(Tk):
         for x in ["add1", "add2", "dist", "stt", "pin", "country"]:
             eval(f"root.{x}_ent.bind('<Return>', root.save)")
 
+        #if not inputing values for first time the entries are set to the previous values from cookie.json
         if edit:
             lib = root.cookie[2]
             add = lib['library_address'].split(';')
@@ -1346,43 +1314,33 @@ class LibraryDetails(Tk):
             root.country.set(add[5])
             root.web.set(lib['library_url'])
 
+    #the display window
     def display_screen(root):
         LINK = "#0A6EBD"
-        frame0 = Frame(root.FRAME, padx=50, pady=30,
-                       highlightthickness=1, bg="white")
+        #creating all frames
+        frame0 = Frame(root.FRAME, padx=50, pady=30, highlightthickness=1, bg="white")
         frame1 = Frame(frame0, pady=30, bg="white")
         frame2 = Frame(frame0, bg="white")
 
-        q0 = Label(frame1, text="Library Name",
-                   font=("Arial", 13), bg="white", padx=50)
-        a0 = Label(frame1, text=root.cookie[2]["library_name"],
-                   font=("Arial", 13), bg="white", padx=50)
-        q1 = Label(frame1, text="Phone number",
-                   font=("Arial", 13), bg="white", padx=50)
-        a1 = Label(frame1, text=root.cookie[2]["library_phone"],
-                   font=("Arial", 13), bg="white", padx=50)
-        q2 = Label(frame1, text="Email",
-                   font=("Arial", 13), bg="white", padx=50)
-        a2 = Label(frame1, text=root.cookie[2]["library_email"], font=(
-            "Arial", 13, 'underline'), bg="white", padx=50, fg=LINK, cursor="hand2")
-        q3 = Label(frame1, text="Address",
-                   font=("Arial", 13), bg="white", padx=50)
-        a3 = Label(frame1, text=root.cookie[2]["library_address"].replace(
-            ';;', ';').replace(';', ', '), font=("Arial", 13), bg="white", padx=50)
-        q4 = Label(frame1, text="Library Website",
-                   font=("Arial", 13), bg="white", padx=50)
-        a4 = Label(frame1, text=root.cookie[2]["library_url"],
-                   font=("Arial", 13, 'underline'), bg="white", padx=50, fg=LINK, cursor="hand2")
-        btn1 = Button(frame2, text="Edit", font="robota 12", bg="black", fg="white", activebackground="grey",
-                      activeforeground="white", bd=0, cursor="hand2", padx=5, command=root.edit)
-        btn2 = Button(frame2, text="Delete", font="robota 12", bg="#C51605", fg="white", activebackground="grey",
-                      activeforeground="white", bd=0, cursor="hand2", padx=5, command=root.delete)
+        #creating all display elements and buttons
+        q0 = Label(frame1, text="Library Name", font=("Arial", 13), bg="white", padx=50)
+        a0 = Label(frame1, text=root.cookie[2]["library_name"], font=("Arial", 13), bg="white", padx=50)
+        q1 = Label(frame1, text="Phone number", font=("Arial", 13), bg="white", padx=50)
+        a1 = Label(frame1, text=root.cookie[2]["library_phone"], font=("Arial", 13), bg="white", padx=50)
+        q2 = Label(frame1, text="Email", font=("Arial", 13), bg="white", padx=50)
+        a2 = Label(frame1, text=root.cookie[2]["library_email"], font=( "Arial", 13, 'underline'), bg="white", padx=50, fg=LINK, cursor="hand2")
+        q3 = Label(frame1, text="Address", font=("Arial", 13), bg="white", padx=50)
+        a3 = Label(frame1, text=root.cookie[2]["library_address"].replace( ';;', ';').replace(';', ', '), font=("Arial", 13), bg="white", padx=50)
+        q4 = Label(frame1, text="Library Website", font=("Arial", 13), bg="white", padx=50)
+        a4 = Label(frame1, text=root.cookie[2]["library_url"], font=("Arial", 13, 'underline'), bg="white", padx=50, fg=LINK, cursor="hand2")
+        btn1 = Button(frame2, text="Edit", font="robota 12", bg="black", fg="white", activebackground="grey", activeforeground="white", bd=0, cursor="hand2", padx=5, command=root.edit)
+        btn2 = Button(frame2, text="Delete", font="robota 12", bg="#C51605", fg="white", activebackground="grey", activeforeground="white", bd=0, cursor="hand2", padx=5, command=root.delete)
 
-        a2.bind(
-            "<Button-1>", lambda e: web.open(f"mailto:{root.cookie[2]['library_email']}"))
-        a4.bind("<Button-1>",
-                lambda e: web.open(root.cookie[2]['library_url']))
+        #binding email and website links to open externally
+        a2.bind("<Button-1>", lambda e: web.open(f"mailto:{root.cookie[2]['library_email']}"))
+        a4.bind("<Button-1>", lambda e: web.open(root.cookie[2]['library_url']))
 
+        #placing all elements
         frame0.pack()
         frame1.grid(row=0, column=0)
         frame2.grid(row=1, column=0)
@@ -1391,8 +1349,10 @@ class LibraryDetails(Tk):
         for i in range(5):
             eval(f"q{i}.grid(row={i}, column=0, sticky=W, pady=2)")
             eval(f"a{i}.grid(row={i}, column=1, sticky=W, pady=2)")
-
+    
+    #after clicking the Save button
     def save(self, ev=0):
+        #gets all user inputs
         name = self.name.get()
         email = self.email.get()
         phone = self.phone.get()
@@ -1405,14 +1365,15 @@ class LibraryDetails(Tk):
         website = self.web.get()
         address = ';'.join([add1, add2, dist, stt, pin, country])
 
+        #checks validity of inputs
         if name and email and phone and add1 and dist and stt and pin:
-            if re.match(r"^[\w\.-]+@[\w\.-]+\.\w+$", email):
-                if validators.url(website):
-                    cursor.execute(f'''update logged_users set library_name="{name}",
-                                library_email="{email}", library_phone="{phone}",
-                                library_address="{address}", library_url="{website}"
+            if re.match(r"^[\w\.-]+@[\w\.-]+\.\w+$", email): #email validity using "re"
+                if validators.url(website): #website validity using "validators"
+                    #updates the database with new values
+                    cursor.execute(f'''update logged_users
+                                set library_name="{name}", library_email="{email}", library_phone="{phone}", library_address="{address}", library_url="{website}"
                                 where id={self.cookie[0]['id']}''')
-                    self.common.refresh()
+                    self.common.refresh() #refreshes cookie.json
                     self.common.close_all_windows()
                     LibraryDetails()
                 else:
@@ -1422,91 +1383,84 @@ class LibraryDetails(Tk):
         else:
             msg.showwarning("Shelfmate", "Fill all the required fields!")
 
+    #deletes all library details
     def delete(self):
         if msg.askyesno("Shelfmate", "Are you sure you want to delete your Library Details?"):
-            cursor.execute(f'''update logged_users set library_name="",
-                           library_email="", library_phone="",
-                           library_address="", library_url=""
+            #clears the library details from database
+            cursor.execute(f'''update logged_users
+                           set library_name="", library_email="", library_phone="", library_address="", library_url=""
                            where id={self.cookie[0]['id']}''')
-            self.common.refresh()
+            self.common.refresh() #refreshes cookie.json
             self.common.close_all_windows()
             LibraryDetails()
-
+    
+    #on clicking the Edit button (in display window)
     def edit(self):
         for x in self.FRAME.winfo_children():
             x.destroy()
         self.edit_screen(True)
 
+    #on clicking the Cancel button (in edit window)
     def cancel(self, edit):
-        if edit:
+        if edit: #if data already added then returns to display window
             for x in self.FRAME.winfo_children():
                 x.destroy()
             self.display_screen()
-        else:
+        else: #else returns to dashboard
             self.common.back()
 
-
+#library function (Add Members)
 class AddMembers(Tk):
     def __init__(self, mode=0, member=None):
         super().__init__()
         windows["add members"] = self
+        #initializing global variables
         self.pic = 0
         self.suggest_clicks = 0
+        #mode is a flag (0 = adding new member, 1 = editing an existing member)
         self.create_screen(mode)
         if mode:
             self.mode_work(member)
         self.mainloop()
 
     def create_screen(root, mode):
+        #general configurations
         root.common = Common(root)
         root.common.set_screen(back=not mode)
         root.title("Add Members")
         root.config(bg="gainsboro")
+        #gets user data
         with open(f'{PATH}/../static/Personal/Data/cookie.json') as cookie:
             root.user_id = json.load(cookie)[0]['id']
-
-        title = Label(root, text="Add Members", font=(
-            "Verdana", 25, "underline"), pady=40, bg="gainsboro")
+        
+        #creating header and frames
+        title = Label(root, text="Add Members", font=("Verdana", 25, "underline"), pady=40, bg="gainsboro")
         FRAME = Frame(root)
-        frame0 = Frame(FRAME, padx=50, pady=20,
-                       highlightthickness=1, bg="white")
+        frame0 = Frame(FRAME, padx=50, pady=20, highlightthickness=1, bg="white")
         frame1 = Frame(frame0, pady=20, bg="white")
         frame2 = Frame(frame0, bg="white")
 
-        q0 = Label(frame1, text="Name *",
-                   font=("Arial", 13), bg="white", padx=50)
+        #creating entries and conjugate labels
+        #member name
+        q0 = Label(frame1, text="Name *", font=("Arial", 13), bg="white", padx=50)
         root.name = StringVar()
-        a0 = Entry(frame1, textvariable=root.name, font=(
-            "Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
-
-        q1 = Label(frame1, text="Username *",
-                   font=("Arial", 13), bg="white", padx=50)
+        a0 = Entry(frame1, textvariable=root.name, font=("Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
+        #member username
+        q1 = Label(frame1, text="Username *", font=("Arial", 13), bg="white", padx=50)
         root.username = StringVar()
-        a1 = Entry(frame1, textvariable=root.username, font=(
-            "Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
-        suggest = Button(frame1, text="Suggest", cursor="hand2",
-                         font=("Arial", 10), padx=10, pady=5, command=root.suggest)
-
-        q2 = Label(frame1, text="Email *",
-                   font=("Arial", 13), bg="white", padx=50)
+        a1 = Entry(frame1, textvariable=root.username, font=("Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
+        #suggest button to suggest username
+        suggest = Button(frame1, text="Suggest", cursor="hand2", font=("Arial", 10), padx=10, pady=5, command=root.suggest)
+        #member email
+        q2 = Label(frame1, text="Email *", font=("Arial", 13), bg="white", padx=50)
         root.email = StringVar()
-        a2 = Entry(frame1, textvariable=root.email, font=(
-            "Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
-
-        q3 = Label(frame1, text="Phone Number",
-                   font=("Arial", 13), bg="white", padx=50)
+        a2 = Entry(frame1, textvariable=root.email, font=("Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
+        #member phone number
+        q3 = Label(frame1, text="Phone Number", font=("Arial", 13), bg="white", padx=50)
         root.phone = StringVar()
-        a3 = Entry(frame1, textvariable=root.phone, font=(
-            "Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
-
-        q3 = Label(frame1, text="Phone Number",
-                   font=("Arial", 13), bg="white", padx=50)
-        root.phone = StringVar()
-        a3 = Entry(frame1, textvariable=root.phone, font=(
-            "Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
-
-        q4 = Label(frame1, text="Address",
-                   font=("Arial", 13), bg="white", padx=50)
+        a3 = Entry(frame1, textvariable=root.phone, font=("Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
+        #member address
+        q4 = Label(frame1, text="Address", font=("Arial", 13), bg="white", padx=50)
         root.add1 = StringVar()
         root.add2 = StringVar()
         root.dist = StringVar()
@@ -1514,58 +1468,41 @@ class AddMembers(Tk):
         root.pin = StringVar()
         root.country = StringVar()
         a4 = Frame(frame1, bg="white")
-        add1_lbl = Label(a4, text="Address Line 1", font=(
-            "Arial", 10), fg=LABEL, bg="white")
-        root.add1_ent = Entry(a4, textvariable=root.add1, font=(
-            "Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
-        add2_lbl = Label(a4, text="Address Line 2", font=(
-            "Arial", 10), fg=LABEL, bg="white")
-        root.add2_ent = Entry(a4, textvariable=root.add2, font=(
-            "Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
+        add1_lbl = Label(a4, text="Address Line 1", font=("Arial", 10), fg=LABEL, bg="white")
+        root.add1_ent = Entry(a4, textvariable=root.add1, font=("Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
+        add2_lbl = Label(a4, text="Address Line 2", font=("Arial", 10), fg=LABEL, bg="white")
+        root.add2_ent = Entry(a4, textvariable=root.add2, font=("Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
         ent3x = Frame(a4, bg="white")
-        dist_lbl = Label(ent3x, text="District", font=(
-            "Arial", 10), fg=LABEL, bg="white")
-        root.dist_ent = Entry(ent3x, textvariable=root.dist, font=(
-            "Comicsans", 12), width=14, bd=5, relief=FLAT, bg=ENTRY)
-        stt_lbl = Label(ent3x, text="State", font=(
-            "Arial", 10), fg=LABEL, bg="white")
-        root.stt_ent = Entry(ent3x, textvariable=root.stt, font=(
-            "Comicsans", 12), width=14, bd=5, relief=FLAT, bg=ENTRY)
+        dist_lbl = Label(ent3x, text="District", font=("Arial", 10), fg=LABEL, bg="white")
+        root.dist_ent = Entry(ent3x, textvariable=root.dist, font=("Comicsans", 12), width=14, bd=5, relief=FLAT, bg=ENTRY)
+        stt_lbl = Label(ent3x, text="State", font=("Arial", 10), fg=LABEL, bg="white")
+        root.stt_ent = Entry(ent3x, textvariable=root.stt, font=("Comicsans", 12), width=14, bd=5, relief=FLAT, bg=ENTRY)
         ent3y = Frame(a4, bg="white")
-        pin_lbl = Label(ent3y, text="Postal Code", font=(
-            "Arial", 10), fg=LABEL, bg="white")
-        root.pin_ent = Entry(ent3y, textvariable=root.pin, font=(
-            "Comicsans", 12), width=14, bd=5, relief=FLAT, bg=ENTRY)
-        country_lbl = Label(ent3y, text="Country", font=(
-            "Arial", 10), fg=LABEL, bg="white")
-        countries = ['Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Brazil', 'Brunei Darussalam', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Central African Republic', 'Chad', 'Chile', 'Colombia', 'Comoros', 'Costa Rica', 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic', "CÃ´te d'Ivoire", 'Democratic Republic of the Congo', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'East Timor', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Ethiopia', 'Federated States of Micronesia', 'Fiji', 'Finland', 'France', 'Gabon', 'Georgia', 'Germany', 'Ghana', 'Greece', 'Grenada', 'Guatemala', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Honduras', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran', 'Iraq', 'Israel', 'Italy', 'Jamaica', 'Japan', 'Jordan', 'Kazakhstan', 'Kenya', 'Kingdom of the Netherlands', 'Kiribati', 'Kuwait', 'Kyrgyzstan', 'Laos', 'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania', 'Luxembourg',
-                     'Macedonia', 'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Marshall Islands', 'Mauritania', 'Mauritius', 'Mexico', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Morocco', 'Mozambique', 'Myanmar', 'Namibia', 'Nauru', 'Nepal', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'North Korea', 'Norway', 'Oman', 'Pakistan', 'Palau', 'Panama', 'Papua New Guinea', 'Paraguay', "People's Republic of China", 'Peru', 'Philippines', 'Poland', 'Portugal', 'Qatar', 'Republic of Ireland', 'Republic of the Congo', 'Romania', 'Russia', 'Rwanda', 'Saint Kitts and Nevis', 'Saint Lucia', 'Saint Vincent and the Grenadines', 'Samoa', 'San Marino', 'Saudi Arabia', 'Senegal', 'Serbia', 'Seychelles', 'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'Solomon Islands', 'Somalia', 'South Africa', 'South Korea', 'Spain', 'Sri Lanka', 'Sudan', 'Suriname', 'Swaziland', 'Sweden', 'Switzerland', 'Syria', 'SÃ£o TomÃ© and PrÃ\xadncipe', 'Tajikistan', 'Tanzania', 'Thailand', 'The Gambia', 'Togo', 'Tonga', 'Trinidad and Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Tuvalu', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'United States', 'Uruguay', 'Uzbekistan', 'Vanuatu', 'Vatican City', 'Venezuela', 'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe']
-        root.country_ent = ttk.Combobox(ent3y, textvariable=root.country, width=20,
-                                        values=countries, state="readonly")
-        root.country.set(countries[0])
+        pin_lbl = Label(ent3y, text="Postal Code", font=("Arial", 10), fg=LABEL, bg="white")
+        root.pin_ent = Entry(ent3y, textvariable=root.pin, font=("Comicsans", 12), width=14, bd=5, relief=FLAT, bg=ENTRY)
+        country_lbl = Label(ent3y, text="Country", font=("Arial", 10), fg=LABEL, bg="white")
+        root.country_ent = ttk.Combobox(ent3y, textvariable=root.country, width=20, values=COUNTRIES, state="readonly")
+        root.country.set(COUNTRIES[0])
 
-        q5 = Label(frame1, text="Avatar *",
-                   font=("Arial", 13), bg="white", padx=50)
+        #creating member avatar and its controls
+        q5 = Label(frame1, text="Avatar *", font=("Arial", 13), bg="white", padx=50)
         a5 = Frame(frame1, bg=ENTRY, pady=10, padx=20)
         root.common.load_toggle()
-        _avatar = Image.open(
-            f"{PATH}/../static/Personal/Images/members/member_0.png")
+        _avatar = Image.open(f"{PATH}/../static/Personal/Images/members/member_0.png")
         _avatar = _avatar.resize((70, 70))
         AVATAR = ImageTk.PhotoImage(_avatar)
-        left_btn = Button(a5, image=root.common.BEFORE, bd=0, width=100,
-                          cursor="hand2", command=lambda: root.common.avatar_toggle(-1, "member"))
+        left_btn = Button(a5, image=root.common.BEFORE, bd=0, width=100, cursor="hand2", command=lambda: root.common.avatar_toggle(-1, "member"))
         root.avatar = Label(a5, image=AVATAR, width=100)
-        right_btn = Button(a5, image=root.common.AFTER, bd=0, width=100,
-                           cursor="hand2", command=lambda: root.common.avatar_toggle(1, "member"))
+        right_btn = Button(a5, image=root.common.AFTER, bd=0, width=100, cursor="hand2", command=lambda: root.common.avatar_toggle(1, "member"))
         left_btn.image = root.common.BEFORE
         root.avatar.image = AVATAR
         right_btn.image = root.common.AFTER
 
-        submit_btn = Button(frame2, text="Submit", fg="white", bg="#1D5D9B", activebackground="#111111",
-                            activeforeground="white", bd=0, width=7, font="arial 12", cursor="hand2", command=lambda: root.submit_form(mode))
-        cancel_btn = Button(frame2, text="Cancel", fg="white", bg="black", activebackground="#111111",
-                            activeforeground="white", bd=0, width=7, font="arial 12", cursor="hand2", command=root.cancel_form)
+        #creating the buttons
+        submit_btn = Button(frame2, text="Submit", fg="white", bg="#1D5D9B", activebackground="#111111", activeforeground="white", bd=0, width=7, font="arial 12", cursor="hand2", command=lambda: root.submit_form(mode))
+        cancel_btn = Button(frame2, text="Cancel", fg="white", bg="black", activebackground="#111111", activeforeground="white", bd=0, width=7, font="arial 12", cursor="hand2", command=root.cancel_form)
 
+        #placing all elements
         title.pack()
         FRAME.pack()
         frame0.pack()
@@ -1574,58 +1511,65 @@ class AddMembers(Tk):
         left_btn.grid(row=0, column=0)
         root.avatar.grid(row=0, column=1)
         right_btn.grid(row=0, column=2)
-        root.common.address_packer(add1_lbl, add2_lbl, ent3x, ent3y,
-                                   dist_lbl, stt_lbl, pin_lbl, country_lbl)
+        root.common.address_packer(add1_lbl, add2_lbl, ent3x, ent3y, dist_lbl, stt_lbl, pin_lbl, country_lbl)
         for i in range(6):
             eval(f"q{i}.grid(row={i//2}, column={2*(i%2)}, sticky=W, pady=10)")
             eval(f"a{i}.grid(row={i//2}, column={2*(i%2)+1}, padx=40, pady=10)")
         suggest.grid(row=0, column=4, sticky=W, pady=10)
         submit_btn.grid(row=0, column=0, pady=30, padx=10)
+
+        #if in editing mode, username is not chnageable
         if mode:
             cancel_btn.grid(row=0, column=1, pady=30, padx=10)
             a1.config(state=DISABLED)
             suggest.destroy()
+        root.protocol("WM_DELETE_WINDOW", lambda: root.common.close_window("add members"))
 
-        root.protocol("WM_DELETE_WINDOW",
-                      lambda: root.common.close_window("add members"))
-
+    #username suggestion function
     def suggest(self, fetch=True, usernames=None):
+        #fetch is a flag (True = it asks database for all usernames, False = no contact with database)
+        #gets all used usernames by the user for members
         if fetch and not self.suggest_clicks:
-            cursor.execute(f'''select username from members_library
-                           where user_id={self.user_id}''')
+            cursor.execute(f"select username from members_library where user_id={self.user_id}")
         usernames = [x[0] for x in cursor.fetchall()]
-        suggestion = ''.join(random.choices(
-            string.ascii_letters+string.digits+'_', k=10))
+
+        #creates a random suggestion ("random" for random choice, "string" for getting ASCII character set)
+        suggestion = ''.join(random.choices(string.ascii_letters+string.digits+'_', k=10))
+        #checks if username is already used
         if suggestion in usernames:
+            #recurssion until username is new
             self.suggest(False, usernames)
         else:
+            #sets the username value to entry field for user to see
             self.username.set(suggestion)
             self.suggest_clicks += 1
 
+    #after clicking the Submit button
     def submit_form(form, mode):
+        #gets all user inputs
         name = form.name.get()
         username = form.username.get().strip()
         email = form.email.get()
         phone = form.phone.get()
-        address = ';'.join([form.add1.get().strip().replace(';', ''), form.add2.get().strip().replace(';', ''),
-                            form.dist.get().strip().replace(';', ''), form.stt.get().strip().replace(';', ''),
-                            form.pin.get().strip().replace(';', ''), form.country.get()])
+        address = ';'.join([form.add1.get().strip().replace(';', ''), form.add2.get().strip().replace(';', ''), form.dist.get().strip().replace(';', ''), form.stt.get().strip().replace(';', ''), form.pin.get().strip().replace(';', ''), form.country.get()])
         avatar = form.pic
 
+        #checks validity of inputs
         if name and username and email:
-            if re.match(r"^[\w\.-]+@[\w\.-]+\.\w+$", email):
+            if re.match(r"^[\w\.-]+@[\w\.-]+\.\w+$", email): #email validity using "re"
                 if mode:
-                    cursor.execute(f'''update members_library set name="{name}",
-                                   email="{email}", phone="{phone}", address="{address}",
-                                   avatar={avatar} where user_id={form.user_id} and username="{username}";''')
+                    #if in edit mode, updates the member
+                    cursor.execute(f'''update members_library
+                                   set name="{name}", email="{email}", phone="{phone}", address="{address}", avatar={avatar}
+                                   where user_id={form.user_id} and username="{username}";''')
                 else:
-                    cursor.execute(f'''insert into members_library(name, username, email,
-                                phone, address, avatar, user_id, visits)
-                                values("{name}", "{username}", "{email}", "{phone}",
-                                "{address}", {avatar}, {form.user_id}, 0);''')
+                    #if in add mode, adds a new member to database
+                    cursor.execute(f'''insert into members_library(name, username, email, phone, address, avatar, user_id, visits)
+                                values("{name}", "{username}", "{email}", "{phone}", "{address}", {avatar}, {form.user_id}, 0);''')
                     msg.showinfo("Shelfmate", "Member added successfully!")
                 connection.commit()
                 form.common.close_all_windows()
+                #opens new window depending on mode value
                 if mode:
                     AllMembers()
                 else:
@@ -1635,10 +1579,12 @@ class AddMembers(Tk):
         else:
             msg.showwarning("Shelfmate", "Fill all the required fields!")
 
+    #on clicking Cancel button (in edit mode)
     def cancel_form(form):
         form.common.close_all_windows()
         AllMembers()
 
+    #fills entries with old values (in edit mode)
     def mode_work(form, member):
         form.name.set(member[1])
         form.username.set(member[5])
@@ -1652,14 +1598,13 @@ class AddMembers(Tk):
         form.pin.set(address[4])
         form.country.set(address[5])
         form.pic = member[6]
-        _avatar = Image.open(
-            f"{PATH}/../static/Personal/Images/members/member_{form.pic}.png")
+        _avatar = Image.open(f"{PATH}/../static/Personal/Images/members/member_{form.pic}.png")
         _avatar = _avatar.resize((70, 70))
         AVATAR = ImageTk.PhotoImage(_avatar)
         form.avatar.config(image=AVATAR)
         form.avatar.image = AVATAR
 
-
+#library function (All Members)
 class AllMembers(Tk):
     def __init__(self):
         super().__init__()
@@ -1668,71 +1613,73 @@ class AllMembers(Tk):
         self.mainloop()
 
     def create_screen(root):
+        #general configurations
         root.common = Common(root)
         root.common.set_screen()
         root.title("All Members")
         root.config(bg="gainsboro")
+        #gets user data
         with open(f'{PATH}/../static/Personal/Data/cookie.json') as cookie:
             root.user_id = json.load(cookie)[0]['id']
-        cursor.execute(
-            f"select * from members_library where user_id={root.user_id}")
+        cursor.execute(f"select * from members_library where user_id={root.user_id}")
         root.members = cursor.fetchall()
-        CARDBG = "#94ADD7"
 
-        title = Label(root, text="All Members", font=(
-            "Verdana", 25, "underline"), pady=40, bg="gainsboro")
+        #creating header
+        title = Label(root, text="All Members", font=("Verdana", 25, "underline"), pady=40, bg="gainsboro")
 
+        #creating, packing and binding the scrollable canvas (mainly copy-pasted)
         BIG_FRAME = Frame(root)
         root.canvas = Canvas(BIG_FRAME, bg="gainsboro")
         root.canvas.pack(side=LEFT, fill=BOTH, expand=1)
-        root.scrollbar = Scrollbar(
-            BIG_FRAME, orient=VERTICAL, command=root.canvas.yview)
+        root.scrollbar = Scrollbar(BIG_FRAME, orient=VERTICAL, command=root.canvas.yview)
         root.scrollbar.pack(side=RIGHT, fill=Y)
         root.canvas.configure(yscrollcommand=root.scrollbar.set)
-        root.canvas.bind("<Configure>", lambda e: root.canvas.config(
-            scrollregion=root.canvas.bbox(ALL)))
+        root.canvas.bind("<Configure>", lambda e: root.canvas.config(scrollregion=root.canvas.bbox(ALL)))
         FRAME = Frame(root.canvas, bg="gainsboro")
         root.canvas.create_window((0, 0), window=FRAME, anchor="nw")
         root.canvas.bind_all("<MouseWheel>", root._on_mousewheel)
         root.bind("<Configure>", root._on_configure)
 
+        #creates display card for each member using loop
         for i in range(len(root.members)):
             themember = root.members[i]
+            #creating the frames
             frame = Frame(FRAME, bg=CARDBG, padx=20, pady=10)
             frameX = Frame(frame, bg="white")
             frame0 = Frame(frameX, bg="white", padx=10, pady=5)
             frame1 = Frame(frameX, bg="white", padx=10, pady=5)
-            _avatar = Image.open(
-                f"{PATH}/../static/Personal/Images/members/member_{themember[6]}.png")
+            #gets and sets the member image
+            _avatar = Image.open(f"{PATH}/../static/Personal/Images/members/member_{themember[6]}.png")
             _avatar = _avatar.resize((100, 100))
             AVATAR = ImageTk.PhotoImage(_avatar)
             avatar = Label(frame0, image=AVATAR, bg="white")
             avatar.image = AVATAR
-            username = Label(frame0, text=f"({themember[5]})",
-                             font="arial 12", fg="grey", bg="white")
+
+            #gets all other info
+            username = Label(frame0, text=f"({themember[5]})",font="arial 12", fg="grey", bg="white")
             address = ', '.join([x for x in themember[4].split(';') if x])
             name = themember[1]
             email = themember[3]
+            #adjusts the member info as space friendly
             if len(address) > 30:
                 address = address[:29]+'...'
             if len(name) > 30:
                 name = name[:29]+'...'
             if len(email) > 30:
                 email = email[:29]+'...'
-            info0 = Label(frame1, text=name,
-                          font="comicsans 15 bold", bg="white")
+            
+            #creating all elements
+            info0 = Label(frame1, text=name, font="comicsans 15 bold", bg="white")
             info1 = Label(frame1, text=address, bg="white", fg="grey")
             info2 = Label(frame1, text=themember[2], bg="white")
-            info3 = Label(frame1, text=email, fg="#0A6EBD",
-                          font="comicsans 10 underline", bg="white", cursor="hand2")
+            info3 = Label(frame1, text=email, fg="#0A6EBD", font="comicsans 10 underline", bg="white", cursor="hand2")
             info4 = Frame(frame1, bg="white")
-            btn1 = Button(info4, text="Edit", font="robota 12", bg="black", fg="white", activebackground="grey",
-                          activeforeground="white", bd=0, cursor="hand2", command=lambda e=themember: root.edit_mem(e))
-            btn2 = Button(info4, text="Delete", font="robota 12", bg="#C51605", fg="white", activebackground="grey",
-                          activeforeground="white", bd=0, cursor="hand2", command=lambda e=themember: root.delete_mem(e))
-            info3.bind("<Button-1>",
-                       lambda e: web.open(f"mailto:{themember[3]}"))
+            btn1 = Button(info4, text="Edit", font="robota 12", bg="black", fg="white", activebackground="grey", activeforeground="white", bd=0, cursor="hand2", command=lambda e=themember: root.edit_mem(e))
+            btn2 = Button(info4, text="Delete", font="robota 12", bg="#C51605", fg="white", activebackground="grey", activeforeground="white", bd=0, cursor="hand2", command=lambda e=themember: root.delete_mem(e))
+            #binding the email to open a link
+            info3.bind("<Button-1>", lambda e: web.open(f"mailto:{themember[3]}"))
 
+            #placing all elements
             frame.grid(row=i//3, column=i % 3, padx=30, pady=20, sticky=W)
             frameX.pack()
             frame0.grid(row=0, column=0)
@@ -1746,24 +1693,27 @@ class AllMembers(Tk):
                     continue
                 eval(f"info{i}.grid(row={i}, column=0, sticky=E, pady=5)")
 
+        #packing the main elements
         title.pack()
         BIG_FRAME.pack(fill=BOTH, expand=1)
+        root.protocol("WM_DELETE_WINDOW",lambda: root.common.close_window("all members"))
 
-        root.protocol("WM_DELETE_WINDOW",
-                      lambda: root.common.close_window("all members"))
-
+    #functioning mousewheel to scroll the canvas (copy-pasted)
     def _on_mousewheel(self, event):
         self.canvas.yview_scroll(int(-1*(event.delta/120)), "units")
-
+    
+    #properly binding the canvas with scroller (copy-pasted)
     def _on_configure(self, event):
         self.canvas.config(scrollregion=self.canvas.bbox("all"))
         self.scrollbar.pack_forget()
         self.scrollbar.pack(side=RIGHT, fill=Y)
-
+    
+    #opens edit screen for a target member
     def edit_mem(self, member):
         self.common.close_all_windows()
         AddMembers(1, member)
 
+    #working on delete member...
     def delete_mem(self, member):
         if msg.askyesno("Shelfmate", "Do you really want to remove this member?"):
             cursor.execute(f'''delete from members_library
@@ -1774,11 +1724,13 @@ class AllMembers(Tk):
             #     Label(self.book_cards[book], text="(Deleted)",
             #           font="comicsans 30", bg="#94ADD7", fg="#C51605").pack()
 
-
+#ensures that this block is not called on importing this file (safe coding)
 if __name__ == "__main__":
     try:
-        open = Opener()
+        open = Opener() #runs the application
+        #closes connection with database after app is closed
         cursor.close()
         connection.close()
     except Exception as e:
+        #shows error if app crashes unexpectedly in beginning
         print("[APP CLOSED]", e)
