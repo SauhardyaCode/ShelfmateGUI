@@ -1640,6 +1640,7 @@ class AllMembers(Tk):
         root.canvas.bind_all("<MouseWheel>", root._on_mousewheel)
         root.bind("<Configure>", root._on_configure)
 
+        root.member_cards = {} #disctionary to store all member card frames
         #creates display card for each member using loop
         for i in range(len(root.members)):
             themember = root.members[i]
@@ -1654,6 +1655,9 @@ class AllMembers(Tk):
             AVATAR = ImageTk.PhotoImage(_avatar)
             avatar = Label(frame0, image=AVATAR, bg="white")
             avatar.image = AVATAR
+
+            #adding values to the dictionary during loop
+            root.member_cards[themember] = frameX
 
             #gets all other info
             username = Label(frame0, text=f"({themember[5]})",font="arial 12", fg="grey", bg="white")
@@ -1713,16 +1717,18 @@ class AllMembers(Tk):
         self.common.close_all_windows()
         AddMembers(1, member)
 
-    #working on delete member...
+    #deletes a target member
     def delete_mem(self, member):
         if msg.askyesno("Shelfmate", "Do you really want to remove this member?"):
-            cursor.execute(f'''delete from members_library
-                           where id={member[0]};''')
+            #deletes the member from database
+            cursor.execute(f"delete from members_library where id={member[0]};")
             connection.commit()
-            # for content in self.book_cards[book].winfo_children():
-            #         content.destroy()
-            #     Label(self.book_cards[book], text="(Deleted)",
-            #           font="comicsans 30", bg="#94ADD7", fg="#C51605").pack()
+            #destroys all elements inside frame
+            for content in self.member_cards[member].winfo_children():
+                content.destroy()
+            #packs a DELETE text in place of that
+            Label(self.member_cards[member], text="(Deleted)", font="comicsans 30", bg="#94ADD7", fg="#C51605").pack()
+
 
 #ensures that this block is not called on importing this file (safe coding)
 if __name__ == "__main__":
