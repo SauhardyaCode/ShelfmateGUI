@@ -20,6 +20,7 @@ import random, string #for getting random generated strings
 from io import BytesIO #for decoding image from websites
 import threading #to load images outside the main window
 import validators, requests #validators to check URL, requests to get redirected URLs
+import time #to delay background functions
 
 #connecting the database to python
 try:
@@ -51,9 +52,10 @@ COUNTRIES = ['Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Antigua 
 
 #class with functions that are required in various windows
 class Common():
-    def __init__(self, root):
-        self.root = root #to recognize the active window
-        self.SCREEN = (root.winfo_screenwidth(), root.winfo_screenheight())
+    def __init__(self, root=None):
+        if root:
+            self.root = root #to recognize the active window
+            self.SCREEN = (root.winfo_screenwidth(), root.winfo_screenheight())
 
     #sets a common screen
     def set_screen(self, wl=60, back=True):
@@ -74,6 +76,25 @@ class Common():
         if back:
             back_btn.place(x=0, y=0)
 
+    #checks internet connection in background
+    def check_conn(self):
+        printer = 0
+        while True:
+            try:
+                urlopen("https://www.google.com")
+            except Exception as e:
+                #kills the program, if offline
+                print("[OFFLINE]", e)
+                msg.showerror("Connection", "No internet access, restart after connecting to internet!")
+                Common().close_all_windows()
+            else:
+                #shows running status
+                if not printer:
+                    print("[ONLINE] running...")
+            time.sleep(1)
+            #ensures that ONLINE message is printed after every 10 seconds
+            printer = (printer+1)%10
+
     #closes a particular window (x) and removes it from the 'windows' dictionary
     def close_window(self, x):
         windows[x].destroy()
@@ -91,10 +112,9 @@ class Common():
 
     #updates the cookie.json and logged.txt files
     def refresh(self):
-        #opens the cookie file
-        cookie = open(f'{PATH}/../static/Personal/Data/cookie.json', 'r+')
-        #fetches the old data
-        user_id = json.load(cookie.read())[0]['id']
+        #fetches the user id
+        with open(f'{PATH}/../static/Personal/Data/cookie.json') as cookie:
+            user_id = json.load(cookie)[0]['id']
         #gets the updated data
         cursor.execute(f"select * from logged_users where id={user_id}")
         arr = cursor.fetchall()[0]
@@ -103,11 +123,10 @@ class Common():
         library = {'author': arr[9], 'category': arr[10], 'language': arr[11], 'publisher': arr[12]}
         library_offline = {'library_name': arr[13], 'library_email': arr[14], 'library_phone': arr[15], 'library_address': arr[16], 'library_url': arr[17]}
         #overwrites the updated data in both files
-        cookie.write(json.dumps([user, library, library_offline], indent=4))
+        with open(f'{PATH}/../static/Personal/Data/cookie.json', 'w') as cookie:
+            cookie.write(json.dumps([user, library, library_offline], indent=4))
         with open(f'{PATH}/../static/Personal/Data/logged.txt', 'w') as f:
             f.write(arr[5])
-        #closes the cookie file
-        cookie.close()
 
     #packs all the address fields whenever required
     def address_packer(self, *consts):
@@ -156,6 +175,9 @@ class Common():
 #the opening window (without login)
 class Opener(Tk):
     def __init__(self):
+        network_thread = threading.Thread(target=Common().check_conn)
+        network_thread.daemon = True
+        network_thread.start()
         super().__init__()
         windows["opener"] = self
         with open(f'{PATH}/../static/Personal/Data/cookie.json') as cookie:
@@ -366,8 +388,7 @@ class Signup(Tk):
                         if len(password) >= 8: #password should be greater than 8
                             if password == confirm:
                                 #inserts new user data to Database
-                                cursor.execute(
-                                    f'''insert into logged_users (name, email, pswd_hash, date_created, user_hash, username, avatar, phone, author, category, language, publisher, library_name, library_email, library_phone, library_address, library_url)
+                                cursor.execute(f'''insert into logged_users (name, email, pswd_hash, date_created, user_hash, username, avatar, phone, author, category, language, publisher, library_name, library_email, library_phone, library_address, library_url)
                                     values ("{name}", "{email}", "{hasher.get_hash(password)}", "{datetime.now()}", "{hasher.get_hash(username)}", "{username}", 0, "", "", "", "", "", "", "", "", "", "");''')
                                 connection.commit()
                                 #redirects you to Login window
@@ -738,7 +759,7 @@ class AddResources(Tk):
         root.book_year.grid(row=3, column=1, sticky=W)
         root.book_publisher.grid(row=4, column=1, sticky=W)
 
-        #binding all entries
+        #binding all required elements
         root.author_label.bind("<Button-1>", lambda e: root.view_selected(0))
         root.category_label.bind("<Button-1>", lambda e: root.view_selected(1))
         root.publisher_label.bind("<Button-1>", lambda e: root.view_selected(2))
@@ -749,6 +770,9 @@ class AddResources(Tk):
         root.language_entry.bind("<Return>", lambda e: root.add_option(3))
         root.isbn_entry.bind("<FocusOut>", root.find_book)
         root.isbn_entry.bind("<Return>", root.find_book)
+        root.title_entry.bind("<Return>", root.submit_form)
+        root.edition_entry.bind("<Return>", root.submit_form)
+        root.quantity_entry.bind("<Return>", root.submit_form)
         root.protocol("WM_DELETE_WINDOW", lambda: root.common.close_window("add resources"))
 
     #viewer window (floating) for "author", "category", "publisher" and "language"
@@ -789,10 +813,10 @@ class AddResources(Tk):
 
     #updates the counter for the 4 categories as user updates it
     def update_count(self):
-        self.author_label.config(text=f"Author ({len(self.author_sel)})")
-        self.category_label.config(text=f"Category ({len(self.category_sel)})")
-        self.publisher_label.config(text=f"Publisher ({len(self.publisher_sel)})")
-        self.language_label.config(text=f"Language ({len(self.language_sel)})")
+        self.author_label.config(text=f"Authors ({len(self.author_sel)}) *")
+        self.category_label.config(text=f"Category ({len(self.category_sel)}) *")
+        self.publisher_label.config(text=f"Publisher ({len(self.publisher_sel)}) *")
+        self.language_label.config(text=f"Language ({len(self.language_sel)}) *")
 
     #adds values to the category user wants to among 4
     def add_option(self, type):
@@ -852,8 +876,8 @@ class AddResources(Tk):
                             #other jobs
                             self.title.set(title)
                             self.title_entry.config(state="readonly")
-                            self.author_sel.extend(author.split(", "))
-                            self.publisher_sel.append(publisher)
+                            self.author_sel = author.split(", ")
+                            self.publisher_sel = [publisher]
                             self.update_count()
                             self.frame00.grid(row=0, column=1, sticky=N)
                             try:
@@ -865,8 +889,8 @@ class AddResources(Tk):
                                     raise ValueError
                             except:
                                 #if not available sets default cover as book image
-                                self.url = f"{PATH}/../static/Personal/Images/display/book_cover.png"
-                                _cover = Image.open(self.url)
+                                self.url = "../static/Personal/Images/display/book_cover.png"
+                                _cover = Image.open(f"{PATH}/{self.url}")
                             #updates the book cover in info displayer
                             _cover = _cover.resize((300, 400))
                             COVER = ImageTk.PhotoImage(_cover)
@@ -898,7 +922,7 @@ class AddResources(Tk):
                         print("[ISBN UNTRACKABLE]", e)
 
     #after submitting the form
-    def submit_form(form):
+    def submit_form(form, ev=0):
         #gets all inputs
         isbn = form.isbn.get()
         title = form.title.get()
@@ -1050,15 +1074,15 @@ class AllResources(Tk):
             content.destroy()
         
         #creating all elements
-        lbl0 = Label(frame0, text=f"ISBN - {thebook[1]}", bg="white", font="comicsans 13")
-        lbl1 = Label(frame0, text=f"Authors - {thebook[4].replace(';', ', ')[:-2]}", bg="white", font="comicsans 13")
-        lbl2 = Label(frame0, text=f"Publisher - {thebook[6].replace(';', ', ')[:-2]}", bg="white", font="comicsans 13")
-        lbl3 = Label(frame0, text=f"Category - {thebook[5].replace(';', ', ')[:-2]}", bg="white", font="comicsans 13")
-        lbl4 = Label(frame0, text=f"Language - {thebook[7].replace(';', ', ')[:-2]}", bg="white", font="comicsans 13")
-        lbl5 = Label(frame0, text=f"Edition - {thebook[3]}", bg="white", font="comicsans 13")
-        lbl6 = Label(frame0, text=f"Available - {thebook[8]-thebook[11]-thebook[12]}", bg="white", font="comicsans 13")
-        lbl7 = Label(frame0, text=f"Borrowed - {thebook[11]}", bg="white", font="comicsans 13")
-        lbl8 = Label(frame0, text=f"Reading - {thebook[12]}", bg="white", font="comicsans 13")
+        lbl0 = Label(frame0, text=f"ISBN - {thebook[1]}", bg="white", font="comicsans 13", wraplength=300, justify=RIGHT)
+        lbl1 = Label(frame0, text=f"Authors - {thebook[4].replace(';', ', ')[:-2]}", bg="white", font="comicsans 13", wraplength=300, justify=RIGHT)
+        lbl2 = Label(frame0, text=f"Publisher - {thebook[6].replace(';', ', ')[:-2]}", bg="white", font="comicsans 13", wraplength=300, justify=RIGHT)
+        lbl3 = Label(frame0, text=f"Category - {thebook[5].replace(';', ', ')[:-2]}", bg="white", font="comicsans 13", wraplength=300, justify=RIGHT)
+        lbl4 = Label(frame0, text=f"Language - {thebook[7].replace(';', ', ')[:-2]}", bg="white", font="comicsans 13", wraplength=300, justify=RIGHT)
+        lbl5 = Label(frame0, text=f"Edition - {thebook[3]}", bg="white", font="comicsans 13", wraplength=300, justify=RIGHT)
+        lbl6 = Label(frame0, text=f"Available - {thebook[8]-thebook[11]-thebook[12]}", bg="white", font="comicsans 13", wraplength=300, justify=RIGHT)
+        lbl7 = Label(frame0, text=f"Borrowed - {thebook[11]}", bg="white", font="comicsans 13", wraplength=300, justify=RIGHT)
+        lbl8 = Label(frame0, text=f"Reading - {thebook[12]}", bg="white", font="comicsans 13", wraplength=300, justify=RIGHT)
 
         #placing all elements
         for i in range(9):
@@ -1133,24 +1157,18 @@ class AllResources(Tk):
 
     #loads the book covers in separate thread from external website
     def load_covers(self):
-        self.cover_images = []
-        for i in range(len(self.books)):
-            book = self.books[i]
-            _url = book[10]
-            if _url.startswith('../static'):
-                self.cover_images.append(self.INIT_COVER)
-            else:
-                self.cover_images.append(ImageTk.PhotoImage(Image.open(BytesIO(requests.get(_url).content)).resize((150, 200))))
-        self.after(0, self.present_covers)
-
-    #displays the loaded covers in their places
-    def present_covers(self):
         try:
-            for i, cover in enumerate(self.cover_images):
+            for i in range(len(self.books)):
+                book = self.books[i]
+                _url = book[10]
+                if _url.startswith('../static'):
+                    cover = self.INIT_COVER
+                else:
+                    cover = ImageTk.PhotoImage(Image.open(BytesIO(requests.get(_url).content)).resize((150, 200)))
                 self.book_holders[i].config(image=cover)
                 self.book_holders[i].image = cover
         except Exception as e:
-            print("[DELETED BEFORE BOOK LOAD]", e)
+            print("[BOOK DELETED]", e)
 
     #function of second button
     def delete_res(self, book, target):
