@@ -2006,56 +2006,60 @@ class CheckedInReaders(Tk):
         COLOURS = ("#F1F0E8", "#D8D9DA") #for zebra look of the cards
         root.CARDS = {} #to store all card frames
         for i, x in enumerate(CHECKED):
-            #creating all the outline elements
-            frame = Frame(FRAME, bg="#445069")
-            info0 = Label(frame, text=f"Member - {x[7]} ({x[2]})", font=("Comicsans", 14), width=30, anchor=W)
-            info1 = Label(frame, text=f"In Time - {x[3]}", font=("Comicsans", 14), width=30, anchor=W)
-            info2 = Label(frame, text=f"Out Time - {x[4]}", font=("Comicsans", 14), width=30, anchor=W)
-            info3 = Frame(frame)
-            info4 = Frame(frame)
-            root.CARDS[x[0]] = frame
+            if not x[4]: #only displays readers who have not still checked out
+                #creating all the outline elements
+                frame = Frame(FRAME, bg="#445069")
+                info0 = Label(frame, text=f"Member - {x[7]} ({x[2]})", font=("Comicsans", 14), width=30, anchor=W)
+                info1 = Label(frame, text=f"In Time - {x[3]}", font=("Comicsans", 14), width=30, anchor=W)
+                info2 = Label(frame, text=f"Out Time - {x[4]}", font=("Comicsans", 14), width=30, anchor=W)
+                info3 = Frame(frame)
+                info4 = Frame(frame)
+                root.CARDS[x[0]] = frame
 
-            #creating the resorces part
-            label = Label(info3, text="Resources -", font=("Comicsans", 14), anchor=W, bg=COLOURS[1], width=10)
-            label.grid(row=0, column=0)
-            table = Frame(info3, bg=COLOURS[1])
-            table.grid(row=0, column=1)
-            for j, res in enumerate(x[5].split(';')[:-1]):
-                #showing all the resources using Text widget
-                cursor.execute(f"select title from resources_library where isbn='{res}' and user_id={root.user_id}")
-                name = cursor.fetchone()[0]
-                book = Text(table, wrap="word", bg=COLOURS[j%2], width=22, height=2, font=("Arial", 13))
-                book.insert(1.0, name)
-                book.config(state="disabled")
-                book.pack(padx=5)
+                #creating the resorces part
+                label = Label(info3, text="Resources -", font=("Comicsans", 14), anchor=W, bg=COLOURS[1], width=10)
+                label.grid(row=0, column=0)
+                table = Frame(info3, bg=COLOURS[1])
+                table.grid(row=0, column=1)
+                for j, res in enumerate(x[5].split(';')[:-1]):
+                    try: #in case the book that was being read is deleted from resources_library
+                        cursor.execute(f"select title from resources_library where isbn='{res}' and user_id={root.user_id}")
+                        name = cursor.fetchone()[0]
+                    except Exception as e:
+                        name = "(BOOK DELETED)"
+                        print("[RESOURCE DELETED]", e)
+                    #showing all the resources using Text widget
+                    book = Text(table, wrap="word", bg=COLOURS[j%2], width=22, height=2, font=("Arial", 13))
+                    book.insert(1.0, name)
+                    book.config(state="disabled")
+                    book.pack(padx=5)
 
-            #creating the purpose part
-            purp_lbl = Label(info4, text="Purpose -", font=("Comicsans", 14), anchor=W, bg=COLOURS[0], width=8)
-            purp_lbl.grid(row=0, column=0)
-            #showing the purpose using Text widget
-            purpose = Text(info4, wrap="word", bg=COLOURS[0], width=22, height=3, font=("Verdana", 12))
-            purp = x[6]
-            if not purp:
-                purp = "(None)"
-            purpose.insert(1.0, purp)
-            purpose.config(state="disabled")
-            purpose.grid(row=0, column=1, padx=5)
+                #creating the purpose part
+                purp_lbl = Label(info4, text="Purpose -", font=("Comicsans", 14), anchor=W, bg=COLOURS[0], width=8)
+                purp_lbl.grid(row=0, column=0)
+                #showing the purpose using Text widget
+                purpose = Text(info4, wrap="word", bg=COLOURS[0], width=22, height=3, font=("Verdana", 12))
+                purp = x[6]
+                if not purp:
+                    purp = "(None)"
+                purpose.insert(1.0, purp)
+                purpose.config(state="disabled")
+                purpose.grid(row=0, column=1, padx=5)
 
-            #creating and placing the buttons
-            btns = Frame(frame, bg="#445069")
-            btn1 = Button(btns, text="Check Out", fg="white", bg="black", activebackground="#111111", bd=0, width=10, font="arial 13", cursor="hand2", command=lambda e=x[0]:root.check_out(e))
-            btn2 = Button(btns, text="Delete", fg="white", bg="#B31312", activebackground="#B31312", bd=0, width=7, font="arial 13", cursor="hand2", command=lambda e=x[0]:root.del_record(e))
-            if not bool(x[4]): #check out option visible only if not checked out
+                #creating and placing the buttons
+                btns = Frame(frame, bg="#445069")
+                btn1 = Button(btns, text="Check Out", fg="white", bg="black", activebackground="#111111", bd=0, width=10, font="arial 13", cursor="hand2", command=lambda e=x:root.check_out(e))
+                btn2 = Button(btns, text="Delete", fg="white", bg="#B31312", activebackground="#B31312", bd=0, width=7, font="arial 13", cursor="hand2", command=lambda e=x:root.del_record(e))
                 btn1.pack(side=LEFT, padx=5)
-            btn2.pack(side=RIGHT, padx=5)
-            
-            #placing all outline elements
-            frame.grid(row=i//3, column=i%3, padx=50, pady=20)
-            for j in range(5):
-                eval(f"info{j}.pack(padx=10, pady=5)")
-                #setting the zebra pattern
-                eval(f"info{j}.config(bg='{COLOURS[j%2]}')")
-            btns.pack(pady=10)
+                btn2.pack(side=RIGHT, padx=5)
+                
+                #placing all outline elements
+                frame.grid(row=i//3, column=i%3, padx=50, pady=20)
+                for j in range(5):
+                    eval(f"info{j}.pack(padx=10, pady=5)")
+                    #setting the zebra pattern
+                    eval(f"info{j}.config(bg='{COLOURS[j%2]}')")
+                btns.pack(pady=10)
 
         #packing main elements
         title.pack()
@@ -2072,31 +2076,52 @@ class CheckedInReaders(Tk):
         self.scrollbar.pack(side=RIGHT, fill=Y)
 
     #checks out a member
-    def check_out(self, id):
+    def check_out(self, data):
         if msg.askyesno("Confirm", "Are you sure to check out this member?"):
             #locates the card
-            widgets = self.CARDS[id].winfo_children()
+            widgets = self.CARDS[data[0]].winfo_children()
             #displays the time in card
             now = self.common.get_time()
             widgets[2].config(text=f"Out Time - {now}")
             widgets[5].winfo_children()[0].destroy()
             #updates the value in database
-            cursor.execute(f"update checked_members set out_time='{now}' where id={id}")
+            cursor.execute(f"update checked_members set out_time='{now}' where id={data[0]}")
             connection.commit()
+            self.update_book_read(data)
     
     #deletes a record
-    def del_record(self, id):
+    def del_record(self, data):
         if msg.askyesno("Confirm", "Are you sure to delete this record?"):
             #locates the card
-            frame = self.CARDS[id]
+            frame = self.CARDS[data[0]]
             #displays (Deleted) message on card
             for x in frame.winfo_children():
                 x.destroy()
             Label(frame, text="(Deleted)", font="comicsans 30", bg="#445069", fg="#D25380").pack()
             #deletes the record from database
-            cursor.execute(f"delete from checked_members where id={id}")
+            cursor.execute(f"delete from checked_members where id={data[0]}")
             connection.commit()
+            if not data[4]:
+                self.update_book_read(data)
+    
+    def update_book_read(self, data):
+        for x in data[5].split(';')[:-1]:
+                cursor.execute(f"select reading from resources_library where user_id={self.user_id} and isbn='{x}'")
+                reading = cursor.fetchone()[0]
+                cursor.execute(f"update resources_library set reading={reading-1} where user_id={self.user_id} and isbn='{x}'")
+                connection.commit()
 
+#library function (Borrow Requests)
+class BorrowRequest(Tk):
+    def __init__(self):
+        super().__init__()
+        windows["borrow request"] = self
+        self.create_screen()
+        self.mainloop()
+    
+    #makes the screen
+    def create_screen(root):
+        pass
 
 #ensures that this block is not called on importing this file (safe coding)
 if __name__ == "__main__":
