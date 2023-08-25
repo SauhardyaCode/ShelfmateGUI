@@ -21,6 +21,7 @@ from io import BytesIO #for decoding image from websites
 import threading #to load images outside the main window
 import validators, requests #validators to check URL, requests to get redirected URLs
 import time #to delay background functions
+from tkcalendar import Calendar #to create date picker
 
 #connecting the database to python
 try:
@@ -49,6 +50,8 @@ CARDBG = "#94ADD7"
 #list of all countries (for address fields)
 COUNTRIES = ['Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Brazil', 'Brunei Darussalam', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Central African Republic', 'Chad', 'Chile', 'Colombia', 'Comoros', 'Costa Rica', 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic', "CÃ´te d'Ivoire", 'Democratic Republic of the Congo', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'East Timor', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Ethiopia', 'Federated States of Micronesia', 'Fiji', 'Finland', 'France', 'Gabon', 'Georgia', 'Germany', 'Ghana', 'Greece', 'Grenada', 'Guatemala', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Honduras', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran', 'Iraq', 'Israel', 'Italy', 'Jamaica', 'Japan', 'Jordan', 'Kazakhstan', 'Kenya', 'Kingdom of the Netherlands', 'Kiribati', 'Kuwait', 'Kyrgyzstan', 'Laos', 'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania', 'Luxembourg',
             'Macedonia', 'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Marshall Islands', 'Mauritania', 'Mauritius', 'Mexico', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Morocco', 'Mozambique', 'Myanmar', 'Namibia', 'Nauru', 'Nepal', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'North Korea', 'Norway', 'Oman', 'Pakistan', 'Palau', 'Panama', 'Papua New Guinea', 'Paraguay', "People's Republic of China", 'Peru', 'Philippines', 'Poland', 'Portugal', 'Qatar', 'Republic of Ireland', 'Republic of the Congo', 'Romania', 'Russia', 'Rwanda', 'Saint Kitts and Nevis', 'Saint Lucia', 'Saint Vincent and the Grenadines', 'Samoa', 'San Marino', 'Saudi Arabia', 'Senegal', 'Serbia', 'Seychelles', 'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'Solomon Islands', 'Somalia', 'South Africa', 'South Korea', 'Spain', 'Sri Lanka', 'Sudan', 'Suriname', 'Swaziland', 'Sweden', 'Switzerland', 'Syria', 'SÃ£o TomÃ© and PrÃ\xadncipe', 'Tajikistan', 'Tanzania', 'Thailand', 'The Gambia', 'Togo', 'Tonga', 'Trinidad and Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Tuvalu', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'United States', 'Uruguay', 'Uzbekistan', 'Vanuatu', 'Vatican City', 'Venezuela', 'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe']
+#list of all abbreviated months (for date fields)
+MONTHS = [None, "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
 #class with functions that are required in various windows
 class Common():
@@ -99,6 +102,9 @@ class Common():
     def close_window(self, x):
         windows[x].destroy()
         del windows[x]
+        for mini in ["picker", "login", "signup", "author", "category", "publisher", "resources", "language"]:
+            if mini in windows:
+                self.close_window(mini)
 
     #closes all active windows the same way to make way for a new one
     def close_all_windows(self):
@@ -171,6 +177,11 @@ class Common():
         AVATAR = ImageTk.PhotoImage(_avatar)
         self.root.avatar.config(image=AVATAR)
         self.root.avatar.image = AVATAR
+    
+    #returns a formatted current time
+    def get_time(self):
+        now = datetime.now()
+        return f"{[f'0{now.day}' if int(now.day)<10 else now.day][0]} {MONTHS[now.month]}, {now.year}  {[f'0{now.hour}' if int(now.hour)<10 else now.hour][0]}:{[f'0{now.minute}' if int(now.minute)<10 else now.minute][0]}"
 
 #the opening window (without login)
 class Opener(Tk):
@@ -457,8 +468,8 @@ class Dashboard(Tk):
         btn1 = Button(frame2, text="Add Resources", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2", command=lambda: root.navigate(AddResources))
         btn2 = Button(frame2, text="All Resources", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2", command=lambda: root.navigate(AllResources))
         btn3 = Button(frame2, text="Borrow Request", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2")
-        btn4 = Button(frame2, text="Check-In User", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2")
-        btn5 = Button(frame2, text="Checked-In Readers", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2")
+        btn4 = Button(frame2, text="Check-In User", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2", command=lambda: root.navigate(CheckInUser))
+        btn5 = Button(frame2, text="Checked-In Readers", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2", command=lambda: root.navigate(CheckedInReaders))
         btn6 = Button(frame2, text="Readers History", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2")
         btn7 = Button(frame2, text="Add Member", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2", command=lambda: root.navigate(AddMembers))
         btn8 = Button(frame2, text="All Members", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2", command=lambda: root.navigate(AllMembers))
@@ -1441,6 +1452,7 @@ class AddMembers(Tk):
             self.mode_work(member)
         self.mainloop()
 
+    #makes the screen
     def create_screen(root, mode):
         #general configurations
         root.common = Common(root)
@@ -1630,6 +1642,7 @@ class AllMembers(Tk):
         self.create_screen()
         self.mainloop()
 
+    #makes the screen
     def create_screen(root):
         #general configurations
         root.common = Common(root)
@@ -1746,6 +1759,343 @@ class AllMembers(Tk):
                 content.destroy()
             #packs a DELETE text in place of that
             Label(self.member_cards[member], text="(Deleted)", font="comicsans 30", bg="#94ADD7", fg="#C51605").pack()
+
+#library function (Check In User)
+class CheckInUser(Tk):
+    def __init__(self):
+        super().__init__()
+        windows["check in"] = self
+        self.intime_value = ""
+        self.create_screen()
+        self.mainloop()
+    
+    #makes the screen
+    def create_screen(root):
+        #general configuration
+        root.common = Common(root)
+        root.common.set_screen()
+        root.title("Check-In User")
+        root.config(bg="gainsboro")
+        #gets user data
+        with open(f'{PATH}/../static/Personal/Data/cookie.json') as cookie:
+            root.user_id = json.load(cookie)[0]['id']
+        cursor.execute(f"select id, name from members_library where user_id={root.user_id}")
+        MEMBERS = [f"{x[0]} - {x[1]}" for x in cursor.fetchall()]
+        cursor.execute(f"select isbn, title, quantity from resources_library where user_id={root.user_id}")
+        RESOURCES = [f"{x[1]} ({x[0]})" for x in cursor.fetchall() if x[2]>0]
+        
+        #creating header and frames
+        title = Label(root, text="Check-In Member", font=("Verdana", 25, "underline"), pady=40, bg="gainsboro")
+        FRAME = Frame(root, bg="white")
+        frame0 = Frame(FRAME, bg="white")
+        frame1 = Frame(FRAME, bg="white")
+
+        #creating all entries and respective labels
+        root.q0 = Label(frame0, text="Member *", font=("Arial", 18), bg="white", padx=50)
+        root.member = StringVar()
+        a0 = ttk.Combobox(frame0, textvariable=root.member, width=20, values=MEMBERS, state="readonly", font=("Arial", 15))
+        root.q1 = Label(frame0, text="In Time *", font=("Arial", 18), bg="white", padx=50)
+        root.intime = StringVar()
+        a1 = Entry(frame0, textvariable=root.intime, font=("Comicsans", 15), width=21, bd=5, relief=FLAT, bg=ENTRY, state="readonly")
+        root.set_current_time()
+        root.q2 = Label(frame0, text="Resources (0) *", font=("Arial", 18), bg="white", padx=50, cursor="hand2")
+        root.resource = StringVar()
+        root.resources_sel = [] #stores selected resources
+        a2 = ttk.Combobox(frame0, textvariable=root.resource, width=20, values=RESOURCES, state="readonly", font=("Arial", 15))
+        root.q3 = Label(frame0, text="Purpose", font=("Arial", 18), bg="white", padx=50)
+        a3 = Frame(frame0, bg="white")
+        root.text = Text(a3, width=21, height=4, font=("Arial", 15), bg=ENTRY)
+        root.counter = Label(frame0, text="0/100", font=("Roboto", 10), bg="white")
+        submit = Button(frame1, text="Submit", fg="white", bg="black", activebackground="#111111", activeforeground="white", bd=0, width=7, font="arial 12", cursor="hand2", command=root.submit_form)
+        
+        #placing all elements
+        title.pack()
+        FRAME.pack()
+        frame0.grid(row=0, column=0, padx=100, pady=50)
+        frame1.grid(row=1, column=0, pady=30)
+        root.text.grid(row=0, column=0)
+        root.counter.grid(row=3, column=2, sticky=SW, pady=10)
+        submit.pack()
+        for i in range(4):
+            eval(f"root.q{i}.grid(row={i}, column=0, sticky=W, pady=10)")
+            eval(f"a{i}.grid(row={i}, column=1, padx=40, pady=10)")
+
+        #binding some elements
+        a1.bind("<Button-1>", root.pick_time)
+        a2.bind("<<ComboboxSelected>>", root.add_option)
+        root.q2.bind("<Button-1>", root.view_selected)
+        root.text.bind("<KeyPress>", root.check_words)
+        root.text.bind("<KeyRelease>", root.check_words)
+        root.protocol("WM_DELETE_WINDOW", lambda: root.common.close_window("check in"))
+
+    #sets current time
+    def set_current_time(root, close=0):
+        #sets current time by default
+        root.intime.set(root.common.get_time())
+        root.intime_value = root.intime.get()
+        if close:
+            root.common.close_window("picker")
+
+    #creates the date-time picker box
+    def pick_time(self, ev=0):
+        #restarts if already opened
+        if "picker" in windows:
+            self.common.close_window("picker")
+        #general configuration
+        root = Tk()
+        root.title("Date Time Picker")
+        root.resizable(0, 0)
+        windows["picker"] = root
+        time_now = datetime.now() #current time
+
+        #some constant arrays
+        HOURS = [f"0{i}" if i<10 else i for i in range(24)]
+        MINUTES = [f"0{i}" if i<10 else i for i in range(60)]
+
+        #creating all elements
+        calender_lbl = Label(root, text="Date", font=("Helvetica", 12), justify=CENTER)
+        self.calender = Calendar(root, selectmode='day', year=time_now.year, month=time_now.month, day=time_now.day)
+        timer = Frame(root)
+        submit = Frame(root)
+        hours_lbl = Label(timer, text="Hours", font=("Helvetica", 12), justify=CENTER)
+        minutes_lbl = Label(timer, text="Minutes", font=("Helvetica", 12), justify=CENTER)
+        hours_ent = Spinbox(timer, values= HOURS, wrap=True, justify=CENTER, font=("Comicsans", 18), width=9)
+        minutes_ent = Spinbox(timer, values= MINUTES, wrap=True, justify=CENTER, font=("Comicsans", 18), width=9)
+        submit1 = Button(submit, text="Now", fg="white", bg="black", bd=0, width=7, font="arial 13", cursor="hand2", command=lambda:self.set_current_time(1))
+        submit2 = Button(submit, text="Done", fg="white", bg="black", bd=0, width=7, font="arial 13", cursor="hand2", command=lambda:self.set_time(hours_ent.get(), minutes_ent.get()))
+
+        #placing all elements
+        calender_lbl.pack()
+        self.calender.pack()
+        timer.pack()
+        submit.pack(pady=3)
+        submit1.grid(row=0, column=0, padx=3)
+        submit2.grid(row=0, column=1, padx=3)
+        hours_lbl.grid(row=0, column=0)
+        minutes_lbl.grid(row=0, column=1)
+        hours_ent.grid(row=1, column=0)
+        minutes_ent.grid(row=1, column=1)
+        
+        #finishing
+        root.protocol("WM_DELETE_WINDOW", lambda: self.common.close_window("picker"))
+        root.mainloop()
+    
+    #sets the time in entry box
+    def set_time(self, hour, minute):
+        self.common.close_window("picker")
+        month, day, year = map(int, self.calender.get_date().split('/'))
+        self.intime.set(f"{['0'+str(day) if day<10 else day][0]} {MONTHS[month]}, 20{year}  {hour}:{minute}")
+        self.intime_value = self.intime.get()
+    
+    #viewer window (floating) for resources
+    def view_selected(self, ev=0):
+        #some initials
+        viewer = Tk()
+        common = Common(viewer)
+        if "resources" in windows:
+            common.close_window("resources")
+        #sets the window
+        windows["resources"] = viewer
+        viewer.title("Resources")
+        viewer.geometry("400x200")
+        viewer.resizable(0, 0)
+        Label(viewer, text="Double click to delete an item", font="arial 10", fg="blue").pack()
+        #creating and placing the scrollbar and listbox
+        scroller = Scrollbar(viewer)
+        self.tree = ttk.Treeview(viewer, yscrollcommand=scroller.set, column='res', show='headings', selectmode="browse")
+        self.tree.column("# 1", anchor=CENTER, width=380)
+        self.tree.heading("# 1", text="Resources")
+        for x in self.resources_sel:
+            self.tree.insert('', 'end', text=x, values=[x])
+        scroller.config(command=self.tree.yview)
+        self.tree.bind("<Double-1>", self.delete_option)
+        self.tree.pack(side=LEFT, fill=Y)
+        scroller.pack(side=RIGHT, fill=Y)
+        #finishing
+        viewer.protocol("WM_DELETE_WINDOW",lambda: common.close_window("resources"))
+        viewer.mainloop()
+    
+    #adds resources to list
+    def add_option(self, ev=0):
+        value = self.resource.get()
+        if value not in self.resources_sel:
+            self.resources_sel.append(value)
+        self.q2.config(text= f"Resources ({len(self.resources_sel)}) *")
+    
+    #deletes resources from list
+    def delete_option(self, ev=0):
+        item_id = ev.widget.focus()
+        item = ev.widget.item(item_id)
+        data = item['values'][0]
+        self.tree.delete(item_id)
+        self.resources_sel.remove(data)
+        self.q2.config(text= f"Resources ({len(self.resources_sel)}) *")
+
+    #counts the number of characters in purpose
+    def check_words(self, ev=0):
+        #by default, the text widget has an invisible chracter at the beginning
+        if len(self.text.get(1.0, END))>101:
+            self.text.delete('end-2c')
+        self.counter.config(text=f"{len(self.text.get(1.0, END))-1}/100")
+
+    #submits the form and saves the data if legal
+    def submit_form(form):
+        #getting all the datas
+        member = form.member.get().split(' - ')
+        intime = form.intime.get()
+        resources = [re.findall(r"\(([^()]*)\)$", x)[0] for x in form.resources_sel]
+        purpose = form.text.get(1.0, END)[:-1]
+        readings = {}
+        for isbn in resources: #probs here
+            cursor.execute(f"select reading from resources_library where isbn='{isbn}' and user_id={form.user_id}")
+            readings[isbn] = cursor.fetchone()[0]
+
+        #saving the data
+        if member[0] and form.resources_sel:
+            if msg.askyesno("Shelfmate", "Do you really want to submit?"):
+                cursor.execute(f'''insert into checked_members(user_id, member_id, in_time, out_time, books, purpose, name)
+                            values({form.user_id}, {member[0]}, "{intime}", "", "{';'.join(resources)+';'}", "{purpose}", "{member[1]}")''')
+                connection.commit()
+                for isbn in resources:
+                    cursor.execute(f"update resources_library set reading={readings[isbn]+1} where isbn='{isbn}' and user_id={form.user_id}")
+                    connection.commit()
+                msg.showinfo("Shelfmate", "Submitted successfully!")
+                form.common.close_all_windows()
+                CheckInUser()
+        else:
+            msg.showwarning("Shelfmate", "Fill all required fields!")
+
+#library function (Checked In Readers)
+class CheckedInReaders(Tk):
+    def __init__(self):
+        super().__init__()
+        windows["checked in"] = self
+        self.create_screen()
+        self.mainloop()
+    
+    #makes the screen
+    def create_screen(root):
+        #general configuration
+        root.common = Common(root)
+        root.common.set_screen()
+        root.title("Checked-In Readers")
+        root.config(bg="gainsboro")
+        #gets the data to be shown
+        with open(f'{PATH}/../static/Personal/Data/cookie.json') as cookie:
+            root.user_id = json.load(cookie)[0]['id']
+        cursor.execute(f"select * from checked_members where user_id={root.user_id}")
+        CHECKED = cursor.fetchall()
+
+        #creating header
+        title = Label(root, text="Checked-In Readers", font=("Verdana", 25, "underline"), pady=40, bg="gainsboro")
+
+        #creating, packing and binding the scrollable canvas (mainly copy-pasted)
+        BIG_FRAME = Frame(root)
+        root.canvas = Canvas(BIG_FRAME, bg="gainsboro")
+        root.canvas.pack(side=LEFT, fill=BOTH, expand=1)
+        root.scrollbar = Scrollbar(BIG_FRAME, orient=VERTICAL, command=root.canvas.yview)
+        root.scrollbar.pack(side=RIGHT, fill=Y)
+        root.canvas.configure(yscrollcommand=root.scrollbar.set)
+        root.canvas.bind("<Configure>", lambda e: root.canvas.config(scrollregion=root.canvas.bbox(ALL)))
+        FRAME = Frame(root.canvas, bg="gainsboro")
+        root.canvas.create_window((0, 0), window=FRAME, anchor="nw")
+        root.canvas.bind_all("<MouseWheel>", root._on_mousewheel)
+        root.bind("<Configure>", root._on_configure)
+
+        #creating each card with for loop
+        COLOURS = ("#F1F0E8", "#D8D9DA") #for zebra look of the cards
+        root.CARDS = {} #to store all card frames
+        for i, x in enumerate(CHECKED):
+            #creating all the outline elements
+            frame = Frame(FRAME, bg="#445069")
+            info0 = Label(frame, text=f"Member - {x[7]} ({x[2]})", font=("Comicsans", 14), width=30, anchor=W)
+            info1 = Label(frame, text=f"In Time - {x[3]}", font=("Comicsans", 14), width=30, anchor=W)
+            info2 = Label(frame, text=f"Out Time - {x[4]}", font=("Comicsans", 14), width=30, anchor=W)
+            info3 = Frame(frame)
+            info4 = Frame(frame)
+            root.CARDS[x[0]] = frame
+
+            #creating the resorces part
+            label = Label(info3, text="Resources -", font=("Comicsans", 14), anchor=W, bg=COLOURS[1], width=10)
+            label.grid(row=0, column=0)
+            table = Frame(info3, bg=COLOURS[1])
+            table.grid(row=0, column=1)
+            for j, res in enumerate(x[5].split(';')[:-1]):
+                #showing all the resources using Text widget
+                cursor.execute(f"select title from resources_library where isbn='{res}' and user_id={root.user_id}")
+                name = cursor.fetchone()[0]
+                book = Text(table, wrap="word", bg=COLOURS[j%2], width=22, height=2, font=("Arial", 13))
+                book.insert(1.0, name)
+                book.config(state="disabled")
+                book.pack(padx=5)
+
+            #creating the purpose part
+            purp_lbl = Label(info4, text="Purpose -", font=("Comicsans", 14), anchor=W, bg=COLOURS[0], width=8)
+            purp_lbl.grid(row=0, column=0)
+            #showing the purpose using Text widget
+            purpose = Text(info4, wrap="word", bg=COLOURS[0], width=22, height=3, font=("Verdana", 12))
+            purp = x[6]
+            if not purp:
+                purp = "(None)"
+            purpose.insert(1.0, purp)
+            purpose.config(state="disabled")
+            purpose.grid(row=0, column=1, padx=5)
+
+            #creating and placing the buttons
+            btns = Frame(frame, bg="#445069")
+            btn1 = Button(btns, text="Check Out", fg="white", bg="black", activebackground="#111111", bd=0, width=10, font="arial 13", cursor="hand2", command=lambda e=x[0]:root.check_out(e))
+            btn2 = Button(btns, text="Delete", fg="white", bg="#B31312", activebackground="#B31312", bd=0, width=7, font="arial 13", cursor="hand2", command=lambda e=x[0]:root.del_record(e))
+            if not bool(x[4]): #check out option visible only if not checked out
+                btn1.pack(side=LEFT, padx=5)
+            btn2.pack(side=RIGHT, padx=5)
+            
+            #placing all outline elements
+            frame.grid(row=i//3, column=i%3, padx=50, pady=20)
+            for j in range(5):
+                eval(f"info{j}.pack(padx=10, pady=5)")
+                #setting the zebra pattern
+                eval(f"info{j}.config(bg='{COLOURS[j%2]}')")
+            btns.pack(pady=10)
+
+        #packing main elements
+        title.pack()
+        BIG_FRAME.pack(fill=BOTH, expand=1)
+    
+    #functioning mousewheel to scroll the canvas (copy-pasted)
+    def _on_mousewheel(self, event):
+        self.canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+    
+    #properly binding the canvas with scroller (copy-pasted)
+    def _on_configure(self, event):
+        self.canvas.config(scrollregion=self.canvas.bbox("all"))
+        self.scrollbar.pack_forget()
+        self.scrollbar.pack(side=RIGHT, fill=Y)
+
+    #checks out a member
+    def check_out(self, id):
+        if msg.askyesno("Confirm", "Are you sure to check out this member?"):
+            #locates the card
+            widgets = self.CARDS[id].winfo_children()
+            #displays the time in card
+            now = self.common.get_time()
+            widgets[2].config(text=f"Out Time - {now}")
+            widgets[5].winfo_children()[0].destroy()
+            #updates the value in database
+            cursor.execute(f"update checked_members set out_time='{now}' where id={id}")
+            connection.commit()
+    
+    #deletes a record
+    def del_record(self, id):
+        if msg.askyesno("Confirm", "Are you sure to delete this record?"):
+            #locates the card
+            frame = self.CARDS[id]
+            #displays (Deleted) message on card
+            for x in frame.winfo_children():
+                x.destroy()
+            Label(frame, text="(Deleted)", font="comicsans 30", bg="#445069", fg="#D25380").pack()
+            #deletes the record from database
+            cursor.execute(f"delete from checked_members where id={id}")
+            connection.commit()
 
 
 #ensures that this block is not called on importing this file (safe coding)
