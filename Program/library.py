@@ -467,7 +467,7 @@ class Dashboard(Tk):
         frame2 = Frame(root, bg=BGCOLOR, pady=100)
         btn1 = Button(frame2, text="Add Resources", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2", command=lambda: root.navigate(AddResources))
         btn2 = Button(frame2, text="All Resources", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2", command=lambda: root.navigate(AllResources))
-        btn3 = Button(frame2, text="Borrow Request", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2")
+        btn3 = Button(frame2, text="Borrow Request", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2", command=lambda: root.navigate(BorrowRequest))
         btn4 = Button(frame2, text="Check-In User", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2", command=lambda: root.navigate(CheckInUser))
         btn5 = Button(frame2, text="Checked-In Readers", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2", command=lambda: root.navigate(CheckedInReaders))
         btn6 = Button(frame2, text="Readers History", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2")
@@ -1765,7 +1765,6 @@ class CheckInUser(Tk):
     def __init__(self):
         super().__init__()
         windows["check in"] = self
-        self.intime_value = ""
         self.create_screen()
         self.mainloop()
     
@@ -1787,31 +1786,31 @@ class CheckInUser(Tk):
         #creating header and frames
         title = Label(root, text="Check-In Member", font=("Verdana", 25, "underline"), pady=40, bg="gainsboro")
         FRAME = Frame(root, bg="white")
-        frame0 = Frame(FRAME, bg="white")
+        root.frame0 = Frame(FRAME, bg="white")
         frame1 = Frame(FRAME, bg="white")
 
         #creating all entries and respective labels
-        root.q0 = Label(frame0, text="Member *", font=("Arial", 18), bg="white", padx=50)
+        root.q0 = Label(root.frame0, text="Member *", font=("Arial", 18), bg="white", padx=50)
         root.member = StringVar()
-        a0 = ttk.Combobox(frame0, textvariable=root.member, width=20, values=MEMBERS, state="readonly", font=("Arial", 15))
-        root.q1 = Label(frame0, text="In Time *", font=("Arial", 18), bg="white", padx=50)
+        a0 = ttk.Combobox(root.frame0, textvariable=root.member, width=20, values=MEMBERS, state="readonly", font=("Arial", 15))
+        root.q1 = Label(root.frame0, text="In Time *", font=("Arial", 18), bg="white", padx=50)
         root.intime = StringVar()
-        a1 = Entry(frame0, textvariable=root.intime, font=("Comicsans", 15), width=21, bd=5, relief=FLAT, bg=ENTRY, state="readonly")
+        a1 = Entry(root.frame0, textvariable=root.intime, font=("Comicsans", 15), width=21, bd=5, relief=FLAT, bg=ENTRY, state="readonly")
         root.set_current_time()
-        root.q2 = Label(frame0, text="Resources (0) *", font=("Arial", 18), bg="white", padx=50, cursor="hand2")
+        root.q2 = Label(root.frame0, text="Resources (0) *", font=("Arial", 18), bg="white", padx=50, cursor="hand2")
         root.resource = StringVar()
         root.resources_sel = [] #stores selected resources
-        a2 = ttk.Combobox(frame0, textvariable=root.resource, width=20, values=RESOURCES, state="readonly", font=("Arial", 15))
-        root.q3 = Label(frame0, text="Purpose", font=("Arial", 18), bg="white", padx=50)
-        a3 = Frame(frame0, bg="white")
+        a2 = ttk.Combobox(root.frame0, textvariable=root.resource, width=20, values=RESOURCES, state="readonly", font=("Arial", 15))
+        root.q3 = Label(root.frame0, text="Purpose", font=("Arial", 18), bg="white", padx=50)
+        a3 = Frame(root.frame0, bg="white")
         root.text = Text(a3, width=21, height=4, font=("Arial", 15), bg=ENTRY)
-        root.counter = Label(frame0, text="0/100", font=("Roboto", 10), bg="white")
+        root.counter = Label(root.frame0, text="0/100", font=("Roboto", 10), bg="white")
         submit = Button(frame1, text="Submit", fg="white", bg="black", activebackground="#111111", activeforeground="white", bd=0, width=7, font="arial 12", cursor="hand2", command=root.submit_form)
         
         #placing all elements
         title.pack()
         FRAME.pack()
-        frame0.grid(row=0, column=0, padx=100, pady=50)
+        root.frame0.grid(row=0, column=0, padx=100, pady=50)
         frame1.grid(row=1, column=0, pady=30)
         root.text.grid(row=0, column=0)
         root.counter.grid(row=3, column=2, sticky=SW, pady=10)
@@ -1832,7 +1831,6 @@ class CheckInUser(Tk):
     def set_current_time(root, close=0):
         #sets current time by default
         root.intime.set(root.common.get_time())
-        root.intime_value = root.intime.get()
         if close:
             root.common.close_window("picker")
 
@@ -1885,7 +1883,6 @@ class CheckInUser(Tk):
         self.common.close_window("picker")
         month, day, year = map(int, self.calender.get_date().split('/'))
         self.intime.set(f"{['0'+str(day) if day<10 else day][0]} {MONTHS[month]}, 20{year}  {hour}:{minute}")
-        self.intime_value = self.intime.get()
     
     #viewer window (floating) for resources
     def view_selected(self, ev=0):
@@ -1983,7 +1980,7 @@ class CheckedInReaders(Tk):
         #gets the data to be shown
         with open(f'{PATH}/../static/Personal/Data/cookie.json') as cookie:
             root.user_id = json.load(cookie)[0]['id']
-        cursor.execute(f"select * from checked_members where user_id={root.user_id}")
+        cursor.execute(f"select * from checked_members where user_id={root.user_id} and out_time=''")
         CHECKED = cursor.fetchall()
 
         #creating header
@@ -2006,60 +2003,58 @@ class CheckedInReaders(Tk):
         COLOURS = ("#F1F0E8", "#D8D9DA") #for zebra look of the cards
         root.CARDS = {} #to store all card frames
         for i, x in enumerate(CHECKED):
-            if not x[4]: #only displays readers who have not still checked out
-                #creating all the outline elements
-                frame = Frame(FRAME, bg="#445069")
-                info0 = Label(frame, text=f"Member - {x[7]} ({x[2]})", font=("Comicsans", 14), width=30, anchor=W)
-                info1 = Label(frame, text=f"In Time - {x[3]}", font=("Comicsans", 14), width=30, anchor=W)
-                info2 = Label(frame, text=f"Out Time - {x[4]}", font=("Comicsans", 14), width=30, anchor=W)
-                info3 = Frame(frame)
-                info4 = Frame(frame)
-                root.CARDS[x[0]] = frame
+            #creating all the outline elements
+            frame = Frame(FRAME, bg="#445069")
+            info0 = Label(frame, text=f"Member - {x[7]} ({x[2]})", font=("Comicsans", 14), width=30, anchor=W)
+            info1 = Label(frame, text=f"In Time - {x[3]}", font=("Comicsans", 14), width=30, anchor=W)
+            info2 = Label(frame, text=f"Out Time - {x[4]}", font=("Comicsans", 14), width=30, anchor=W)
+            info3 = Frame(frame)
+            info4 = Frame(frame)
+            root.CARDS[x[0]] = frame
+            
+            #creating the resorces part
+            label = Label(info3, text="Resources -", font=("Comicsans", 14), anchor=W, bg=COLOURS[1], width=10)
+            label.grid(row=0, column=0)
+            table = Frame(info3, bg=COLOURS[1])
+            table.grid(row=0, column=1)
+            for j, res in enumerate(x[5].split(';')[:-1]):
+                try: #in case the book that was being read is deleted from resources_library
+                    cursor.execute(f"select title from resources_library where isbn='{res}' and user_id={root.user_id}")
+                    name = cursor.fetchone()[0]
+                except Exception as e:
+                    name = "(BOOK DELETED)"
+                    print("[RESOURCE DELETED]", e)
+                #showing all the resources using Text widget
+                book = Text(table, wrap="word", bg=COLOURS[j%2], width=22, height=2, font=("Arial", 13))
+                book.insert(1.0, name)
+                book.config(state="disabled")
+                book.pack(padx=5)
 
-                #creating the resorces part
-                label = Label(info3, text="Resources -", font=("Comicsans", 14), anchor=W, bg=COLOURS[1], width=10)
-                label.grid(row=0, column=0)
-                table = Frame(info3, bg=COLOURS[1])
-                table.grid(row=0, column=1)
-                for j, res in enumerate(x[5].split(';')[:-1]):
-                    try: #in case the book that was being read is deleted from resources_library
-                        cursor.execute(f"select title from resources_library where isbn='{res}' and user_id={root.user_id}")
-                        name = cursor.fetchone()[0]
-                    except Exception as e:
-                        name = "(BOOK DELETED)"
-                        print("[RESOURCE DELETED]", e)
-                    #showing all the resources using Text widget
-                    book = Text(table, wrap="word", bg=COLOURS[j%2], width=22, height=2, font=("Arial", 13))
-                    book.insert(1.0, name)
-                    book.config(state="disabled")
-                    book.pack(padx=5)
-
-                #creating the purpose part
-                purp_lbl = Label(info4, text="Purpose -", font=("Comicsans", 14), anchor=W, bg=COLOURS[0], width=8)
-                purp_lbl.grid(row=0, column=0)
-                #showing the purpose using Text widget
-                purpose = Text(info4, wrap="word", bg=COLOURS[0], width=22, height=3, font=("Verdana", 12))
-                purp = x[6]
-                if not purp:
-                    purp = "(None)"
-                purpose.insert(1.0, purp)
-                purpose.config(state="disabled")
-                purpose.grid(row=0, column=1, padx=5)
-
-                #creating and placing the buttons
-                btns = Frame(frame, bg="#445069")
-                btn1 = Button(btns, text="Check Out", fg="white", bg="black", activebackground="#111111", bd=0, width=10, font="arial 13", cursor="hand2", command=lambda e=x:root.check_out(e))
-                btn2 = Button(btns, text="Delete", fg="white", bg="#B31312", activebackground="#B31312", bd=0, width=7, font="arial 13", cursor="hand2", command=lambda e=x:root.del_record(e))
-                btn1.pack(side=LEFT, padx=5)
-                btn2.pack(side=RIGHT, padx=5)
-                
-                #placing all outline elements
-                frame.grid(row=i//3, column=i%3, padx=50, pady=20)
-                for j in range(5):
-                    eval(f"info{j}.pack(padx=10, pady=5)")
-                    #setting the zebra pattern
-                    eval(f"info{j}.config(bg='{COLOURS[j%2]}')")
-                btns.pack(pady=10)
+            #creating the purpose part
+            purp_lbl = Label(info4, text="Purpose -", font=("Comicsans", 14), anchor=W, bg=COLOURS[0], width=8)
+            purp_lbl.grid(row=0, column=0)
+            #showing the purpose using Text widget
+            purpose = Text(info4, wrap="word", bg=COLOURS[0], width=22, height=3, font=("Verdana", 12))
+            purp = x[6]
+            if not purp:
+                purp = "(None)"
+            purpose.insert(1.0, purp)
+            purpose.config(state="disabled")
+            purpose.grid(row=0, column=1, padx=5)
+            #creating and placing the buttons
+            btns = Frame(frame, bg="#445069")
+            btn1 = Button(btns, text="Check Out", fg="white", bg="black", activebackground="#111111", bd=0, width=10, font="arial 13", cursor="hand2", command=lambda e=x:root.check_out(e))
+            btn2 = Button(btns, text="Delete", fg="white", bg="#B31312", activebackground="#B31312", bd=0, width=7, font="arial 13", cursor="hand2", command=lambda e=x:root.del_record(e))
+            btn1.pack(side=LEFT, padx=5)
+            btn2.pack(side=RIGHT, padx=5)
+            
+            #placing all outline elements
+            frame.grid(row=i//3, column=i%3, padx=50, pady=20)
+            for j in range(5):
+                eval(f"info{j}.pack(padx=10, pady=5)")
+                #setting the zebra pattern
+                eval(f"info{j}.config(bg='{COLOURS[j%2]}')")
+            btns.pack(pady=10)
 
         #packing main elements
         title.pack()
@@ -2104,6 +2099,7 @@ class CheckedInReaders(Tk):
             if not data[4]:
                 self.update_book_read(data)
     
+    #updates the reading value of resources
     def update_book_read(self, data):
         for x in data[5].split(';')[:-1]:
                 cursor.execute(f"select reading from resources_library where user_id={self.user_id} and isbn='{x}'")
@@ -2121,7 +2117,213 @@ class BorrowRequest(Tk):
     
     #makes the screen
     def create_screen(root):
-        pass
+        #general configurations
+        root.common = Common(root)
+        root.common.set_screen()
+        root.title("Borrow Resource")
+        root.config(bg="gainsboro")
+        #gets user data
+        with open(f'{PATH}/../static/Personal/Data/cookie.json') as cookie:
+            root.user_id = json.load(cookie)[0]['id']
+        cursor.execute(f"select id, name from members_library where user_id={root.user_id}")
+        MEMBERS = cursor.fetchall()
+        cursor.execute(f"select isbn, title, book_cover, edition, language from resources_library where user_id={root.user_id} and quantity-reading-borrowed>0")
+        root.BOOKS = cursor.fetchall()
+
+        #creating the header, frames and button
+        title = Label(root, text="Borrow Resource", font=("Verdana", 25, "underline"), pady=20, bg="gainsboro")
+        FRAME = Frame(root, bg="white")
+        root.frame0 = Frame(FRAME, bg="white")
+        root.cover = Label(FRAME)
+        submit = Button(FRAME, text="Submit", fg="white", bg="black", activebackground="#111111", activeforeground="white", bd=0, width=7, font="arial 12", cursor="hand2", command=root.submit_form)
+
+        #creating labels and entries
+        q0 = Label(root.frame0, text="Member *", font=("Arial", 14), bg="white", padx=50)
+        root.member = StringVar()
+        a0 = ttk.Combobox(root.frame0, textvariable=root.member, width=20, values=[f"{x[0]} - {x[1]}" for x in MEMBERS], state="readonly", font=("Arial", 15))
+        q1 = Label(root.frame0, text="ISBN *", font=("Arial", 14), bg="white", padx=50)
+        root.isbn = StringVar()
+        a1 = ttk.Combobox(root.frame0, textvariable=root.isbn, width=20, values=[x[0] for x in root.BOOKS], state="readonly", font=("Arial", 15))
+        q2 = Label(root.frame0, text="Title *", font=("Arial", 14), bg="white", padx=50)
+        root.title = StringVar()
+        a2 = ttk.Combobox(root.frame0, textvariable=root.title, width=20, values=[x[1] for x in root.BOOKS], state="readonly", font=("Arial", 15))
+        q3 = Label(root.frame0, text="Edition", font=("Arial", 14), bg="white", padx=50)
+        root.edition = StringVar()
+        a3 = Entry(root.frame0, textvariable=root.edition, font=("Comicsans", 15), width=21, bd=5, relief=FLAT, bg=ENTRY, state="readonly")
+        q4 = Label(root.frame0, text="Language", font=("Arial", 14), bg="white", padx=50)
+        root.language = StringVar()
+        a4 = Entry(root.frame0, textvariable=root.language, font=("Comicsans", 15), width=21, bd=5, relief=FLAT, bg=ENTRY, state="readonly")
+        q5 = Label(root.frame0, text="From Date *", font=("Arial", 14), bg="white", padx=50)
+        root.fromdate = StringVar()
+        a5 = Entry(root.frame0, textvariable=root.fromdate, font=("Comicsans", 15), width=21, bd=5, relief=FLAT, bg=ENTRY, state="readonly")
+        q6 = Label(root.frame0, text="To Date *", font=("Arial", 14), bg="white", padx=50)
+        root.todate = StringVar()
+        a6 = Entry(root.frame0, textvariable=root.todate, font=("Comicsans", 15), width=21, bd=5, relief=FLAT, bg=ENTRY, state="readonly")
+        q7 = Label(root.frame0, text="No Of Days", font=("Arial", 14), bg="white", padx=50)
+        root.days = StringVar()
+        a7 = Entry(root.frame0, textvariable=root.days, font=("Comicsans", 15), width=21, bd=5, relief=FLAT, bg=ENTRY, state="readonly")
+
+        #placing the labels and entries
+        for i in range(8):
+            eval(f"q{i}.grid(row={i}, column=0, padx=30, pady=10, sticky=W)")
+            eval(f"a{i}.grid(row={i}, column=1, padx=30, pady=10, sticky=W)")
+        
+        #placing the header, frames and button
+        title.pack()
+        FRAME.pack(fill=BOTH, padx=100, pady=50)
+        root.frame0.pack(padx=40, pady=30)
+        submit.pack(side=BOTTOM, pady=40)
+
+        #binding some widgets
+        root.POSITIONS = [root.fromdate, root.todate]
+        a1.bind("<<ComboboxSelected>>", lambda ev: root.toggle_combo(ev, 0))
+        a2.bind("<<ComboboxSelected>>", lambda ev: root.toggle_combo(ev, 1))
+        a5.bind("<Button-1>", lambda ev: root.pick_date(ev, 0))
+        a6.bind("<Button-1>", lambda ev: root.pick_date(ev, 1))
+        root.protocol("WM_DELETE_WINDOW",lambda: root.common.close_window("borrow request"))
+
+    #loads the book covers in separate thread from external website
+    def load_covers(self, _url):
+        try:
+            #adjusting the onscreen positions when image is shown
+            self.frame0.pack_forget()
+            self.frame0.pack(side=LEFT, padx=40, pady=30)
+            self.cover.pack(side=RIGHT, padx=100, pady=30)
+            #showing the image
+            SIZE = (300, 400)
+            _cover = Image.open(f"{PATH}/../static/Personal/Images/display/book_cover.png")
+            _cover = _cover.resize(SIZE)
+            cover = ImageTk.PhotoImage(_cover)
+            self.cover.config(image=cover)
+            self.cover.image = cover
+            if not _url.startswith('../static'):
+                cover = ImageTk.PhotoImage(Image.open(BytesIO(requests.get(_url).content)).resize(SIZE))
+            self.cover.config(image=cover)
+            self.cover.image = cover
+        except Exception as e:
+            print("[WINDOW DESTROYED]", e)
+    
+    #automatically sets all book values
+    def toggle_combo(self, ev, position):
+        POSITIONS = [(self.isbn, [x[0] for x in self.BOOKS]), (self.title, [x[1] for x in self.BOOKS])]
+        access = POSITIONS[position]
+        access_not = POSITIONS[1-position]
+        value = access[1].index(access[0].get())
+        access_not[0].set(access_not[1][value])
+        target = self.BOOKS[value]
+        self.edition.set(target[3])
+        self.language.set(target[4].replace(';', ', ')[:-2])
+        #loads image in background without freezing main window (using threads)
+        cover_thread = threading.Thread(target=lambda:self.load_covers(target[2]))
+        cover_thread.daemon = True #exits automatically without error on closing application
+        cover_thread.start()
+    
+    #sets current date
+    def set_current_date(root, pos):
+        root.common.close_window("picker")
+        root.POSITIONS[pos].set(root.common.get_time()[:-7])
+        root.check_date(pos)
+
+    #creates the date picker box
+    def pick_date(self, ev, pos):
+        #restarts if already opened
+        if "picker" in windows:
+            self.common.close_window("picker")
+        #general configuration
+        root = Tk()
+        root.title("Date Picker")
+        root.resizable(0, 0)
+        windows["picker"] = root
+        time_now = datetime.now() #current time
+
+        #some constant arrays
+        HOURS = [f"0{i}" if i<10 else i for i in range(24)]
+        MINUTES = [f"0{i}" if i<10 else i for i in range(60)]
+
+        #creating all elements
+        calender_lbl = Label(root, text="Date", font=("Helvetica", 12), justify=CENTER)
+        self.calender = Calendar(root, selectmode='day', year=time_now.year, month=time_now.month, day=time_now.day)
+        submit = Frame(root)
+        submit1 = Button(submit, text="Today", fg="white", bg="black", bd=0, width=7, font="arial 13", cursor="hand2", command=lambda:self.set_current_date(pos))
+        submit2 = Button(submit, text="Done", fg="white", bg="black", bd=0, width=7, font="arial 13", cursor="hand2", command=lambda:self.set_date(pos))
+
+        #placing all elements
+        calender_lbl.pack()
+        self.calender.pack()
+        submit.pack(pady=3)
+        submit1.grid(row=0, column=0, padx=3)
+        submit2.grid(row=0, column=1, padx=3)
+        
+        #finishing
+        root.protocol("WM_DELETE_WINDOW", lambda: self.common.close_window("picker"))
+        root.mainloop()
+    
+    #sets the date in entry box
+    def set_date(self, pos):
+        self.common.close_window("picker")
+        month, day, year = map(int, self.calender.get_date().split('/'))
+        self.POSITIONS[pos].set(f"{['0'+str(day) if day<10 else day][0]} {MONTHS[month]}, 20{year}")
+        self.check_date(pos)
+    
+    #checks validity of from and to dates
+    def check_date(self, pos):
+        TIMES = [0, 0]
+        now = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+        for i in range(2):
+            value = self.POSITIONS[i].get()
+            if value:
+                month = re.findall(r" ([a-zA-Z]*),", value)[0]
+                time_str = value.replace(month, str(MONTHS.index(month)))
+                time_format = "%d %m, %Y"
+                TIMES[i] = datetime.strptime(time_str, time_format)
+        if pos: #if value entered for TO
+            if TIMES[0]: #if FROM value entered already
+                if TIMES[0]>TIMES[1]: #if FROM value is more than TO value
+                    msg.showwarning("Bad Time", "Give a valide 'To' date corresponding to 'From' date!")
+                    self.todate.set("")
+                    self.days.set("")
+                #calculates the number of days
+                elif TIMES[0]==TIMES[1]:
+                    self.days.set(1)
+                else:
+                    self.days.set(int(str(TIMES[1]-TIMES[0]).split(' day')[0])+1)
+            else: #if no FROM value entered
+                msg.showwarning("Too Early", "First enter a valid 'From' date!")
+                self.todate.set("")
+        else: #if value entered for FROM
+            if TIMES[pos]<now:
+                msg.showwarning("Bad Time", "Give a valide future date!")
+                self.fromdate.set("")
+            else:
+                self.todate.set("")
+
+    #after submitting the form
+    def submit_form(form):
+        member = form.member.get()
+        isbn = form.isbn.get()
+        title = form.title.get()
+        fromdate = form.fromdate.get()
+        todate = form.todate.get()
+        days = form.days.get()
+
+        if member and isbn and fromdate and todate:
+            member_id, member_name = member.split(' - ')
+            cursor.execute(f"select username from members_library where id='{member_id}'")
+            member = cursor.fetchone()[0]
+            cursor.execute(f"select quantity from borrow_requests where user_id={form.user_id} and member='{member}' and isbn='{isbn}'")
+            try:
+                quantity = cursor.fetchone()[0]
+            except:
+                cursor.execute(f'''insert into borrow_requests(user_id, isbn, member, from_date, to_date, quantity, status, member_name, item, days, renew_date)
+                            values({form.user_id}, "{isbn}", "{member}", "{fromdate}", "{todate}", 1, "pending", "{member_name}", "{title}", "{days}", "")''')
+            else:
+                cursor.execute(f'''update borrow_requests set quantity={quantity+1}, from_date="{fromdate}", to_date="{todate}", status="pending", days={days} where user_id={form.user_id} and member="{member}" and isbn="{isbn}"''')
+            connection.commit()
+            msg.showinfo("Success", "Borrow requested successfully!")
+            form.common.close_all_windows()
+            BorrowRequest()
+        else:
+            msg.showwarning("Shelfmate", "Fill all the required fields!")
 
 #ensures that this block is not called on importing this file (safe coding)
 if __name__ == "__main__":
