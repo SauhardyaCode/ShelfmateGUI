@@ -990,6 +990,7 @@ class AllResources(Tk):
         self.create_screen()
         self.mainloop()
 
+    #makes the screen
     def create_screen(root):
         #general configurations
         root.common = Common(root)
