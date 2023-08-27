@@ -465,18 +465,18 @@ class Dashboard(Tk):
         log_out_btn = Button(root, text="Log Out", font="Comicsans 14", fg="red", cursor="hand2", padx=10, pady=5, command=root.log_out)
         #creating the navigation buttons
         frame2 = Frame(root, bg=BGCOLOR, pady=100)
-        btn1 = Button(frame2, text="Add Resources", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2", command=lambda: root.navigate(AddResources))
-        btn2 = Button(frame2, text="All Resources", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2", command=lambda: root.navigate(AllResources))
-        btn3 = Button(frame2, text="Borrow Request", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2", command=lambda: root.navigate(BorrowRequest))
-        btn4 = Button(frame2, text="Check-In User", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2", command=lambda: root.navigate(CheckInUser))
-        btn5 = Button(frame2, text="Checked-In Readers", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2", command=lambda: root.navigate(CheckedInReaders))
-        btn6 = Button(frame2, text="Readers History", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2")
-        btn7 = Button(frame2, text="Add Member", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2", command=lambda: root.navigate(AddMembers))
-        btn8 = Button(frame2, text="All Members", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2", command=lambda: root.navigate(AllMembers))
-        btn9 = Button(frame2, text="Requests To Borrow", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2")
-        btn10 = Button(frame2, text="Borrowed Requests", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2")
-        btn11 = Button(frame2, text="Library Details", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2", command=lambda: root.navigate(LibraryDetails))
-        btn12 = Button(frame2, text="Minor Settings", font=("Comicsans", 15), padx=10, pady=10, width=20, activebackground="#A0BFE0", bg="#C5DFF8", bd=1, cursor="hand2")
+        btn1 = Button(frame2, text="Add Resources", font=("Verdana", 15), padx=10, pady=15, width=20, activebackground="#A0BFE0", bg="#C5DFF0", bd=1, cursor="hand2", command=lambda: root.navigate(AddResources))
+        btn2 = Button(frame2, text="All Resources", font=("Verdana", 15), padx=10, pady=15, width=20, activebackground="#A0BFE0", bg="#C5DFF0", bd=1, cursor="hand2", command=lambda: root.navigate(AllResources))
+        btn3 = Button(frame2, text="Borrow Request", font=("Verdana", 15), padx=10, pady=15, width=20, activebackground="#A0BFE0", bg="#C5DFF0", bd=1, cursor="hand2", command=lambda: root.navigate(BorrowRequest))
+        btn4 = Button(frame2, text="Check-In User", font=("Verdana", 15), padx=10, pady=15, width=20, activebackground="#A0BFE0", bg="#C5DFF0", bd=1, cursor="hand2", command=lambda: root.navigate(CheckInUser))
+        btn5 = Button(frame2, text="Checked-In Readers", font=("Verdana", 15), padx=10, pady=15, width=20, activebackground="#A0BFE0", bg="#C5DFF0", bd=1, cursor="hand2", command=lambda: root.navigate(CheckedInReaders))
+        btn6 = Button(frame2, text="Readers History", font=("Verdana", 15), padx=10, pady=15, width=20, activebackground="#A0BFE0", bg="#C5DFF0", bd=1, cursor="hand2", command=lambda: root.navigate(ReadersHistory))
+        btn7 = Button(frame2, text="Add Member", font=("Verdana", 15), padx=10, pady=15, width=20, activebackground="#A0BFE0", bg="#C5DFF0", bd=1, cursor="hand2", command=lambda: root.navigate(AddMembers))
+        btn8 = Button(frame2, text="All Members", font=("Verdana", 15), padx=10, pady=15, width=20, activebackground="#A0BFE0", bg="#C5DFF0", bd=1, cursor="hand2", command=lambda: root.navigate(AllMembers))
+        btn9 = Button(frame2, text="Borrow History", font=("Verdana", 15), padx=10, pady=15, width=20, activebackground="#A0BFE0", bg="#C5DFF0", bd=1, cursor="hand2", command=lambda: root.navigate(BorrowHistory))
+        btn10 = Button(frame2, text="Borrowed Resources", font=("Verdana", 15), padx=10, pady=15, width=20, activebackground="#A0BFE0", bg="#C5DFF0", bd=1, cursor="hand2", command=lambda: root.navigate(BorrowedResources))
+        btn11 = Button(frame2, text="Library Details", font=("Verdana", 15), padx=10, pady=15, width=20, activebackground="#A0BFE0", bg="#C5DFF0", bd=1, cursor="hand2", command=lambda: root.navigate(LibraryDetails))
+        btn12 = Button(frame2, text="Minor Settings", font=("Verdana", 15), padx=10, pady=15, width=20, activebackground="#A0BFE0", bg="#C5DFF0", bd=1, cursor="hand2", command=lambda: root.navigate(MinorSettings))
         #creating the link to Shelfmate website
         frame3 = Frame(root, bg=BGCOLOR, pady=20)
         logo = Label(frame3, image=root.common.LOGO, bg=BGCOLOR)
@@ -494,7 +494,7 @@ class Dashboard(Tk):
         shelf.grid(row=0, column=1)
         #special way to place the navigators
         for i in range(12):
-            eval(f"btn{i+1}.grid(row=i//4, column=i%4)")
+            eval(f"btn{i+1}.grid(row=i//4, column=i%4, padx=20, pady=20)")
 
         #binding the required labels
         avatar.bind("<Button-1>", lambda e: root.navigate(AccountSettings))
@@ -1057,6 +1057,10 @@ class AllResources(Tk):
             btn1.grid(row=0, column=0)
             btn2.grid(row=0, column=1)
             frame.grid(row=i//2, column=i % 2, padx=30, pady=20, sticky=W)
+        
+        if len(root.books) == 0:
+            notice = Label(FRAME, text="No Resources Added!", font=("Arial", 30), fg="green", bg="gainsboro")
+            notice.pack()
 
         #final packing of whole screen
         root.show_card_set() #starts all resources in display mode
@@ -1227,539 +1231,223 @@ class AllResources(Tk):
             thebook = cursor.fetchone()
             self.show_card_set(target, thebook)
 
-#library function (Library Details)
-class LibraryDetails(Tk):
+#library function (Borrow Requests)
+class BorrowRequest(Tk):
     def __init__(self):
         super().__init__()
-        windows["library details"] = self
+        windows["borrow request"] = self
         self.create_screen()
         self.mainloop()
-
+    
     #makes the screen
     def create_screen(root):
+        #general configurations
+        root.common = Common(root)
+        root.common.set_screen()
+        root.title("Borrow Resource")
+        root.config(bg="gainsboro")
+        #gets user data
+        with open(f'{PATH}/../static/Personal/Data/cookie.json') as cookie:
+            root.user_id = json.load(cookie)[0]['id']
+        cursor.execute(f"select id, name from members_library where user_id={root.user_id}")
+        MEMBERS = cursor.fetchall()
+        cursor.execute(f"select isbn, title, book_cover, edition, language from resources_library where user_id={root.user_id} and quantity-reading-borrowed>0")
+        root.BOOKS = cursor.fetchall()
+
+        #creating the header, frames and button
+        title = Label(root, text="Borrow Resource", font=("Verdana", 25, "underline"), pady=20, bg="gainsboro")
+        FRAME = Frame(root, bg="white")
+        root.frame0 = Frame(FRAME, bg="white")
+        root.cover = Label(FRAME)
+        submit = Button(FRAME, text="Submit", fg="white", bg="black", activebackground="#111111", activeforeground="white", bd=0, width=7, font="arial 12", cursor="hand2", command=root.submit_form)
+
+        #creating labels and entries
+        q0 = Label(root.frame0, text="Member *", font=("Arial", 14), bg="white", padx=50)
+        root.member = StringVar()
+        a0 = ttk.Combobox(root.frame0, textvariable=root.member, width=20, values=[f"{x[0]} - {x[1]}" for x in MEMBERS], state="readonly", font=("Arial", 15))
+        q1 = Label(root.frame0, text="ISBN *", font=("Arial", 14), bg="white", padx=50)
+        root.isbn = StringVar()
+        a1 = ttk.Combobox(root.frame0, textvariable=root.isbn, width=20, values=[x[0] for x in root.BOOKS], state="readonly", font=("Arial", 15))
+        q2 = Label(root.frame0, text="Title *", font=("Arial", 14), bg="white", padx=50)
+        root.title = StringVar()
+        a2 = ttk.Combobox(root.frame0, textvariable=root.title, width=20, values=[x[1] for x in root.BOOKS], state="readonly", font=("Arial", 15))
+        q3 = Label(root.frame0, text="Edition", font=("Arial", 14), bg="white", padx=50)
+        root.edition = StringVar()
+        a3 = Entry(root.frame0, textvariable=root.edition, font=("Comicsans", 15), width=21, bd=5, relief=FLAT, bg=ENTRY, state="readonly")
+        q4 = Label(root.frame0, text="Language", font=("Arial", 14), bg="white", padx=50)
+        root.language = StringVar()
+        a4 = Entry(root.frame0, textvariable=root.language, font=("Comicsans", 15), width=21, bd=5, relief=FLAT, bg=ENTRY, state="readonly")
+        q5 = Label(root.frame0, text="From Date *", font=("Arial", 14), bg="white", padx=50)
+        root.fromdate = StringVar()
+        a5 = Entry(root.frame0, textvariable=root.fromdate, font=("Comicsans", 15), width=21, bd=5, relief=FLAT, bg=ENTRY, state="readonly")
+        q6 = Label(root.frame0, text="To Date *", font=("Arial", 14), bg="white", padx=50)
+        root.todate = StringVar()
+        a6 = Entry(root.frame0, textvariable=root.todate, font=("Comicsans", 15), width=21, bd=5, relief=FLAT, bg=ENTRY, state="readonly")
+        q7 = Label(root.frame0, text="No Of Days", font=("Arial", 14), bg="white", padx=50)
+        root.days = StringVar()
+        a7 = Entry(root.frame0, textvariable=root.days, font=("Comicsans", 15), width=21, bd=5, relief=FLAT, bg=ENTRY, state="readonly")
+
+        #placing the labels and entries
+        for i in range(8):
+            eval(f"q{i}.grid(row={i}, column=0, padx=30, pady=10, sticky=W)")
+            eval(f"a{i}.grid(row={i}, column=1, padx=30, pady=10, sticky=W)")
+        
+        #placing the header, frames and button
+        title.pack()
+        FRAME.pack(fill=BOTH, padx=100, pady=50)
+        root.frame0.pack(padx=40, pady=30)
+        submit.pack(side=BOTTOM, pady=40)
+
+        #binding some widgets
+        root.POSITIONS = [root.fromdate, root.todate]
+        a1.bind("<<ComboboxSelected>>", lambda ev: root.toggle_combo(ev, 0))
+        a2.bind("<<ComboboxSelected>>", lambda ev: root.toggle_combo(ev, 1))
+        a5.bind("<Button-1>", lambda ev: root.pick_date(ev, 0))
+        a6.bind("<Button-1>", lambda ev: root.pick_date(ev, 1))
+        root.protocol("WM_DELETE_WINDOW",lambda: root.common.close_window("borrow request"))
+
+    #loads the book covers in separate thread from external website
+    def load_covers(self, _url):
+        try:
+            #adjusting the onscreen positions when image is shown
+            self.frame0.pack_forget()
+            self.frame0.pack(side=LEFT, padx=40, pady=30)
+            self.cover.pack(side=RIGHT, padx=100, pady=30)
+            #showing the image
+            SIZE = (300, 400)
+            _cover = Image.open(f"{PATH}/../static/Personal/Images/display/book_cover.png")
+            _cover = _cover.resize(SIZE)
+            cover = ImageTk.PhotoImage(_cover)
+            self.cover.config(image=cover)
+            self.cover.image = cover
+            if not _url.startswith('../static'):
+                cover = ImageTk.PhotoImage(Image.open(BytesIO(requests.get(_url).content)).resize(SIZE))
+            self.cover.config(image=cover)
+            self.cover.image = cover
+        except Exception as e:
+            print("[WINDOW DESTROYED]", e)
+    
+    #automatically sets all book values
+    def toggle_combo(self, ev, position):
+        POSITIONS = [(self.isbn, [x[0] for x in self.BOOKS]), (self.title, [x[1] for x in self.BOOKS])]
+        access = POSITIONS[position]
+        access_not = POSITIONS[1-position]
+        value = access[1].index(access[0].get())
+        access_not[0].set(access_not[1][value])
+        target = self.BOOKS[value]
+        self.edition.set(target[3])
+        self.language.set(target[4].replace(';', ', ')[:-2])
+        #loads image in background without freezing main window (using threads)
+        cover_thread = threading.Thread(target=lambda:self.load_covers(target[2]))
+        cover_thread.daemon = True #exits automatically without error on closing application
+        cover_thread.start()
+    
+    #sets current date
+    def set_current_date(root, pos):
+        root.common.close_window("picker")
+        root.POSITIONS[pos].set(root.common.get_time()[:-7])
+        root.check_date(pos)
+
+    #creates the date picker box
+    def pick_date(self, ev, pos):
+        #restarts if already opened
+        if "picker" in windows:
+            self.common.close_window("picker")
         #general configuration
-        root.common = Common(root)
-        root.common.set_screen()
-        root.title("Library Details")
-        root.config(bg="gainsboro")
-        #gets user data
-        with open(f'{PATH}/../static/Personal/Data/cookie.json') as cookie:
-            root.cookie = json.load(cookie)
+        root = Tk()
+        root.title("Date Picker")
+        root.resizable(0, 0)
+        windows["picker"] = root
+        time_now = datetime.now() #current time
+
+        #some constant arrays
+        HOURS = [f"0{i}" if i<10 else i for i in range(24)]
+        MINUTES = [f"0{i}" if i<10 else i for i in range(60)]
+
+        #creating all elements
+        calender_lbl = Label(root, text="Date", font=("Helvetica", 12), justify=CENTER)
+        self.calender = Calendar(root, selectmode='day', year=time_now.year, month=time_now.month, day=time_now.day)
+        submit = Frame(root)
+        submit1 = Button(submit, text="Today", fg="white", bg="black", bd=0, width=7, font="arial 13", cursor="hand2", command=lambda:self.set_current_date(pos))
+        submit2 = Button(submit, text="Done", fg="white", bg="black", bd=0, width=7, font="arial 13", cursor="hand2", command=lambda:self.set_date(pos))
+
+        #placing all elements
+        calender_lbl.pack()
+        self.calender.pack()
+        submit.pack(pady=3)
+        submit1.grid(row=0, column=0, padx=3)
+        submit2.grid(row=0, column=1, padx=3)
         
-        #creating and packing header and main frame
-        title = Label(root, text="Library Details", font=("Verdana", 25, "underline"), pady=40, bg="gainsboro")
-        root.FRAME = Frame(root)
-        title.pack()
-        root.FRAME.pack()
-
-        #if-else condition for whether to show display window or edit window
-        if root.cookie[2]['library_name']:
-            root.display_screen()
-        else:
-            root.edit_screen()
-        root.protocol("WM_DELETE_WINDOW",lambda: root.common.close_window("library details"))
-
-    #the edit window
-    def edit_screen(root, edit=False):
-        #creating the frames
-        frame0 = Frame(root.FRAME, padx=50, pady=20, highlightthickness=1, bg="white")
-        frame1 = Frame(frame0, pady=20, bg="white")
-        frame2 = Frame(frame0, bg="white")
-
-        #creating the entries and conjugate labels
-        #library name
-        lbl0 = Label(frame1, text="Library Name *", font=("Arial", 13), bg="white", padx=50)
-        root.name = StringVar()
-        ent0 = Entry(frame1, textvariable=root.name, font=("Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
-        ent0.focus()
-        #library email
-        lbl1 = Label(frame1, text="Email *", font=("Arial", 13), bg="white", padx=50)
-        root.email = StringVar()
-        ent1 = Entry(frame1, textvariable=root.email, font=( "Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
-        #library phone number
-        lbl2 = Label(frame1, text="Phone number *", font=("Arial", 13), bg="white", padx=50)
-        root.phone = StringVar()
-        ent2 = Entry(frame1, textvariable=root.phone, font=( "Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
-        #library address
-        lbl3 = Label(frame1, text="Address *", font=("Arial", 13), bg="white", padx=50)
-        root.add1 = StringVar()
-        root.add2 = StringVar()
-        root.dist = StringVar()
-        root.stt = StringVar()
-        root.pin = StringVar()
-        root.country = StringVar()
-        ent3 = Frame(frame1, bg="white")
-        add1_lbl = Label(ent3, text="Address Line 1", font=( "Arial", 10), fg=LABEL, bg="white")
-        root.add1_ent = Entry(ent3, textvariable=root.add1, font=( "Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
-        add2_lbl = Label(ent3, text="Address Line 2", font=( "Arial", 10), fg=LABEL, bg="white")
-        root.add2_ent = Entry(ent3, textvariable=root.add2, font=( "Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
-        ent3x = Frame(ent3, bg="white")
-        dist_lbl = Label(ent3x, text="District", font=( "Arial", 10), fg=LABEL, bg="white")
-        root.dist_ent = Entry(ent3x, textvariable=root.dist, font=( "Comicsans", 12), width=14, bd=5, relief=FLAT, bg=ENTRY)
-        stt_lbl = Label(ent3x, text="State", font=( "Arial", 10), fg=LABEL, bg="white")
-        root.stt_ent = Entry(ent3x, textvariable=root.stt, font=( "Comicsans", 12), width=14, bd=5, relief=FLAT, bg=ENTRY)
-        ent3y = Frame(ent3, bg="white")
-        pin_lbl = Label(ent3y, text="Postal Code", font=( "Arial", 10), fg=LABEL, bg="white")
-        root.pin_ent = Entry(ent3y, textvariable=root.pin, font=( "Comicsans", 12), width=14, bd=5, relief=FLAT, bg=ENTRY)
-        country_lbl = Label(ent3y, text="Country", font=( "Arial", 10), fg=LABEL, bg="white")
-        root.country_ent = ttk.Combobox(ent3y, textvariable=root.country, width=20, values=COUNTRIES, state="readonly")
-        root.country.set(COUNTRIES[0])
-        lbl4 = Label(frame1, text="Library Website", font=("Arial", 13), bg="white", padx=50)
-        root.web = StringVar()
-        ent4 = Entry(frame1, textvariable=root.web, font=( "Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
-
-        #creating the buttons
-        save_btn = Button(frame2, text="Save", bg="#0D6EFD", fg="white", activebackground=BGCOLOR, padx=5, activeforeground="white", font=("Comicsans", 13), relief=FLAT, cursor="hand2", command=root.save)
-        cancel_btn = Button(frame2, text="Cancel", bg="black", fg="white", activebackground="#6C757D", padx=5, activeforeground="white", font=("Comicsans", 13), relief=FLAT, cursor="hand2", command=lambda: root.cancel(edit))
-
-        #placing all elements
-        frame0.pack()
-        frame1.grid(row=0, column=0)
-        frame2.grid(row=1, column=0)
-        save_btn.grid(row=0, column=0, padx=10)
-        cancel_btn.grid(row=0, column=1, padx=10)
-        root.common.address_packer(add1_lbl, add2_lbl, ent3x, ent3y, dist_lbl, stt_lbl, pin_lbl, country_lbl)
-        for i in range(5):
-            eval(f"lbl{i}.grid(row={i}, column=0, sticky=W, pady=10)")
-            eval(f"ent{i}.grid(row={i}, column=1, padx=50, pady=10)")
-        for i in range(5):
-            if i == 3:
-                continue
-            eval(f"ent{i}.bind('<Return>', root.save)")
-        for x in ["add1", "add2", "dist", "stt", "pin", "country"]:
-            eval(f"root.{x}_ent.bind('<Return>', root.save)")
-
-        #if not inputing values for first time the entries are set to the previous values from cookie.json
-        if edit:
-            lib = root.cookie[2]
-            add = lib['library_address'].split(';')
-            root.name.set(lib['library_name'])
-            root.email.set(lib['library_email'])
-            root.phone.set(lib['library_phone'])
-            root.add1.set(add[0])
-            root.add2.set(add[1])
-            root.dist.set(add[2])
-            root.stt.set(add[3])
-            root.pin.set(add[4])
-            root.country.set(add[5])
-            root.web.set(lib['library_url'])
-
-    #the display window
-    def display_screen(root):
-        LINK = "#0A6EBD"
-        #creating all frames
-        frame0 = Frame(root.FRAME, padx=50, pady=30, highlightthickness=1, bg="white")
-        frame1 = Frame(frame0, pady=30, bg="white")
-        frame2 = Frame(frame0, bg="white")
-
-        #creating all display elements and buttons
-        q0 = Label(frame1, text="Library Name", font=("Arial", 13), bg="white", padx=50)
-        a0 = Label(frame1, text=root.cookie[2]["library_name"], font=("Arial", 13), bg="white", padx=50)
-        q1 = Label(frame1, text="Phone number", font=("Arial", 13), bg="white", padx=50)
-        a1 = Label(frame1, text=root.cookie[2]["library_phone"], font=("Arial", 13), bg="white", padx=50)
-        q2 = Label(frame1, text="Email", font=("Arial", 13), bg="white", padx=50)
-        a2 = Label(frame1, text=root.cookie[2]["library_email"], font=( "Arial", 13, 'underline'), bg="white", padx=50, fg=LINK, cursor="hand2")
-        q3 = Label(frame1, text="Address", font=("Arial", 13), bg="white", padx=50)
-        a3 = Label(frame1, text=root.cookie[2]["library_address"].replace( ';;', ';').replace(';', ', '), font=("Arial", 13), bg="white", padx=50)
-        q4 = Label(frame1, text="Library Website", font=("Arial", 13), bg="white", padx=50)
-        a4 = Label(frame1, text=root.cookie[2]["library_url"], font=("Arial", 13, 'underline'), bg="white", padx=50, fg=LINK, cursor="hand2")
-        btn1 = Button(frame2, text="Edit", font="robota 12", bg="black", fg="white", activebackground="grey", activeforeground="white", bd=0, cursor="hand2", padx=5, command=root.edit)
-        btn2 = Button(frame2, text="Delete", font="robota 12", bg="#C51605", fg="white", activebackground="grey", activeforeground="white", bd=0, cursor="hand2", padx=5, command=root.delete)
-
-        #binding email and website links to open externally
-        a2.bind("<Button-1>", lambda e: web.open(f"mailto:{root.cookie[2]['library_email']}"))
-        a4.bind("<Button-1>", lambda e: web.open(root.cookie[2]['library_url']))
-
-        #placing all elements
-        frame0.pack()
-        frame1.grid(row=0, column=0)
-        frame2.grid(row=1, column=0)
-        btn1.grid(row=0, column=0, padx=20, pady=10)
-        btn2.grid(row=0, column=1, padx=20, pady=10)
-        for i in range(5):
-            eval(f"q{i}.grid(row={i}, column=0, sticky=W, pady=2)")
-            eval(f"a{i}.grid(row={i}, column=1, sticky=W, pady=2)")
+        #finishing
+        root.protocol("WM_DELETE_WINDOW", lambda: self.common.close_window("picker"))
+        root.mainloop()
     
-    #after clicking the Save button
-    def save(self, ev=0):
-        #gets all user inputs
-        name = self.name.get()
-        email = self.email.get()
-        phone = self.phone.get()
-        add1 = self.add1.get().strip().replace(';', '')
-        add2 = self.add2.get().strip().replace(';', '')
-        dist = self.dist.get().strip().replace(';', '')
-        stt = self.stt.get().strip().replace(';', '')
-        pin = self.pin.get().strip().replace(';', '')
-        country = self.country.get()
-        website = self.web.get()
-        address = ';'.join([add1, add2, dist, stt, pin, country])
-
-        #checks validity of inputs
-        if name and email and phone and add1 and dist and stt and pin:
-            if re.match(r"^[\w\.-]+@[\w\.-]+\.\w+$", email): #email validity using "re"
-                if validators.url(website): #website validity using "validators"
-                    #updates the database with new values
-                    cursor.execute(f'''update logged_users
-                                set library_name="{name}", library_email="{email}", library_phone="{phone}", library_address="{address}", library_url="{website}"
-                                where id={self.cookie[0]['id']}''')
-                    self.common.refresh() #refreshes cookie.json
-                    self.common.close_all_windows()
-                    LibraryDetails()
+    #sets the date in entry box
+    def set_date(self, pos):
+        self.common.close_window("picker")
+        month, day, year = map(int, self.calender.get_date().split('/'))
+        self.POSITIONS[pos].set(f"{['0'+str(day) if day<10 else day][0]} {MONTHS[month]}, 20{year}")
+        self.check_date(pos)
+    
+    #checks validity of from and to dates
+    def check_date(self, pos):
+        TIMES = [0, 0]
+        now = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+        for i in range(2):
+            value = self.POSITIONS[i].get()
+            if value:
+                month = re.findall(r" ([a-zA-Z]*),", value)[0]
+                time_str = value.replace(month, str(MONTHS.index(month)))
+                time_format = "%d %m, %Y"
+                TIMES[i] = datetime.strptime(time_str, time_format)
+        if pos: #if value entered for TO
+            if TIMES[0]: #if FROM value entered already
+                if TIMES[0]>TIMES[1]: #if FROM value is more than TO value
+                    msg.showwarning("Bad Time", "Give a valide 'To' date corresponding to 'From' date!")
+                    self.todate.set("")
+                    self.days.set("")
+                #calculates the number of days
+                elif TIMES[0]==TIMES[1]:
+                    self.days.set(1)
                 else:
-                    msg.showwarning("Shelfmate", "Invalid URL!")
+                    self.days.set(int(str(TIMES[1]-TIMES[0]).split(' day')[0])+1)
+            else: #if no FROM value entered
+                msg.showwarning("Too Early", "First enter a valid 'From' date!")
+                self.todate.set("")
+        else: #if value entered for FROM
+            if TIMES[pos]<now:
+                msg.showwarning("Bad Time", "Give a valide future date!")
+                self.fromdate.set("")
             else:
-                msg.showwarning("Shelfmate", "Invalid email!")
-        else:
-            msg.showwarning("Shelfmate", "Fill all the required fields!")
+                self.todate.set("")
 
-    #deletes all library details
-    def delete(self):
-        if msg.askyesno("Shelfmate", "Are you sure you want to delete your Library Details?"):
-            #clears the library details from database
-            cursor.execute(f'''update logged_users
-                           set library_name="", library_email="", library_phone="", library_address="", library_url=""
-                           where id={self.cookie[0]['id']}''')
-            self.common.refresh() #refreshes cookie.json
-            self.common.close_all_windows()
-            LibraryDetails()
-    
-    #on clicking the Edit button (in display window)
-    def edit(self):
-        for x in self.FRAME.winfo_children():
-            x.destroy()
-        self.edit_screen(True)
+    #after submitting the form
+    def submit_form(form):
+        member = form.member.get()
+        isbn = form.isbn.get()
+        title = form.title.get()
+        fromdate = form.fromdate.get()
+        todate = form.todate.get()
+        days = form.days.get()
 
-    #on clicking the Cancel button (in edit window)
-    def cancel(self, edit):
-        if edit: #if data already added then returns to display window
-            for x in self.FRAME.winfo_children():
-                x.destroy()
-            self.display_screen()
-        else: #else returns to dashboard
-            self.common.back()
-
-#library function (Add Members)
-class AddMembers(Tk):
-    def __init__(self, mode=0, member=None):
-        super().__init__()
-        windows["add members"] = self
-        #initializing global variables
-        self.pic = 0
-        self.suggest_clicks = 0
-        #mode is a flag (0 = adding new member, 1 = editing an existing member)
-        self.create_screen(mode)
-        if mode:
-            self.mode_work(member)
-        self.mainloop()
-
-    #makes the screen
-    def create_screen(root, mode):
-        #general configurations
-        root.common = Common(root)
-        root.common.set_screen(back=not mode)
-        root.title("Add Members")
-        root.config(bg="gainsboro")
-        #gets user data
-        with open(f'{PATH}/../static/Personal/Data/cookie.json') as cookie:
-            root.user_id = json.load(cookie)[0]['id']
-        
-        #creating header and frames
-        title = Label(root, text="Add Members", font=("Verdana", 25, "underline"), pady=40, bg="gainsboro")
-        FRAME = Frame(root)
-        frame0 = Frame(FRAME, padx=50, pady=20, highlightthickness=1, bg="white")
-        frame1 = Frame(frame0, pady=20, bg="white")
-        frame2 = Frame(frame0, bg="white")
-
-        #creating entries and conjugate labels
-        #member name
-        q0 = Label(frame1, text="Name *", font=("Arial", 13), bg="white", padx=50)
-        root.name = StringVar()
-        a0 = Entry(frame1, textvariable=root.name, font=("Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
-        #member username
-        q1 = Label(frame1, text="Username *", font=("Arial", 13), bg="white", padx=50)
-        root.username = StringVar()
-        a1 = Entry(frame1, textvariable=root.username, font=("Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
-        #suggest button to suggest username
-        suggest = Button(frame1, text="Suggest", cursor="hand2", font=("Arial", 10), padx=10, pady=5, command=root.suggest)
-        #member email
-        q2 = Label(frame1, text="Email *", font=("Arial", 13), bg="white", padx=50)
-        root.email = StringVar()
-        a2 = Entry(frame1, textvariable=root.email, font=("Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
-        #member phone number
-        q3 = Label(frame1, text="Phone Number", font=("Arial", 13), bg="white", padx=50)
-        root.phone = StringVar()
-        a3 = Entry(frame1, textvariable=root.phone, font=("Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
-        #member address
-        q4 = Label(frame1, text="Address", font=("Arial", 13), bg="white", padx=50)
-        root.add1 = StringVar()
-        root.add2 = StringVar()
-        root.dist = StringVar()
-        root.stt = StringVar()
-        root.pin = StringVar()
-        root.country = StringVar()
-        a4 = Frame(frame1, bg="white")
-        add1_lbl = Label(a4, text="Address Line 1", font=("Arial", 10), fg=LABEL, bg="white")
-        root.add1_ent = Entry(a4, textvariable=root.add1, font=("Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
-        add2_lbl = Label(a4, text="Address Line 2", font=("Arial", 10), fg=LABEL, bg="white")
-        root.add2_ent = Entry(a4, textvariable=root.add2, font=("Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
-        ent3x = Frame(a4, bg="white")
-        dist_lbl = Label(ent3x, text="District", font=("Arial", 10), fg=LABEL, bg="white")
-        root.dist_ent = Entry(ent3x, textvariable=root.dist, font=("Comicsans", 12), width=14, bd=5, relief=FLAT, bg=ENTRY)
-        stt_lbl = Label(ent3x, text="State", font=("Arial", 10), fg=LABEL, bg="white")
-        root.stt_ent = Entry(ent3x, textvariable=root.stt, font=("Comicsans", 12), width=14, bd=5, relief=FLAT, bg=ENTRY)
-        ent3y = Frame(a4, bg="white")
-        pin_lbl = Label(ent3y, text="Postal Code", font=("Arial", 10), fg=LABEL, bg="white")
-        root.pin_ent = Entry(ent3y, textvariable=root.pin, font=("Comicsans", 12), width=14, bd=5, relief=FLAT, bg=ENTRY)
-        country_lbl = Label(ent3y, text="Country", font=("Arial", 10), fg=LABEL, bg="white")
-        root.country_ent = ttk.Combobox(ent3y, textvariable=root.country, width=20, values=COUNTRIES, state="readonly")
-        root.country.set(COUNTRIES[0])
-
-        #creating member avatar and its controls
-        q5 = Label(frame1, text="Avatar *", font=("Arial", 13), bg="white", padx=50)
-        a5 = Frame(frame1, bg=ENTRY, pady=10, padx=20)
-        root.common.load_toggle()
-        _avatar = Image.open(f"{PATH}/../static/Personal/Images/members/member_0.png")
-        _avatar = _avatar.resize((70, 70))
-        AVATAR = ImageTk.PhotoImage(_avatar)
-        left_btn = Button(a5, image=root.common.BEFORE, bd=0, width=100, cursor="hand2", command=lambda: root.common.avatar_toggle(-1, "member"))
-        root.avatar = Label(a5, image=AVATAR, width=100)
-        right_btn = Button(a5, image=root.common.AFTER, bd=0, width=100, cursor="hand2", command=lambda: root.common.avatar_toggle(1, "member"))
-        left_btn.image = root.common.BEFORE
-        root.avatar.image = AVATAR
-        right_btn.image = root.common.AFTER
-
-        #creating the buttons
-        submit_btn = Button(frame2, text="Submit", fg="white", bg="#1D5D9B", activebackground="#111111", activeforeground="white", bd=0, width=7, font="arial 12", cursor="hand2", command=lambda: root.submit_form(mode))
-        cancel_btn = Button(frame2, text="Cancel", fg="white", bg="black", activebackground="#111111", activeforeground="white", bd=0, width=7, font="arial 12", cursor="hand2", command=root.cancel_form)
-
-        #placing all elements
-        title.pack()
-        FRAME.pack()
-        frame0.pack()
-        frame1.grid(row=0, column=0)
-        frame2.grid(row=1, column=0)
-        left_btn.grid(row=0, column=0)
-        root.avatar.grid(row=0, column=1)
-        right_btn.grid(row=0, column=2)
-        root.common.address_packer(add1_lbl, add2_lbl, ent3x, ent3y, dist_lbl, stt_lbl, pin_lbl, country_lbl)
-        for i in range(6):
-            eval(f"q{i}.grid(row={i//2}, column={2*(i%2)}, sticky=W, pady=10)")
-            eval(f"a{i}.grid(row={i//2}, column={2*(i%2)+1}, padx=40, pady=10)")
-        suggest.grid(row=0, column=4, sticky=W, pady=10)
-        submit_btn.grid(row=0, column=0, pady=30, padx=10)
-
-        #if in editing mode, username is not chnageable
-        if mode:
-            cancel_btn.grid(row=0, column=1, pady=30, padx=10)
-            a1.config(state=DISABLED)
-            suggest.destroy()
-        root.protocol("WM_DELETE_WINDOW", lambda: root.common.close_window("add members"))
-
-    #username suggestion function
-    def suggest(self, fetch=True, usernames=None):
-        #fetch is a flag (True = it asks database for all usernames, False = no contact with database)
-        #gets all used usernames by the user for members
-        if fetch and not self.suggest_clicks:
-            cursor.execute(f"select username from members_library where user_id={self.user_id}")
-        usernames = [x[0] for x in cursor.fetchall()]
-
-        #creates a random suggestion ("random" for random choice, "string" for getting ASCII character set)
-        suggestion = ''.join(random.choices(string.ascii_letters+string.digits+'_', k=10))
-        #checks if username is already used
-        if suggestion in usernames:
-            #recurssion until username is new
-            self.suggest(False, usernames)
-        else:
-            #sets the username value to entry field for user to see
-            self.username.set(suggestion)
-            self.suggest_clicks += 1
-
-    #after clicking the Submit button
-    def submit_form(form, mode):
-        #gets all user inputs
-        name = form.name.get()
-        username = form.username.get().strip()
-        email = form.email.get()
-        phone = form.phone.get()
-        address = ';'.join([form.add1.get().strip().replace(';', ''), form.add2.get().strip().replace(';', ''), form.dist.get().strip().replace(';', ''), form.stt.get().strip().replace(';', ''), form.pin.get().strip().replace(';', ''), form.country.get()])
-        avatar = form.pic
-
-        #checks validity of inputs
-        if name and username and email:
-            if re.match(r"^[\w\.-]+@[\w\.-]+\.\w+$", email): #email validity using "re"
-                if mode:
-                    #if in edit mode, updates the member
-                    cursor.execute(f'''update members_library
-                                   set name="{name}", email="{email}", phone="{phone}", address="{address}", avatar={avatar}
-                                   where user_id={form.user_id} and username="{username}";''')
-                else:
-                    #if in add mode, adds a new member to database
-                    cursor.execute(f'''insert into members_library(name, username, email, phone, address, avatar, user_id, visits)
-                                values("{name}", "{username}", "{email}", "{phone}", "{address}", {avatar}, {form.user_id}, 0);''')
-                    msg.showinfo("Shelfmate", "Member added successfully!")
-                connection.commit()
-                form.common.close_all_windows()
-                #opens new window depending on mode value
-                if mode:
-                    AllMembers()
-                else:
-                    AddMembers()
+        if member and isbn and fromdate and todate:
+            member_id, member_name = member.split(' - ')
+            cursor.execute(f"select username from members_library where id='{member_id}'")
+            member = cursor.fetchone()[0]
+            cursor.execute(f"select quantity from borrow_requests where user_id={form.user_id} and member='{member}' and isbn='{isbn}'")
+            try:
+                quantity = cursor.fetchone()[0]
+            except:
+                cursor.execute(f'''insert into borrow_requests(user_id, isbn, member, from_date, to_date, quantity, status, member_name, item, days, renew_date)
+                            values({form.user_id}, "{isbn}", "{member}", "{fromdate}", "{todate}", 1, "pending", "{member_name}", "{title}", "{days}", "")''')
             else:
-                msg.showwarning("Shelfmate", "Invalid email!")
-        else:
-            msg.showwarning("Shelfmate", "Fill all the required fields!")
-
-    #on clicking Cancel button (in edit mode)
-    def cancel_form(form):
-        form.common.close_all_windows()
-        AllMembers()
-
-    #fills entries with old values (in edit mode)
-    def mode_work(form, member):
-        form.name.set(member[1])
-        form.username.set(member[5])
-        form.email.set(member[3])
-        form.phone.set(member[2])
-        address = member[4].split(';')
-        form.add1.set(address[0])
-        form.add2.set(address[1])
-        form.dist.set(address[2])
-        form.stt.set(address[3])
-        form.pin.set(address[4])
-        form.country.set(address[5])
-        form.pic = member[6]
-        _avatar = Image.open(f"{PATH}/../static/Personal/Images/members/member_{form.pic}.png")
-        _avatar = _avatar.resize((70, 70))
-        AVATAR = ImageTk.PhotoImage(_avatar)
-        form.avatar.config(image=AVATAR)
-        form.avatar.image = AVATAR
-
-#library function (All Members)
-class AllMembers(Tk):
-    def __init__(self):
-        super().__init__()
-        windows["all members"] = self
-        self.create_screen()
-        self.mainloop()
-
-    #makes the screen
-    def create_screen(root):
-        #general configurations
-        root.common = Common(root)
-        root.common.set_screen()
-        root.title("All Members")
-        root.config(bg="gainsboro")
-        #gets user data
-        with open(f'{PATH}/../static/Personal/Data/cookie.json') as cookie:
-            root.user_id = json.load(cookie)[0]['id']
-        cursor.execute(f"select * from members_library where user_id={root.user_id}")
-        root.members = cursor.fetchall()
-
-        #creating header
-        title = Label(root, text="All Members", font=("Verdana", 25, "underline"), pady=40, bg="gainsboro")
-
-        #creating, packing and binding the scrollable canvas (mainly copy-pasted)
-        BIG_FRAME = Frame(root)
-        root.canvas = Canvas(BIG_FRAME, bg="gainsboro")
-        root.canvas.pack(side=LEFT, fill=BOTH, expand=1)
-        root.scrollbar = Scrollbar(BIG_FRAME, orient=VERTICAL, command=root.canvas.yview)
-        root.scrollbar.pack(side=RIGHT, fill=Y)
-        root.canvas.configure(yscrollcommand=root.scrollbar.set)
-        root.canvas.bind("<Configure>", lambda e: root.canvas.config(scrollregion=root.canvas.bbox(ALL)))
-        FRAME = Frame(root.canvas, bg="gainsboro")
-        root.canvas.create_window((0, 0), window=FRAME, anchor="nw")
-        root.canvas.bind_all("<MouseWheel>", root._on_mousewheel)
-        root.bind("<Configure>", root._on_configure)
-
-        root.member_cards = {} #disctionary to store all member card frames
-        #creates display card for each member using loop
-        for i in range(len(root.members)):
-            themember = root.members[i]
-            #creating the frames
-            frame = Frame(FRAME, bg=CARDBG, padx=20, pady=10)
-            frameX = Frame(frame, bg="white")
-            frame0 = Frame(frameX, bg="white", padx=10, pady=5)
-            frame1 = Frame(frameX, bg="white", padx=10, pady=5)
-            #gets and sets the member image
-            _avatar = Image.open(f"{PATH}/../static/Personal/Images/members/member_{themember[6]}.png")
-            _avatar = _avatar.resize((100, 100))
-            AVATAR = ImageTk.PhotoImage(_avatar)
-            avatar = Label(frame0, image=AVATAR, bg="white")
-            avatar.image = AVATAR
-
-            #adding values to the dictionary during loop
-            root.member_cards[themember] = frameX
-
-            #gets all other info
-            username = Label(frame0, text=f"({themember[5]})",font="arial 12", fg="grey", bg="white")
-            address = ', '.join([x for x in themember[4].split(';') if x])
-            name = themember[1]
-            email = themember[3]
-            #adjusts the member info as space friendly
-            if len(address) > 30:
-                address = address[:29]+'...'
-            if len(name) > 30:
-                name = name[:29]+'...'
-            if len(email) > 30:
-                email = email[:29]+'...'
-            
-            #creating all elements
-            info0 = Label(frame1, text=name, font="comicsans 15 bold", bg="white")
-            info1 = Label(frame1, text=address, bg="white", fg="grey")
-            info2 = Label(frame1, text=themember[2], bg="white")
-            info3 = Label(frame1, text=email, fg="#0A6EBD", font="comicsans 10 underline", bg="white", cursor="hand2")
-            info4 = Frame(frame1, bg="white")
-            btn1 = Button(info4, text="Edit", font="robota 12", bg="black", fg="white", activebackground="grey", activeforeground="white", bd=0, cursor="hand2", command=lambda e=themember: root.edit_mem(e))
-            btn2 = Button(info4, text="Delete", font="robota 12", bg="#C51605", fg="white", activebackground="grey", activeforeground="white", bd=0, cursor="hand2", command=lambda e=themember: root.delete_mem(e))
-            #binding the email to open a link
-            info3.bind("<Button-1>", lambda e: web.open(f"mailto:{themember[3]}"))
-
-            #placing all elements
-            frame.grid(row=i//3, column=i % 3, padx=30, pady=20, sticky=W)
-            frameX.pack()
-            frame0.grid(row=0, column=0)
-            frame1.grid(row=0, column=1)
-            avatar.grid(row=0, column=0, pady=10)
-            username.grid(row=1, column=0)
-            btn1.grid(row=0, column=0, padx=5, pady=2)
-            btn2.grid(row=0, column=1, padx=5, pady=2)
-            for i in range(5):
-                if i == 2 and not themember[2]:
-                    continue
-                eval(f"info{i}.grid(row={i}, column=0, sticky=E, pady=5)")
-
-        #packing the main elements
-        title.pack()
-        BIG_FRAME.pack(fill=BOTH, expand=1)
-        root.protocol("WM_DELETE_WINDOW",lambda: root.common.close_window("all members"))
-
-    #functioning mousewheel to scroll the canvas (copy-pasted)
-    def _on_mousewheel(self, event):
-        self.canvas.yview_scroll(int(-1*(event.delta/120)), "units")
-    
-    #properly binding the canvas with scroller (copy-pasted)
-    def _on_configure(self, event):
-        self.canvas.config(scrollregion=self.canvas.bbox("all"))
-        self.scrollbar.pack_forget()
-        self.scrollbar.pack(side=RIGHT, fill=Y)
-    
-    #opens edit screen for a target member
-    def edit_mem(self, member):
-        self.common.close_all_windows()
-        AddMembers(1, member)
-
-    #deletes a target member
-    def delete_mem(self, member):
-        if msg.askyesno("Shelfmate", "Do you really want to remove this member?"):
-            #deletes the member from database
-            cursor.execute(f"delete from members_library where id={member[0]};")
+                cursor.execute(f'''update borrow_requests set quantity={quantity+1}, from_date="{fromdate}", to_date="{todate}", status="pending", days={days} where user_id={form.user_id} and member="{member}" and isbn="{isbn}"''')
             connection.commit()
-            #destroys all elements inside frame
-            for content in self.member_cards[member].winfo_children():
-                content.destroy()
-            #packs a DELETE text in place of that
-            Label(self.member_cards[member], text="(Deleted)", font="comicsans 30", bg="#94ADD7", fg="#C51605").pack()
+            msg.showinfo("Success", "Borrow requested successfully!")
+            form.common.close_all_windows()
+            BorrowRequest()
+        else:
+            msg.showwarning("Shelfmate", "Fill all the required fields!")
 
 #library function (Check In User)
 class CheckInUser(Tk):
@@ -2056,6 +1744,10 @@ class CheckedInReaders(Tk):
                 #setting the zebra pattern
                 eval(f"info{j}.config(bg='{COLOURS[j%2]}')")
             btns.pack(pady=10)
+        
+        if len(CHECKED) == 0:
+            notice = Label(FRAME, text="No Checked In Members!", font=("Arial", 30), fg="green", bg="gainsboro")
+            notice.pack()
 
         #packing main elements
         title.pack()
@@ -2108,223 +1800,604 @@ class CheckedInReaders(Tk):
                 cursor.execute(f"update resources_library set reading={reading-1} where user_id={self.user_id} and isbn='{x}'")
                 connection.commit()
 
-#library function (Borrow Requests)
-class BorrowRequest(Tk):
+#library function (Readers History)
+class ReadersHistory(Tk):
     def __init__(self):
         super().__init__()
-        windows["borrow request"] = self
+        windows["readers history"] = self
         self.create_screen()
         self.mainloop()
     
+    def create_screen(root):
+        #general configuration
+        root.common = Common(root)
+        root.common.set_screen()
+        root.title("Readers History")
+        root.config(bg="gainsboro")
+
+#library function (Add Members)
+class AddMembers(Tk):
+    def __init__(self, mode=0, member=None):
+        super().__init__()
+        windows["add members"] = self
+        #initializing global variables
+        self.pic = 0
+        self.suggest_clicks = 0
+        #mode is a flag (0 = adding new member, 1 = editing an existing member)
+        self.create_screen(mode)
+        if mode:
+            self.mode_work(member)
+        self.mainloop()
+
+    #makes the screen
+    def create_screen(root, mode):
+        #general configurations
+        root.common = Common(root)
+        root.common.set_screen(back=not mode)
+        root.title("Add Members")
+        root.config(bg="gainsboro")
+        #gets user data
+        with open(f'{PATH}/../static/Personal/Data/cookie.json') as cookie:
+            root.user_id = json.load(cookie)[0]['id']
+        
+        #creating header and frames
+        title = Label(root, text="Add Members", font=("Verdana", 25, "underline"), pady=40, bg="gainsboro")
+        FRAME = Frame(root)
+        frame0 = Frame(FRAME, padx=50, pady=20, highlightthickness=1, bg="white")
+        frame1 = Frame(frame0, pady=20, bg="white")
+        frame2 = Frame(frame0, bg="white")
+
+        #creating entries and conjugate labels
+        #member name
+        q0 = Label(frame1, text="Name *", font=("Arial", 13), bg="white", padx=50)
+        root.name = StringVar()
+        a0 = Entry(frame1, textvariable=root.name, font=("Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
+        #member username
+        q1 = Label(frame1, text="Username *", font=("Arial", 13), bg="white", padx=50)
+        root.username = StringVar()
+        a1 = Entry(frame1, textvariable=root.username, font=("Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
+        #suggest button to suggest username
+        suggest = Button(frame1, text="Suggest", cursor="hand2", font=("Arial", 10), padx=10, pady=5, command=root.suggest)
+        #member email
+        q2 = Label(frame1, text="Email *", font=("Arial", 13), bg="white", padx=50)
+        root.email = StringVar()
+        a2 = Entry(frame1, textvariable=root.email, font=("Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
+        #member phone number
+        q3 = Label(frame1, text="Phone Number", font=("Arial", 13), bg="white", padx=50)
+        root.phone = StringVar()
+        a3 = Entry(frame1, textvariable=root.phone, font=("Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
+        #member address
+        q4 = Label(frame1, text="Address", font=("Arial", 13), bg="white", padx=50)
+        root.add1 = StringVar()
+        root.add2 = StringVar()
+        root.dist = StringVar()
+        root.stt = StringVar()
+        root.pin = StringVar()
+        root.country = StringVar()
+        a4 = Frame(frame1, bg="white")
+        add1_lbl = Label(a4, text="Address Line 1", font=("Arial", 10), fg=LABEL, bg="white")
+        root.add1_ent = Entry(a4, textvariable=root.add1, font=("Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
+        add2_lbl = Label(a4, text="Address Line 2", font=("Arial", 10), fg=LABEL, bg="white")
+        root.add2_ent = Entry(a4, textvariable=root.add2, font=("Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
+        ent3x = Frame(a4, bg="white")
+        dist_lbl = Label(ent3x, text="District", font=("Arial", 10), fg=LABEL, bg="white")
+        root.dist_ent = Entry(ent3x, textvariable=root.dist, font=("Comicsans", 12), width=14, bd=5, relief=FLAT, bg=ENTRY)
+        stt_lbl = Label(ent3x, text="State", font=("Arial", 10), fg=LABEL, bg="white")
+        root.stt_ent = Entry(ent3x, textvariable=root.stt, font=("Comicsans", 12), width=14, bd=5, relief=FLAT, bg=ENTRY)
+        ent3y = Frame(a4, bg="white")
+        pin_lbl = Label(ent3y, text="Postal Code", font=("Arial", 10), fg=LABEL, bg="white")
+        root.pin_ent = Entry(ent3y, textvariable=root.pin, font=("Comicsans", 12), width=14, bd=5, relief=FLAT, bg=ENTRY)
+        country_lbl = Label(ent3y, text="Country", font=("Arial", 10), fg=LABEL, bg="white")
+        root.country_ent = ttk.Combobox(ent3y, textvariable=root.country, width=20, values=COUNTRIES, state="readonly")
+        root.country.set(COUNTRIES[0])
+
+        #creating member avatar and its controls
+        q5 = Label(frame1, text="Avatar *", font=("Arial", 13), bg="white", padx=50)
+        a5 = Frame(frame1, bg=ENTRY, pady=10, padx=20)
+        root.common.load_toggle()
+        _avatar = Image.open(f"{PATH}/../static/Personal/Images/members/member_0.png")
+        _avatar = _avatar.resize((70, 70))
+        AVATAR = ImageTk.PhotoImage(_avatar)
+        left_btn = Button(a5, image=root.common.BEFORE, bd=0, width=100, cursor="hand2", command=lambda: root.common.avatar_toggle(-1, "member"))
+        root.avatar = Label(a5, image=AVATAR, width=100)
+        right_btn = Button(a5, image=root.common.AFTER, bd=0, width=100, cursor="hand2", command=lambda: root.common.avatar_toggle(1, "member"))
+        left_btn.image = root.common.BEFORE
+        root.avatar.image = AVATAR
+        right_btn.image = root.common.AFTER
+
+        #creating the buttons
+        submit_btn = Button(frame2, text="Submit", fg="white", bg="#1D5D9B", activebackground="#111111", activeforeground="white", bd=0, width=7, font="arial 12", cursor="hand2", command=lambda: root.submit_form(mode))
+        cancel_btn = Button(frame2, text="Cancel", fg="white", bg="black", activebackground="#111111", activeforeground="white", bd=0, width=7, font="arial 12", cursor="hand2", command=root.cancel_form)
+
+        #placing all elements
+        title.pack()
+        FRAME.pack()
+        frame0.pack()
+        frame1.grid(row=0, column=0)
+        frame2.grid(row=1, column=0)
+        left_btn.grid(row=0, column=0)
+        root.avatar.grid(row=0, column=1)
+        right_btn.grid(row=0, column=2)
+        root.common.address_packer(add1_lbl, add2_lbl, ent3x, ent3y, dist_lbl, stt_lbl, pin_lbl, country_lbl)
+        for i in range(6):
+            eval(f"q{i}.grid(row={i//2}, column={2*(i%2)}, sticky=W, pady=10)")
+            eval(f"a{i}.grid(row={i//2}, column={2*(i%2)+1}, padx=40, pady=10)")
+        suggest.grid(row=0, column=4, sticky=W, pady=10)
+        submit_btn.grid(row=0, column=0, pady=30, padx=10)
+
+        #if in editing mode, username is not chnageable
+        if mode:
+            cancel_btn.grid(row=0, column=1, pady=30, padx=10)
+            a1.config(state=DISABLED)
+            suggest.destroy()
+        root.protocol("WM_DELETE_WINDOW", lambda: root.common.close_window("add members"))
+
+    #username suggestion function
+    def suggest(self, fetch=True, usernames=None):
+        #fetch is a flag (True = it asks database for all usernames, False = no contact with database)
+        #gets all used usernames by the user for members
+        if fetch and not self.suggest_clicks:
+            cursor.execute(f"select username from members_library where user_id={self.user_id}")
+        usernames = [x[0] for x in cursor.fetchall()]
+
+        #creates a random suggestion ("random" for random choice, "string" for getting ASCII character set)
+        suggestion = ''.join(random.choices(string.ascii_letters+string.digits+'_', k=10))
+        #checks if username is already used
+        if suggestion in usernames:
+            #recurssion until username is new
+            self.suggest(False, usernames)
+        else:
+            #sets the username value to entry field for user to see
+            self.username.set(suggestion)
+            self.suggest_clicks += 1
+
+    #after clicking the Submit button
+    def submit_form(form, mode):
+        #gets all user inputs
+        name = form.name.get()
+        username = form.username.get().strip()
+        email = form.email.get()
+        phone = form.phone.get()
+        address = ';'.join([form.add1.get().strip().replace(';', ''), form.add2.get().strip().replace(';', ''), form.dist.get().strip().replace(';', ''), form.stt.get().strip().replace(';', ''), form.pin.get().strip().replace(';', ''), form.country.get()])
+        avatar = form.pic
+
+        #checks validity of inputs
+        if name and username and email:
+            if re.match(r"^[\w\.-]+@[\w\.-]+\.\w+$", email): #email validity using "re"
+                if mode:
+                    #if in edit mode, updates the member
+                    cursor.execute(f'''update members_library
+                                   set name="{name}", email="{email}", phone="{phone}", address="{address}", avatar={avatar}
+                                   where user_id={form.user_id} and username="{username}";''')
+                else:
+                    #if in add mode, adds a new member to database
+                    cursor.execute(f'''insert into members_library(name, username, email, phone, address, avatar, user_id, visits)
+                                values("{name}", "{username}", "{email}", "{phone}", "{address}", {avatar}, {form.user_id}, 0);''')
+                    msg.showinfo("Shelfmate", "Member added successfully!")
+                connection.commit()
+                form.common.close_all_windows()
+                #opens new window depending on mode value
+                if mode:
+                    AllMembers()
+                else:
+                    AddMembers()
+            else:
+                msg.showwarning("Shelfmate", "Invalid email!")
+        else:
+            msg.showwarning("Shelfmate", "Fill all the required fields!")
+
+    #on clicking Cancel button (in edit mode)
+    def cancel_form(form):
+        form.common.close_all_windows()
+        AllMembers()
+
+    #fills entries with old values (in edit mode)
+    def mode_work(form, member):
+        form.name.set(member[1])
+        form.username.set(member[5])
+        form.email.set(member[3])
+        form.phone.set(member[2])
+        address = member[4].split(';')
+        form.add1.set(address[0])
+        form.add2.set(address[1])
+        form.dist.set(address[2])
+        form.stt.set(address[3])
+        form.pin.set(address[4])
+        form.country.set(address[5])
+        form.pic = member[6]
+        _avatar = Image.open(f"{PATH}/../static/Personal/Images/members/member_{form.pic}.png")
+        _avatar = _avatar.resize((70, 70))
+        AVATAR = ImageTk.PhotoImage(_avatar)
+        form.avatar.config(image=AVATAR)
+        form.avatar.image = AVATAR
+
+#library function (All Members)
+class AllMembers(Tk):
+    def __init__(self):
+        super().__init__()
+        windows["all members"] = self
+        self.create_screen()
+        self.mainloop()
+
     #makes the screen
     def create_screen(root):
         #general configurations
         root.common = Common(root)
         root.common.set_screen()
-        root.title("Borrow Resource")
+        root.title("All Members")
         root.config(bg="gainsboro")
         #gets user data
         with open(f'{PATH}/../static/Personal/Data/cookie.json') as cookie:
             root.user_id = json.load(cookie)[0]['id']
-        cursor.execute(f"select id, name from members_library where user_id={root.user_id}")
-        MEMBERS = cursor.fetchall()
-        cursor.execute(f"select isbn, title, book_cover, edition, language from resources_library where user_id={root.user_id} and quantity-reading-borrowed>0")
-        root.BOOKS = cursor.fetchall()
+        cursor.execute(f"select * from members_library where user_id={root.user_id}")
+        root.members = cursor.fetchall()
 
-        #creating the header, frames and button
-        title = Label(root, text="Borrow Resource", font=("Verdana", 25, "underline"), pady=20, bg="gainsboro")
-        FRAME = Frame(root, bg="white")
-        root.frame0 = Frame(FRAME, bg="white")
-        root.cover = Label(FRAME)
-        submit = Button(FRAME, text="Submit", fg="white", bg="black", activebackground="#111111", activeforeground="white", bd=0, width=7, font="arial 12", cursor="hand2", command=root.submit_form)
+        #creating header
+        title = Label(root, text="All Members", font=("Verdana", 25, "underline"), pady=40, bg="gainsboro")
 
-        #creating labels and entries
-        q0 = Label(root.frame0, text="Member *", font=("Arial", 14), bg="white", padx=50)
-        root.member = StringVar()
-        a0 = ttk.Combobox(root.frame0, textvariable=root.member, width=20, values=[f"{x[0]} - {x[1]}" for x in MEMBERS], state="readonly", font=("Arial", 15))
-        q1 = Label(root.frame0, text="ISBN *", font=("Arial", 14), bg="white", padx=50)
-        root.isbn = StringVar()
-        a1 = ttk.Combobox(root.frame0, textvariable=root.isbn, width=20, values=[x[0] for x in root.BOOKS], state="readonly", font=("Arial", 15))
-        q2 = Label(root.frame0, text="Title *", font=("Arial", 14), bg="white", padx=50)
-        root.title = StringVar()
-        a2 = ttk.Combobox(root.frame0, textvariable=root.title, width=20, values=[x[1] for x in root.BOOKS], state="readonly", font=("Arial", 15))
-        q3 = Label(root.frame0, text="Edition", font=("Arial", 14), bg="white", padx=50)
-        root.edition = StringVar()
-        a3 = Entry(root.frame0, textvariable=root.edition, font=("Comicsans", 15), width=21, bd=5, relief=FLAT, bg=ENTRY, state="readonly")
-        q4 = Label(root.frame0, text="Language", font=("Arial", 14), bg="white", padx=50)
-        root.language = StringVar()
-        a4 = Entry(root.frame0, textvariable=root.language, font=("Comicsans", 15), width=21, bd=5, relief=FLAT, bg=ENTRY, state="readonly")
-        q5 = Label(root.frame0, text="From Date *", font=("Arial", 14), bg="white", padx=50)
-        root.fromdate = StringVar()
-        a5 = Entry(root.frame0, textvariable=root.fromdate, font=("Comicsans", 15), width=21, bd=5, relief=FLAT, bg=ENTRY, state="readonly")
-        q6 = Label(root.frame0, text="To Date *", font=("Arial", 14), bg="white", padx=50)
-        root.todate = StringVar()
-        a6 = Entry(root.frame0, textvariable=root.todate, font=("Comicsans", 15), width=21, bd=5, relief=FLAT, bg=ENTRY, state="readonly")
-        q7 = Label(root.frame0, text="No Of Days", font=("Arial", 14), bg="white", padx=50)
-        root.days = StringVar()
-        a7 = Entry(root.frame0, textvariable=root.days, font=("Comicsans", 15), width=21, bd=5, relief=FLAT, bg=ENTRY, state="readonly")
+        #creating, packing and binding the scrollable canvas (mainly copy-pasted)
+        BIG_FRAME = Frame(root)
+        root.canvas = Canvas(BIG_FRAME, bg="gainsboro")
+        root.canvas.pack(side=LEFT, fill=BOTH, expand=1)
+        root.scrollbar = Scrollbar(BIG_FRAME, orient=VERTICAL, command=root.canvas.yview)
+        root.scrollbar.pack(side=RIGHT, fill=Y)
+        root.canvas.configure(yscrollcommand=root.scrollbar.set)
+        root.canvas.bind("<Configure>", lambda e: root.canvas.config(scrollregion=root.canvas.bbox(ALL)))
+        FRAME = Frame(root.canvas, bg="gainsboro")
+        root.canvas.create_window((0, 0), window=FRAME, anchor="nw")
+        root.canvas.bind_all("<MouseWheel>", root._on_mousewheel)
+        root.bind("<Configure>", root._on_configure)
 
-        #placing the labels and entries
-        for i in range(8):
-            eval(f"q{i}.grid(row={i}, column=0, padx=30, pady=10, sticky=W)")
-            eval(f"a{i}.grid(row={i}, column=1, padx=30, pady=10, sticky=W)")
-        
-        #placing the header, frames and button
+        root.member_cards = {} #disctionary to store all member card frames
+        #creates display card for each member using loop
+        for i in range(len(root.members)):
+            themember = root.members[i]
+            #creating the frames
+            frame = Frame(FRAME, bg=CARDBG, padx=20, pady=10)
+            frameX = Frame(frame, bg="white")
+            frame0 = Frame(frameX, bg="white", padx=10, pady=5)
+            frame1 = Frame(frameX, bg="white", padx=10, pady=5)
+            #gets and sets the member image
+            _avatar = Image.open(f"{PATH}/../static/Personal/Images/members/member_{themember[6]}.png")
+            _avatar = _avatar.resize((100, 100))
+            AVATAR = ImageTk.PhotoImage(_avatar)
+            avatar = Label(frame0, image=AVATAR, bg="white")
+            avatar.image = AVATAR
+
+            #adding values to the dictionary during loop
+            root.member_cards[themember] = frameX
+
+            #gets all other info
+            username = Label(frame0, text=f"({themember[5]})",font="arial 12", fg="grey", bg="white")
+            address = ', '.join([x for x in themember[4].split(';') if x])
+            name = themember[1]
+            email = themember[3]
+            #adjusts the member info as space friendly
+            if len(address) > 30:
+                address = address[:29]+'...'
+            if len(name) > 30:
+                name = name[:29]+'...'
+            if len(email) > 30:
+                email = email[:29]+'...'
+            
+            #creating all elements
+            info0 = Label(frame1, text=name, font="comicsans 15 bold", bg="white")
+            info1 = Label(frame1, text=address, bg="white", fg="grey")
+            info2 = Label(frame1, text=themember[2], bg="white")
+            info3 = Label(frame1, text=email, fg="#0A6EBD", font="comicsans 10 underline", bg="white", cursor="hand2")
+            info4 = Frame(frame1, bg="white")
+            btn1 = Button(info4, text="Edit", font="robota 12", bg="black", fg="white", activebackground="grey", activeforeground="white", bd=0, cursor="hand2", command=lambda e=themember: root.edit_mem(e))
+            btn2 = Button(info4, text="Delete", font="robota 12", bg="#C51605", fg="white", activebackground="grey", activeforeground="white", bd=0, cursor="hand2", command=lambda e=themember: root.delete_mem(e))
+            #binding the email to open a link
+            info3.bind("<Button-1>", lambda e: web.open(f"mailto:{themember[3]}"))
+
+            #placing all elements
+            frame.grid(row=i//3, column=i % 3, padx=30, pady=20, sticky=W)
+            frameX.pack()
+            frame0.grid(row=0, column=0)
+            frame1.grid(row=0, column=1)
+            avatar.grid(row=0, column=0, pady=10)
+            username.grid(row=1, column=0)
+            btn1.grid(row=0, column=0, padx=5, pady=2)
+            btn2.grid(row=0, column=1, padx=5, pady=2)
+            for i in range(5):
+                if i == 2 and not themember[2]:
+                    continue
+                eval(f"info{i}.grid(row={i}, column=0, sticky=E, pady=5)")
+                
+        if len(root.members) == 0:
+            notice = Label(FRAME, text="No Members Added!", font=("Arial", 30), fg="green", bg="gainsboro")
+            notice.pack()
+
+        #packing the main elements
         title.pack()
-        FRAME.pack(fill=BOTH, padx=100, pady=50)
-        root.frame0.pack(padx=40, pady=30)
-        submit.pack(side=BOTTOM, pady=40)
+        BIG_FRAME.pack(fill=BOTH, expand=1)
+        root.protocol("WM_DELETE_WINDOW",lambda: root.common.close_window("all members"))
 
-        #binding some widgets
-        root.POSITIONS = [root.fromdate, root.todate]
-        a1.bind("<<ComboboxSelected>>", lambda ev: root.toggle_combo(ev, 0))
-        a2.bind("<<ComboboxSelected>>", lambda ev: root.toggle_combo(ev, 1))
-        a5.bind("<Button-1>", lambda ev: root.pick_date(ev, 0))
-        a6.bind("<Button-1>", lambda ev: root.pick_date(ev, 1))
-        root.protocol("WM_DELETE_WINDOW",lambda: root.common.close_window("borrow request"))
-
-    #loads the book covers in separate thread from external website
-    def load_covers(self, _url):
-        try:
-            #adjusting the onscreen positions when image is shown
-            self.frame0.pack_forget()
-            self.frame0.pack(side=LEFT, padx=40, pady=30)
-            self.cover.pack(side=RIGHT, padx=100, pady=30)
-            #showing the image
-            SIZE = (300, 400)
-            _cover = Image.open(f"{PATH}/../static/Personal/Images/display/book_cover.png")
-            _cover = _cover.resize(SIZE)
-            cover = ImageTk.PhotoImage(_cover)
-            self.cover.config(image=cover)
-            self.cover.image = cover
-            if not _url.startswith('../static'):
-                cover = ImageTk.PhotoImage(Image.open(BytesIO(requests.get(_url).content)).resize(SIZE))
-            self.cover.config(image=cover)
-            self.cover.image = cover
-        except Exception as e:
-            print("[WINDOW DESTROYED]", e)
+    #functioning mousewheel to scroll the canvas (copy-pasted)
+    def _on_mousewheel(self, event):
+        self.canvas.yview_scroll(int(-1*(event.delta/120)), "units")
     
-    #automatically sets all book values
-    def toggle_combo(self, ev, position):
-        POSITIONS = [(self.isbn, [x[0] for x in self.BOOKS]), (self.title, [x[1] for x in self.BOOKS])]
-        access = POSITIONS[position]
-        access_not = POSITIONS[1-position]
-        value = access[1].index(access[0].get())
-        access_not[0].set(access_not[1][value])
-        target = self.BOOKS[value]
-        self.edition.set(target[3])
-        self.language.set(target[4].replace(';', ', ')[:-2])
-        #loads image in background without freezing main window (using threads)
-        cover_thread = threading.Thread(target=lambda:self.load_covers(target[2]))
-        cover_thread.daemon = True #exits automatically without error on closing application
-        cover_thread.start()
+    #properly binding the canvas with scroller (copy-pasted)
+    def _on_configure(self, event):
+        self.canvas.config(scrollregion=self.canvas.bbox("all"))
+        self.scrollbar.pack_forget()
+        self.scrollbar.pack(side=RIGHT, fill=Y)
     
-    #sets current date
-    def set_current_date(root, pos):
-        root.common.close_window("picker")
-        root.POSITIONS[pos].set(root.common.get_time()[:-7])
-        root.check_date(pos)
+    #opens edit screen for a target member
+    def edit_mem(self, member):
+        self.common.close_all_windows()
+        AddMembers(1, member)
 
-    #creates the date picker box
-    def pick_date(self, ev, pos):
-        #restarts if already opened
-        if "picker" in windows:
-            self.common.close_window("picker")
+    #deletes a target member
+    def delete_mem(self, member):
+        if msg.askyesno("Shelfmate", "Do you really want to remove this member?"):
+            #deletes the member from database
+            cursor.execute(f"delete from members_library where id={member[0]};")
+            connection.commit()
+            #destroys all elements inside frame
+            for content in self.member_cards[member].winfo_children():
+                content.destroy()
+            #packs a DELETE text in place of that
+            Label(self.member_cards[member], text="(Deleted)", font="comicsans 30", bg="#94ADD7", fg="#C51605").pack()
+
+#library function (Requests To Borrow)
+class BorrowHistory(Tk):
+    def __init__(self):
+        super().__init__()
+        windows["borrow history"] = self
+        self.create_screen()
+        self.mainloop()
+    
+    def create_screen(root):
         #general configuration
-        root = Tk()
-        root.title("Date Picker")
-        root.resizable(0, 0)
-        windows["picker"] = root
-        time_now = datetime.now() #current time
+        root.common = Common(root)
+        root.common.set_screen()
+        root.title("Borrow History")
+        root.config(bg="gainsboro")
 
-        #some constant arrays
-        HOURS = [f"0{i}" if i<10 else i for i in range(24)]
-        MINUTES = [f"0{i}" if i<10 else i for i in range(60)]
+#library function (Borrowed Requests)
+class BorrowedResources(Tk):
+    def __init__(self):
+        super().__init__()
+        windows["borrowed resources"] = self
+        self.create_screen()
+        self.mainloop()
+    
+    def create_screen(root):
+        #general configuration
+        root.common = Common(root)
+        root.common.set_screen()
+        root.title("Borrowed Resources")
+        root.config(bg="gainsboro")
 
-        #creating all elements
-        calender_lbl = Label(root, text="Date", font=("Helvetica", 12), justify=CENTER)
-        self.calender = Calendar(root, selectmode='day', year=time_now.year, month=time_now.month, day=time_now.day)
-        submit = Frame(root)
-        submit1 = Button(submit, text="Today", fg="white", bg="black", bd=0, width=7, font="arial 13", cursor="hand2", command=lambda:self.set_current_date(pos))
-        submit2 = Button(submit, text="Done", fg="white", bg="black", bd=0, width=7, font="arial 13", cursor="hand2", command=lambda:self.set_date(pos))
+#library function (Library Details)
+class LibraryDetails(Tk):
+    def __init__(self):
+        super().__init__()
+        windows["library details"] = self
+        self.create_screen()
+        self.mainloop()
+
+    #makes the screen
+    def create_screen(root):
+        #general configuration
+        root.common = Common(root)
+        root.common.set_screen()
+        root.title("Library Details")
+        root.config(bg="gainsboro")
+        #gets user data
+        with open(f'{PATH}/../static/Personal/Data/cookie.json') as cookie:
+            root.cookie = json.load(cookie)
+        
+        #creating and packing header and main frame
+        title = Label(root, text="Library Details", font=("Verdana", 25, "underline"), pady=40, bg="gainsboro")
+        root.FRAME = Frame(root)
+        title.pack()
+        root.FRAME.pack()
+
+        #if-else condition for whether to show display window or edit window
+        if root.cookie[2]['library_name']:
+            root.display_screen()
+        else:
+            root.edit_screen()
+        root.protocol("WM_DELETE_WINDOW",lambda: root.common.close_window("library details"))
+
+    #the edit window
+    def edit_screen(root, edit=False):
+        #creating the frames
+        frame0 = Frame(root.FRAME, padx=50, pady=20, highlightthickness=1, bg="white")
+        frame1 = Frame(frame0, pady=20, bg="white")
+        frame2 = Frame(frame0, bg="white")
+
+        #creating the entries and conjugate labels
+        #library name
+        lbl0 = Label(frame1, text="Library Name *", font=("Arial", 13), bg="white", padx=50)
+        root.name = StringVar()
+        ent0 = Entry(frame1, textvariable=root.name, font=("Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
+        ent0.focus()
+        #library email
+        lbl1 = Label(frame1, text="Email *", font=("Arial", 13), bg="white", padx=50)
+        root.email = StringVar()
+        ent1 = Entry(frame1, textvariable=root.email, font=( "Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
+        #library phone number
+        lbl2 = Label(frame1, text="Phone number *", font=("Arial", 13), bg="white", padx=50)
+        root.phone = StringVar()
+        ent2 = Entry(frame1, textvariable=root.phone, font=( "Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
+        #library address
+        lbl3 = Label(frame1, text="Address *", font=("Arial", 13), bg="white", padx=50)
+        root.add1 = StringVar()
+        root.add2 = StringVar()
+        root.dist = StringVar()
+        root.stt = StringVar()
+        root.pin = StringVar()
+        root.country = StringVar()
+        ent3 = Frame(frame1, bg="white")
+        add1_lbl = Label(ent3, text="Address Line 1", font=( "Arial", 10), fg=LABEL, bg="white")
+        root.add1_ent = Entry(ent3, textvariable=root.add1, font=( "Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
+        add2_lbl = Label(ent3, text="Address Line 2", font=( "Arial", 10), fg=LABEL, bg="white")
+        root.add2_ent = Entry(ent3, textvariable=root.add2, font=( "Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
+        ent3x = Frame(ent3, bg="white")
+        dist_lbl = Label(ent3x, text="District", font=( "Arial", 10), fg=LABEL, bg="white")
+        root.dist_ent = Entry(ent3x, textvariable=root.dist, font=( "Comicsans", 12), width=14, bd=5, relief=FLAT, bg=ENTRY)
+        stt_lbl = Label(ent3x, text="State", font=( "Arial", 10), fg=LABEL, bg="white")
+        root.stt_ent = Entry(ent3x, textvariable=root.stt, font=( "Comicsans", 12), width=14, bd=5, relief=FLAT, bg=ENTRY)
+        ent3y = Frame(ent3, bg="white")
+        pin_lbl = Label(ent3y, text="Postal Code", font=( "Arial", 10), fg=LABEL, bg="white")
+        root.pin_ent = Entry(ent3y, textvariable=root.pin, font=( "Comicsans", 12), width=14, bd=5, relief=FLAT, bg=ENTRY)
+        country_lbl = Label(ent3y, text="Country", font=( "Arial", 10), fg=LABEL, bg="white")
+        root.country_ent = ttk.Combobox(ent3y, textvariable=root.country, width=20, values=COUNTRIES, state="readonly")
+        root.country.set(COUNTRIES[0])
+        lbl4 = Label(frame1, text="Library Website", font=("Arial", 13), bg="white", padx=50)
+        root.web = StringVar()
+        ent4 = Entry(frame1, textvariable=root.web, font=( "Comicsans", 12), width=30, bd=5, relief=FLAT, bg=ENTRY)
+
+        #creating the buttons
+        save_btn = Button(frame2, text="Save", bg="#0D6EFD", fg="white", activebackground=BGCOLOR, padx=5, activeforeground="white", font=("Comicsans", 13), relief=FLAT, cursor="hand2", command=root.save)
+        cancel_btn = Button(frame2, text="Cancel", bg="black", fg="white", activebackground="#6C757D", padx=5, activeforeground="white", font=("Comicsans", 13), relief=FLAT, cursor="hand2", command=lambda: root.cancel(edit))
 
         #placing all elements
-        calender_lbl.pack()
-        self.calender.pack()
-        submit.pack(pady=3)
-        submit1.grid(row=0, column=0, padx=3)
-        submit2.grid(row=0, column=1, padx=3)
-        
-        #finishing
-        root.protocol("WM_DELETE_WINDOW", lambda: self.common.close_window("picker"))
-        root.mainloop()
+        frame0.pack()
+        frame1.grid(row=0, column=0)
+        frame2.grid(row=1, column=0)
+        save_btn.grid(row=0, column=0, padx=10)
+        cancel_btn.grid(row=0, column=1, padx=10)
+        root.common.address_packer(add1_lbl, add2_lbl, ent3x, ent3y, dist_lbl, stt_lbl, pin_lbl, country_lbl)
+        for i in range(5):
+            eval(f"lbl{i}.grid(row={i}, column=0, sticky=W, pady=10)")
+            eval(f"ent{i}.grid(row={i}, column=1, padx=50, pady=10)")
+        for i in range(5):
+            if i == 3:
+                continue
+            eval(f"ent{i}.bind('<Return>', root.save)")
+        for x in ["add1", "add2", "dist", "stt", "pin", "country"]:
+            eval(f"root.{x}_ent.bind('<Return>', root.save)")
+
+        #if not inputing values for first time the entries are set to the previous values from cookie.json
+        if edit:
+            lib = root.cookie[2]
+            add = lib['library_address'].split(';')
+            root.name.set(lib['library_name'])
+            root.email.set(lib['library_email'])
+            root.phone.set(lib['library_phone'])
+            root.add1.set(add[0])
+            root.add2.set(add[1])
+            root.dist.set(add[2])
+            root.stt.set(add[3])
+            root.pin.set(add[4])
+            root.country.set(add[5])
+            root.web.set(lib['library_url'])
+
+    #the display window
+    def display_screen(root):
+        LINK = "#0A6EBD"
+        #creating all frames
+        frame0 = Frame(root.FRAME, padx=50, pady=30, highlightthickness=1, bg="white")
+        frame1 = Frame(frame0, pady=30, bg="white")
+        frame2 = Frame(frame0, bg="white")
+
+        #creating all display elements and buttons
+        q0 = Label(frame1, text="Library Name", font=("Arial", 13), bg="white", padx=50)
+        a0 = Label(frame1, text=root.cookie[2]["library_name"], font=("Arial", 13), bg="white", padx=50)
+        q1 = Label(frame1, text="Phone number", font=("Arial", 13), bg="white", padx=50)
+        a1 = Label(frame1, text=root.cookie[2]["library_phone"], font=("Arial", 13), bg="white", padx=50)
+        q2 = Label(frame1, text="Email", font=("Arial", 13), bg="white", padx=50)
+        a2 = Label(frame1, text=root.cookie[2]["library_email"], font=( "Arial", 13, 'underline'), bg="white", padx=50, fg=LINK, cursor="hand2")
+        q3 = Label(frame1, text="Address", font=("Arial", 13), bg="white", padx=50)
+        a3 = Label(frame1, text=root.cookie[2]["library_address"].replace( ';;', ';').replace(';', ', '), font=("Arial", 13), bg="white", padx=50)
+        q4 = Label(frame1, text="Library Website", font=("Arial", 13), bg="white", padx=50)
+        a4 = Label(frame1, text=root.cookie[2]["library_url"], font=("Arial", 13, 'underline'), bg="white", padx=50, fg=LINK, cursor="hand2")
+        btn1 = Button(frame2, text="Edit", font="robota 12", bg="black", fg="white", activebackground="grey", activeforeground="white", bd=0, cursor="hand2", padx=5, command=root.edit)
+        btn2 = Button(frame2, text="Delete", font="robota 12", bg="#C51605", fg="white", activebackground="grey", activeforeground="white", bd=0, cursor="hand2", padx=5, command=root.delete)
+
+        #binding email and website links to open externally
+        a2.bind("<Button-1>", lambda e: web.open(f"mailto:{root.cookie[2]['library_email']}"))
+        a4.bind("<Button-1>", lambda e: web.open(root.cookie[2]['library_url']))
+
+        #placing all elements
+        frame0.pack()
+        frame1.grid(row=0, column=0)
+        frame2.grid(row=1, column=0)
+        btn1.grid(row=0, column=0, padx=20, pady=10)
+        btn2.grid(row=0, column=1, padx=20, pady=10)
+        for i in range(5):
+            eval(f"q{i}.grid(row={i}, column=0, sticky=W, pady=2)")
+            eval(f"a{i}.grid(row={i}, column=1, sticky=W, pady=2)")
     
-    #sets the date in entry box
-    def set_date(self, pos):
-        self.common.close_window("picker")
-        month, day, year = map(int, self.calender.get_date().split('/'))
-        self.POSITIONS[pos].set(f"{['0'+str(day) if day<10 else day][0]} {MONTHS[month]}, 20{year}")
-        self.check_date(pos)
-    
-    #checks validity of from and to dates
-    def check_date(self, pos):
-        TIMES = [0, 0]
-        now = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
-        for i in range(2):
-            value = self.POSITIONS[i].get()
-            if value:
-                month = re.findall(r" ([a-zA-Z]*),", value)[0]
-                time_str = value.replace(month, str(MONTHS.index(month)))
-                time_format = "%d %m, %Y"
-                TIMES[i] = datetime.strptime(time_str, time_format)
-        if pos: #if value entered for TO
-            if TIMES[0]: #if FROM value entered already
-                if TIMES[0]>TIMES[1]: #if FROM value is more than TO value
-                    msg.showwarning("Bad Time", "Give a valide 'To' date corresponding to 'From' date!")
-                    self.todate.set("")
-                    self.days.set("")
-                #calculates the number of days
-                elif TIMES[0]==TIMES[1]:
-                    self.days.set(1)
+    #after clicking the Save button
+    def save(self, ev=0):
+        #gets all user inputs
+        name = self.name.get()
+        email = self.email.get()
+        phone = self.phone.get()
+        add1 = self.add1.get().strip().replace(';', '')
+        add2 = self.add2.get().strip().replace(';', '')
+        dist = self.dist.get().strip().replace(';', '')
+        stt = self.stt.get().strip().replace(';', '')
+        pin = self.pin.get().strip().replace(';', '')
+        country = self.country.get()
+        website = self.web.get()
+        address = ';'.join([add1, add2, dist, stt, pin, country])
+
+        #checks validity of inputs
+        if name and email and phone and add1 and dist and stt and pin:
+            if re.match(r"^[\w\.-]+@[\w\.-]+\.\w+$", email): #email validity using "re"
+                if validators.url(website): #website validity using "validators"
+                    #updates the database with new values
+                    cursor.execute(f'''update logged_users
+                                set library_name="{name}", library_email="{email}", library_phone="{phone}", library_address="{address}", library_url="{website}"
+                                where id={self.cookie[0]['id']}''')
+                    self.common.refresh() #refreshes cookie.json
+                    self.common.close_all_windows()
+                    LibraryDetails()
                 else:
-                    self.days.set(int(str(TIMES[1]-TIMES[0]).split(' day')[0])+1)
-            else: #if no FROM value entered
-                msg.showwarning("Too Early", "First enter a valid 'From' date!")
-                self.todate.set("")
-        else: #if value entered for FROM
-            if TIMES[pos]<now:
-                msg.showwarning("Bad Time", "Give a valide future date!")
-                self.fromdate.set("")
+                    msg.showwarning("Shelfmate", "Invalid URL!")
             else:
-                self.todate.set("")
-
-    #after submitting the form
-    def submit_form(form):
-        member = form.member.get()
-        isbn = form.isbn.get()
-        title = form.title.get()
-        fromdate = form.fromdate.get()
-        todate = form.todate.get()
-        days = form.days.get()
-
-        if member and isbn and fromdate and todate:
-            member_id, member_name = member.split(' - ')
-            cursor.execute(f"select username from members_library where id='{member_id}'")
-            member = cursor.fetchone()[0]
-            cursor.execute(f"select quantity from borrow_requests where user_id={form.user_id} and member='{member}' and isbn='{isbn}'")
-            try:
-                quantity = cursor.fetchone()[0]
-            except:
-                cursor.execute(f'''insert into borrow_requests(user_id, isbn, member, from_date, to_date, quantity, status, member_name, item, days, renew_date)
-                            values({form.user_id}, "{isbn}", "{member}", "{fromdate}", "{todate}", 1, "pending", "{member_name}", "{title}", "{days}", "")''')
-            else:
-                cursor.execute(f'''update borrow_requests set quantity={quantity+1}, from_date="{fromdate}", to_date="{todate}", status="pending", days={days} where user_id={form.user_id} and member="{member}" and isbn="{isbn}"''')
-            connection.commit()
-            msg.showinfo("Success", "Borrow requested successfully!")
-            form.common.close_all_windows()
-            BorrowRequest()
+                msg.showwarning("Shelfmate", "Invalid email!")
         else:
             msg.showwarning("Shelfmate", "Fill all the required fields!")
+
+    #deletes all library details
+    def delete(self):
+        if msg.askyesno("Shelfmate", "Are you sure you want to delete your Library Details?"):
+            #clears the library details from database
+            cursor.execute(f'''update logged_users
+                           set library_name="", library_email="", library_phone="", library_address="", library_url=""
+                           where id={self.cookie[0]['id']}''')
+            self.common.refresh() #refreshes cookie.json
+            self.common.close_all_windows()
+            LibraryDetails()
+    
+    #on clicking the Edit button (in display window)
+    def edit(self):
+        for x in self.FRAME.winfo_children():
+            x.destroy()
+        self.edit_screen(True)
+
+    #on clicking the Cancel button (in edit window)
+    def cancel(self, edit):
+        if edit: #if data already added then returns to display window
+            for x in self.FRAME.winfo_children():
+                x.destroy()
+            self.display_screen()
+        else: #else returns to dashboard
+            self.common.back()
+
+#library function (Minor Settings)
+class MinorSettings(Tk):
+    def __init__(self):
+        super().__init__()
+        windows["minor settings"] = self
+        self.create_screen()
+        self.mainloop()
+    
+    def create_screen(root):
+        #general configuration
+        root.common = Common(root)
+        root.common.set_screen()
+        root.title("minor settings")
+        root.config(bg="gainsboro")
+
 
 #ensures that this block is not called on importing this file (safe coding)
 if __name__ == "__main__":
